@@ -23,7 +23,8 @@ class PeopleForm(forms.ModelForm):
             'user',
             'geographic_location',
             'marial_status',
-            'status'
+            'status',
+            'profile_information'
         ]
         labels = {
             'dni' : 'DNI',
@@ -39,7 +40,8 @@ class PeopleForm(forms.ModelForm):
             'user': 'Usuario de sistem',
             'geographic_location' : 'Ubiego',
             'marial_status' : 'Estado civil',
-            'status' : 'estado'
+            'status' : 'estado',
+            'profile_information': 'Informacion de perfil'
         }
         widgets = {
             'dni' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'DNI'}),
@@ -55,5 +57,6 @@ class PeopleForm(forms.ModelForm):
             'user' : forms.Select(attrs={'class':'form-control', 'placeholder':'Usuario de sistema'}),
             'geographic_location': forms.Select(attrs={'class':'form-control','placeholder':'UbiGeo'}),
             'marial_status': forms.Select(attrs={'class':'form-control','placeholder':'Estado civil'}),
-            'status': forms.CheckboxInput(attrs={'class':'form-check-input'})
+            'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'profile_information': forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Informacion de perfil'})
         }
