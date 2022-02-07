@@ -19,10 +19,18 @@
                     <div class="col-auto w-100 text-center my-4">
                         <div class="h-100">
                             <h5 class="mb-1 display-6 fs-3">
-                                Dany Bautista Colque
+                                {{people.name}} {{people.first_name}} {{people.last_name}}
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
-                                Super admin
+                                {% if people.user_id %}
+                                    {% if people.user_id.is_superuser %}
+                                        Super {{people.user_id.username}}
+                                    {% else %}
+                                        {{people.user_id.username}}
+                                    {% endif %}
+                                {% else %}
+                                    sin acceso
+                                {% endif%}
                             </p>
                         </div>
                     </div>

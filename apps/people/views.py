@@ -65,8 +65,8 @@ def index(request):
     return HttpResponse(html_template.render(context, request))
 
 def view(request, key_id):
-    peoples = people.objects.all()
+    user = people.objects.get(dni=key_id)
     sidebar = Sidebar.objects.all()
-    context = {'segment': 'people', 'sidebars': sidebar, 'peoples': key_id, 'title': 'Usuarios', 'page':'usuario/perfil'}
+    context = {'segment': 'people', 'sidebars': sidebar, 'people': user, 'title': 'Usuarios', 'page':'usuario/perfil'}
     html_template = loader.get_template('people/profile.html')
     return HttpResponse(html_template.render(context, request))
