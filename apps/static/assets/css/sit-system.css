@@ -1,0 +1,34 @@
+.top-pr-7px
+{
+    position: relative;
+    top: 7px;
+}
+.w-form
+{
+    right: 0;
+    left: 255px;
+    top: 0;
+}
+@media only screen and (max-width: 992px) {
+    .w-form{
+        left: 0;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .w-form{
+        left: 0;
+    }
+}
+.brand-form{
+    position: relative;
+    top: -7px;
+}
+.crop-text
+{
+    width: 200px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+ul li.list-card{list-style: none; display: flex;}
+.list-card{width: 260px !important; float: left;}
