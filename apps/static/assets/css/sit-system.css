@@ -9,14 +9,23 @@
     left: 255px;
     top: 0;
 }
+.main-lef-margin.main-content {
+    margin-left: 16.315rem !important;
+}
 @media only screen and (max-width: 992px) {
     .w-form{
         left: 0;
+    }
+    .main-lef-margin.main-content {
+        margin-left: 0 !important;
     }
 }
 @media only screen and (max-width: 600px) {
     .w-form{
         left: 0;
+    }
+    .main-lef-margin.main-content {
+        margin-left: 0 !important;
     }
 }
 .brand-form{

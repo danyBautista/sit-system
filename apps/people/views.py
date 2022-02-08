@@ -19,6 +19,7 @@ def index(request):
 
     peoples = people.objects.all()
     sidebar = Sidebar.objects.all()
+    title = Sidebar.objects.get(id="3")
     if request.method == "POST":
         form = PeopleForm(request.POST, request.FILES)
         if form.is_valid():
@@ -36,7 +37,7 @@ def index(request):
             geographic_location = form.cleaned_data.get("geographic_location")
             marial_status = form.cleaned_data.get("marial_status")
             status = form.cleaned_data.get("status")
-
+            profile_information = form.cleaned_data.get("profile_information")
             obj = people.objects.create(
                                     dni = dni,
                                     name = name,
@@ -50,6 +51,7 @@ def index(request):
                                     sex = sex,
                                     user = user,
                                     geographic_location = geographic_location,
+                                    profile_information = profile_information,
                                     marial_status = marial_status,
                                     status = status
                                 )
@@ -60,7 +62,7 @@ def index(request):
     else:
         form = PeopleForm()
 
-    context = {'segment': 'people', 'sidebars': sidebar, 'peoples': peoples, 'title': 'Usuarios', 'forms':form, 'page':'/usuarios'}
+    context = {'segment': 'people', 'sidebars': sidebar, 'peoples': peoples, 'title': title, 'forms':form, 'page':'/usuarios'}
     html_template = loader.get_template('people/index.html')
     return HttpResponse(html_template.render(context, request))
 
