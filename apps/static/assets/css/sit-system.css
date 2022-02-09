@@ -24,6 +24,10 @@
     .w-form{
         left: 0;
     }
+    .navbar-tabel li{
+        width: 20px;
+        float: left;
+    }
     .main-lef-margin.main-content {
         margin-left: 0 !important;
     }

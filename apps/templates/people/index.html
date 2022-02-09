@@ -246,23 +246,23 @@
                                         </div>
                                     </button>
                                     <div class="collapse navbar-collapse" id="navbarScroll">
-                                        <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                                        <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-tabel" id="content-icon">
                                             <li class="nav-item">
-                                                <a class="nav-link active" aria-current="page" href="#">
+                                                <a class="nav-link disabled" aria-current="page" href="#">
                                                     <span class="material-icons">
                                                         chevron_left
                                                     </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">
+                                                <a class="nav-link disabled" href="#">
                                                     <span class="material-icons">
                                                         chevron_right
                                                     </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">
+                                                <a class="nav-link disabled" href="#">
                                                     <span class="material-icons">
                                                         format_list_bulleted
                                                     </span>
@@ -283,14 +283,14 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">
+                                                <a class="nav-link" href="#" id="btn-search">
                                                     <span class="material-icons">
                                                         search
                                                     </span>
                                                 </a>
                                             </li>
                                         </ul>
-                                        <form class="d-flex w-100 d-none">
+                                        <form class="d-flex d-none w-100" id="form-search">
                                             <div class="input-group input-group-outline">
                                                 <label class="form-label">Buscar {{title.name}}</label>
                                                 <input type="text" class="form-control">
@@ -301,56 +301,7 @@
                                                 </button>
                                             </div>
                                         </form>
-                                        
                                     </div>
-                                </div>
-                            </nav>
-                            <nav class="navbar navbar-light bg-light d-none">
-                                <div class="container-fluid float-lg-end">
-                                    <ul class="navbar-nav d-flex me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                                        <li class="nav-item">
-                                            <a class="btn btn-outline-secondary btn-sm p-1">
-                                                <span class="material-icons">
-                                                    chevron_left
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="btn btn-outline-secondary btn-sm p-1">
-                                                
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="btn btn-outline-secondary btn-sm p-1">
-                                                <span class="material-icons">
-                                                    format_list_bulleted
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="btn btn-outline-secondary btn-sm p-1">
-                                                <span class="material-icons">
-                                                    history
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="btn btn-outline-secondary btn-sm p-1">
-                                                <span class="material-icons">
-                                                    search
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <form class="d-flex d-none">
-                                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                        <button class="btn btn-outline-success btn-sm p-1 mt-2" type="submit">
-                                            <span class="material-icons">
-                                                search
-                                            </span>
-                                        </button>
-                                    </form>
-                                    
                                 </div>
                             </nav>
                         </div>

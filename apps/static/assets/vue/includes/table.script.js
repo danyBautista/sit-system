@@ -1,15 +1,7 @@
-// register modal component
+(function(){
+    var x = document.getElementById("btn-search");
+    x.addEventListener("click", function(event){
+        alert('entro');
+    }, false);
+})();
 
-Vue.component("views", {
-    template: "#modal-template"
-});
-
-  // start app
-new Vue({
-    el: "#table",
-    delimiters: ['{$','$}'],
-    data: {
-        showList: false,
-        showIcon: true
-    }
-});
