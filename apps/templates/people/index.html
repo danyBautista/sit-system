@@ -224,7 +224,7 @@
                 </div>
             </span>
         </div>
-        <div class="container px-0">
+        <div class="container px-0" id="table">
             <div class="card border-radius-md">
                 <div class="card-header pb-0">
                     <div class="row">
@@ -236,33 +236,123 @@
                             </p>
                         </div>
                         <div class="col-lg-6 col-5 my-auto text-end">
-                            <div class="dropdown float-lg-end pe-4">
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        chevron_left
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        chevron_right
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        format_list_bulleted
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        history
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        search
-                                    </span>
-                                </a>
-                            </div>
+                            <nav class="navbar shadow-none border-radius-md navbar-expand-lg navbar-light bg-light p-0">
+                                <div class="container-fluid px-0">
+                                    <button class="navbar-toggler ms-md-auto pe-md-3 nav-link text-body p-0" id="table-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                                        <div class="sidenav-toggler-inner">
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                        </div>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarScroll">
+                                        <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" aria-current="page" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_left
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_right
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        format_list_bulleted
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        apps
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        history
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        search
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <form class="d-flex w-100 d-none">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Buscar {{title.name}}</label>
+                                                <input type="text" class="form-control">
+                                                <button class="btn bg-gradient-secondary mb-0 px-3" type="submit">
+                                                    <span class="material-icons">
+                                                        search
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </nav>
+                            <nav class="navbar navbar-light bg-light d-none">
+                                <div class="container-fluid float-lg-end">
+                                    <ul class="navbar-nav d-flex me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                                        <li class="nav-item">
+                                            <a class="btn btn-outline-secondary btn-sm p-1">
+                                                <span class="material-icons">
+                                                    chevron_left
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="btn btn-outline-secondary btn-sm p-1">
+                                                
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="btn btn-outline-secondary btn-sm p-1">
+                                                <span class="material-icons">
+                                                    format_list_bulleted
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="btn btn-outline-secondary btn-sm p-1">
+                                                <span class="material-icons">
+                                                    history
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="btn btn-outline-secondary btn-sm p-1">
+                                                <span class="material-icons">
+                                                    search
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <form class="d-flex d-none">
+                                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                        <button class="btn btn-outline-success btn-sm p-1 mt-2" type="submit">
+                                            <span class="material-icons">
+                                                search
+                                            </span>
+                                        </button>
+                                    </form>
+                                    
+                                </div>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -314,6 +404,7 @@
 
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
 <script src="/static/assets/vue/apps/people.script.js"></script>
+<script src="/static/assets/vue/includes/table.script.js"></script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
     new Chart(ctx, {

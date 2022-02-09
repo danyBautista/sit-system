@@ -1,4 +1,5 @@
 // register modal component
+
 Vue.component("views", {
     template: "#modal-template"
 });
