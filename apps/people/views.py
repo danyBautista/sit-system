@@ -2,6 +2,7 @@
 """
 Copyright (c) 2019 - present GlastHeim.pe
 """
+from rest_framework.generics import ListAPIView
 from django import template
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -12,6 +13,7 @@ from django.contrib import messages
 from apps.people.models import people
 from apps.includes.sidebar.models import Sidebar
 from apps.people.forms import PeopleForm
+from .serializers import PeopleSerializer
 # Create your views here.
 
 @login_required(login_url="/login/")
@@ -72,3 +74,12 @@ def view(request, key_id):
     context = {'segment': 'people', 'sidebars': sidebar, 'people': user, 'title': 'Usuarios', 'page':'usuario/perfil'}
     html_template = loader.get_template('people/profile.html')
     return HttpResponse(html_template.render(context, request))
+
+""" services start here """
+
+class UserListAPIView(ListAPIView):
+    serializer_class = PeopleSerializer
+
+    def get_queryset(self):
+        kword = self.request.query_params.get('kword', '')
+        return people.objects.filter(name__icontains = kword)

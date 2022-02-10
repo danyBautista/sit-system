@@ -8,5 +8,7 @@ from apps.people import views
 
 urlpatterns = [
     path('', views.index, name='people.index'),
-    path('view/<key_id>/', views.view, name='people.view')
+    path('view/<key_id>/', views.view, name='people.view'),
+
+    path('api/search/', views.UserListAPIView.as_view(), name='people.search')
 ]
