@@ -25,16 +25,18 @@
                     </div>
                     <div class="col-auto w-100 text-center my-4">
                         <div class="h-100">
-                            <h5 class="mb-1 display-6 fs-3">
-                                {{people.name}} {{people.first_name}} {{people.last_name}}
-                            </h5>
+                            <a href="#">
+                                <h5 class="mb-1 display-6 fs-3">
+                                    {{people.name}} {{people.first_name}} {{people.last_name}}
+                                </h5>
+                            </a>
                             <p class="mb-0 font-weight-normal text-sm">
-                                {{people.User.username }}
+                                {{people.user }}
                                 {% if people.user_id %}
-                                    {% if people.user_id.is_superuser %}
-                                        Super {{ people.user_id.username}}
+                                    {% if people.user %}
+                                        Super {{ people.user.username}}
                                     {% else %}
-                                        {{people.user_id.username}}
+                                        {{people.user.username}}
                                     {% endif %}
                                 {% else %}
                                     sin acceso al sistema
@@ -109,7 +111,7 @@
             </div>
         </div>
         <div class="col-md-8 ps-2 px-0">
-            <div class="card card-body h-100 mx-0 mx-md-0 border-radius-md">
+            <div class="card card-body h-100 mx-0 mx-md-0 border-radius-md d-none">
                 <div class="row gx-4 mb-2">
                     <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
                         <div class="nav-wrapper position-relative end-0">
@@ -117,7 +119,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
                                         <i class="material-icons text-lg position-relative">home</i>
-                                        <span class="ms-1">App</span>
+                                        <span class="ms-1">Informacion</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -224,7 +226,98 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-6 col-xl-6 mt-md-0 mt-4 position-relative">
-                        otros datos de importancia
+                        <div class="card-header pb-0 p-3">
+                            <div class="row">
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <h6 class="mb-0">Informacion adicional</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;">
+                                        <div class="d-flex py-1">
+                                            <strong class="text-dark w-30">Estado civil:</strong>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="ms-2">{{ people.marial_status.name }}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;">
+                                        <div class="d-flex py-1">
+                                            <strong class="text-dark w-30">Sexo:</strong>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="ms-2">{{ people.sex.name }}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card h-100 mx-0 mx-md-0 border-radius-md">
+                <div class="card card-header d-flex py-2">
+                    <h6 class=" text-uppercase mt-2">
+                        <a href="#" class="btn btn-icon  h-10 w-10 p-2 m-0">
+                            <div class="btn-inner--icon">
+                                <span class="material-icons">
+                                    arrow_back_ios
+                                </span>
+                            </div>
+                        </a>
+                        Editar Nombre
+                    </h6>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-9 pt-5">
+                        <form>
+                            <div class="card card-body shadow-none border-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-outline my-3">
+                                            <label class="form-label">Nombre completo</label>
+                                            <input type="email" class="form-control">
+                                        </div>
+                                        <div class="input-group input-group-outline my-3">
+                                            <label class="form-label">Apellido materno</label>
+                                            <input type="email" class="form-control">
+                                        </div>
+                                        <div class="input-group input-group-outline my-3">
+                                            <label class="form-label">Apellido Paterno</label>
+                                            <input type="email" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="ct-docs-hr">
+                                <div class="row ct-docs-content-col">
+                                    <div class="col-12">
+                                        <h6 id="resources-and-credits">Quienes puede ver tu informacion</h3>
+                                        <ul>
+                                            <li>
+                                                <i class="material-icons text-lg position-relative h-100">people</i>
+                                                <span class="ms-1 text-xs">Las personas pueden ver esta información cuando se comunican contigo o si miran el contenido</span>
+                                            </li>
+                                        </ul>
+                                        <div class="ms-md-auto pe-md-3 w-50 end-100 my-2 my-lg-0">
+                                            <button type="button" class="btn btn-link">Cancelar</button>
+                                            <button type="button" class="btn bg-gradient-info" disabled>Guardar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

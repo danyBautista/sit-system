@@ -45,3 +45,5 @@
 }
 ul li.list-card{list-style: none; display: flex;}
 .list-card{width: 260px !important; float: left;}
+.ct-docs-content-col .ul{width: 100%;}
+.ct-docs-content-col .ul .li{width: 100%; display: flex;}
