@@ -262,14 +262,14 @@
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link disabled" href="#">
+                                                <a class="nav-link" href="#">
                                                     <span class="material-icons">
                                                         format_list_bulleted
                                                     </span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">
+                                                <a class="nav-link disabled" href="#">
                                                     <span class="material-icons">
                                                         apps
                                                     </span>
@@ -296,7 +296,7 @@
                                                 <input v-model="kword" type="text" class="form-control">
                                                 <button class="btn bg-gradient-secondary mb-0 px-3" type="submit" id="submit-search">
                                                     <span class="material-icons">
-                                                        search
+                                                        close
                                                     </span>
                                                 </button>
                                             </div>
@@ -339,10 +339,10 @@
                         <li class="list-card" v-for="item in list_user" :key="item.dni">
                             <div class="card card-frame w-100 m-2">
                                 <div class="card-body p-0">
-                                    <a class="dropdown-item border-radius-md" href="#">
+                                    <a class="dropdown-item border-radius-md" href="#" @click="redirec_user(item.dni)">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
-                                                <img src="{$ item.user_photo_path $}" class="avatar avatar-sm  me-3 ">
+                                                <img src="#" class="avatar avatar-sm  me-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="text-sm font-weight-normal mb-1 crop-text">

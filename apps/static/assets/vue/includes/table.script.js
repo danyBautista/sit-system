@@ -26,6 +26,10 @@ new Vue({
             .catch(function(error){
                 console.log(error);
             })
+        },
+        redirec_user: function(param)
+        {
+            window.location.href = '/people/view/' + param +'/'
         }
     },
 });
