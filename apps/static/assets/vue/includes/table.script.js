@@ -4,6 +4,7 @@ new Vue({
     el: '#table',
     delimiters: ['{$','$}'],
     data: {
+        icon_content : true,
         list_view: false,
         search_content: true,
         kword: '',
@@ -38,15 +39,19 @@ new Vue({
     var o = document.getElementById("btn-search");
     var f = document.getElementById("submit-search");
 
-    var content = document.getElementById("content-icons");
+    var iprocess = document.getElementById("icon-process");
+    var iviews = document.getElementById("icon-views");
     var search = document.getElementById("form-search");
+
     o.addEventListener("click", function(event){
-        content.classList.add('d-none')
+        iprocess.classList.add('d-none');
+        iviews.classList.add('d-none');
         search.classList.remove('d-none');
     }, false);
 
     f.addEventListener("click", function(event){
-        content.classList.remove('d-none')
+        iprocess.classList.remove('d-none');
+        iviews.classList.remove('d-none');
         search.classList.add('d-none');
     },false)
 })();
