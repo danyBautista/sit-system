@@ -6,7 +6,7 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-<div class="container-fluid pt-3 py-4 ps-1">
+<div class="container-fluid pt-3 py-4 ps-1" id="profile">
     <div class="row ms-0">
         <div class="col-md-4 px-0">
             <div class="card card-body mx-0 mx-md-0 border-radius-md">
@@ -25,13 +25,12 @@
                     </div>
                     <div class="col-auto w-100 text-center my-4">
                         <div class="h-100">
-                            <a href="#">
+                            <a href="#" @click="viewForms(true, 0, 'Nombre de usuario')">
                                 <h5 class="mb-1 display-6 fs-3">
                                     {{people.name}} {{people.first_name}} {{people.last_name}}
                                 </h5>
                             </a>
                             <p class="mb-0 font-weight-normal text-sm">
-                                {{people.user }}
                                 {% if people.user_id %}
                                     {% if people.user %}
                                         Super {{ people.user.username}}
@@ -45,15 +44,15 @@
                         </div>
                     </div>
                     <div class="col-auto text-center mb-4">
-                        {% if pople.business_id_id == null %}
-                            <button type="button" class="btn btn-info">Vincular a empresa</button>
+                        {% if people.user %}
+                            <button type="button" class="btn btn-warning" @click="viewForms(true, 1, 'Desvincular del sistema')">desvincular al sistema</button>
                             <p class="mb-0 font-weight-normal text-sm mx-5">
-                                Actualmente el no estas vinculado a ninguna institucion
+                                Actualmente el no estas vinculado al sistema
                             </p>
                         {% else %}
-                            <button type="button" class="btn btn-danger">Vincular a empresa</button>
+                            <button type="button" class="btn btn-info">Vincular al sistema</button>
                             <p class="mb-0 font-weight-normal text-sm mx-5">
-                                Usted. yes esta vinculado, desha salid de la empresa
+                                Usted. Ya esta vinculado, desea salid del sistema
                             </p>
                         {% endif %}
                     </div>
@@ -92,26 +91,44 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto mt-4">
-                        <div class="avatar avatar-md position-relative">
-                            <img src="/static/assets/img/size-of-company.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                    {% if pople.business_id == null %}
+                        <div class="col-auto mt-4">
+                            <div class="avatar avatar-md position-relative">
+                                <img src="/static/assets/img/size-of-company.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-auto my-auto">
-                        <div class="h-100">
-                            <h5 class="mt-4 mb-0 fs-5">
-                                Sin empresa vinculada
-                            </h5>
-                            <p class="mb-0 font-weight-normal fs-6 text-sm">
-                                CEO / Co-Founder
-                            </p>
+                        <div class="col-auto my-auto" @click="viewForms(true, 2, 'Vincular a una empresa')">
+                            <div class="h-100">
+                                <h5 class="mt-4 mb-0 fs-5">
+                                    Sin empresa vinculada
+                                </h5>
+                                <p class="mb-0 font-weight-normal fs-6 text-sm">
+                                    CEO / Co-Founder
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    {% else %}
+                        <div class="col-auto mt-4">
+                            <div class="avatar avatar-md position-relative">
+                                <img src="/static/assets/img/size-of-company.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                            </div>
+                        </div>
+                        <div class="col-auto my-auto">
+                            <div class="h-100">
+                                <h5 class="mt-4 mb-0 fs-5">
+                                    Sin empresa vinculada
+                                </h5>
+                                <p class="mb-0 font-weight-normal fs-6 text-sm">
+                                    CEO / Co-Founder
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="col-md-8 ps-2 px-0">
-            <div class="card card-body h-100 mx-0 mx-md-0 border-radius-md d-none">
+            <div class="card card-body h-100 mx-0 mx-md-0 border-radius-md" v-if="!form">
                 <div class="row gx-4 mb-2">
                     <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
                         <div class="nav-wrapper position-relative end-0">
@@ -148,7 +165,7 @@
                                             <h6 class="mb-0">Informacion del perfil</h6>
                                         </div>
                                         <div class="col-md-4 text-end">
-                                            <a href="javascript:;">
+                                            <a href="javascript:;"  @click="viewForms(true, 3, 'informacion de perfil')">
                                                 <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
                                             </a>
                                         </div>
@@ -161,7 +178,7 @@
                                     <hr class="horizontal gray-light my-4">
                                     <ul class="list-group">
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm">
-                                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 4, 'Correo electronico')">
                                                 <div class="d-flex py-1">
                                                     <strong class="text-dark w-30">Correo:</strong>
                                                     <div class="d-flex flex-column justify-content-center">
@@ -173,7 +190,7 @@
                                             </a>
                                         </li>
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm">
-                                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 5, 'telefono')">
                                                 <div class="d-flex py-1">
                                                     <strong class="text-dark w-30">Telefono:</strong>
                                                     <div class="d-flex flex-column justify-content-center">
@@ -185,7 +202,7 @@
                                             </a>
                                         </li>
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm">
-                                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 6, 'Direccion')">
                                                 <div class="d-flex py-1">
                                                     <strong class="text-dark w-30">Direccion:</strong>
                                                     <div class="d-flex flex-column justify-content-center">
@@ -197,7 +214,7 @@
                                             </a>
                                         </li>
                                         <li class="list-group-item border-0 ps-0 pt-0 text-sm">
-                                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 7, 'Ubicacion geografica')">
                                                 <div class="d-flex py-1">
                                                     <strong class="text-dark w-30">Ubigeo:</strong>
                                                     <div class="d-flex flex-column justify-content-center">
@@ -236,7 +253,7 @@
                         <div class="card-body p-3">
                             <ul class="list-group">
                                 <li class="list-group-item border-0 ps-0 pt-0 text-sm">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 8, 'estado civil')">
                                         <div class="d-flex py-1">
                                             <strong class="text-dark w-30">Estado civil:</strong>
                                             <div class="d-flex flex-column justify-content-center">
@@ -248,7 +265,7 @@
                                     </a>
                                 </li>
                                 <li class="list-group-item border-0 ps-0 pt-0 text-sm">
-                                    <a class="dropdown-item border-radius-md" href="javascript:;">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 9, 'sexo')">
                                         <div class="d-flex py-1">
                                             <strong class="text-dark w-30">Sexo:</strong>
                                             <div class="d-flex flex-column justify-content-center">
@@ -264,55 +281,139 @@
                     </div>
                 </div>
             </div>
-            <div class="card h-100 mx-0 mx-md-0 border-radius-md">
+            <div class="card h-100 mx-0 mx-md-0 border-radius-md" v-if="form">
                 <div class="card card-header d-flex py-2">
                     <h6 class=" text-uppercase mt-2">
-                        <a href="#" class="btn btn-icon  h-10 w-10 p-2 m-0">
+                        <a href="#" class="btn btn-icon  h-10 w-10 p-2 m-0" @click="form=false">
                             <div class="btn-inner--icon">
                                 <span class="material-icons">
                                     arrow_back_ios
                                 </span>
                             </div>
                         </a>
-                        Editar Nombre
+                        Editar {$tl_frm$}
                     </h6>
                 </div>
                 <div class="row justify-content-md-center">
-                    <div class="col-9 pt-5">
-                        <form>
+                    <div class="col-9 pt-4">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="{{people.dni}}">
                             <div class="card card-body shadow-none border-1">
-                                <div class="row">
+                                <div class="row" v-if="id_frm==0">
                                     <div class="col-12">
                                         <p class="ct-docs-page-title-lead font-weight-normal text-sm">
                                             Los cambios en tu nombre se verán reflejados en tu Cuenta.
                                         </p>
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Nombre completo</label>
-                                            <input type="email" class="form-control">
+                                        <div class="input-group input-group-static mb-3">
+                                            <label class="text-uppercase">Nombre completo</label>
+                                            <input type="text" name="name" value="{{people.name}}" class="form-control mt-0">
                                         </div>
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Apellido materno</label>
-                                            <input type="email" class="form-control">
+                                        <div class="input-group input-group-static mb-3">
+                                            <label class="text-uppercase">Apellido materno</label>
+                                            <input type="text" name="first_name" value="{{people.first_name}}" class="form-control mt-0">
                                         </div>
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Apellido Paterno</label>
-                                            <input type="email" class="form-control">
+                                        <div class="input-group input-group-static mb-3" >
+                                            <label class="text-uppercase">Apellido Paterno</label>
+                                            <input type="text" name="first_name" value="{{people.last_name}}" class="form-control mt-0">
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="ct-docs-hr">
-                                <div class="row ct-docs-content-col">
+                                <div class="row" v-if="id_frm==1">1</div>
+                                <div class="row" v-if="id_frm==2">2</div>
+                                <div class="row" v-if="id_frm==3">
                                     <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-static mb-3">
+                                            <label class="text-uppercase">Información de perfil</label>
+                                            <textarea name="profile_information" rows="4" class="form-control mt-0">
+                                                {{people.profile_information }}
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="id_frm==4">
+                                    <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-static mb-3" >
+                                            <label class="text-uppercase">Correo electronico</label>
+                                            <input type="email" name="first_name" value="{{people.email}}" class="form-control mt-0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="id_frm==5">
+                                    <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-static mb-3" >
+                                            <label class="text-uppercase">telefono</label>
+                                            <input type="email" name="first_name" value="{{people.phone}}" class="form-control mt-0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="id_frm==6">
+                                    <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-static mb-3" >
+                                            <label class="text-uppercase">Direccion</label>
+                                            <input type="email" name="first_name" value="{{people.address}}" class="form-control mt-0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="id_frm==7">
+                                    <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-static mb-3" >
+                                            <label class="text-uppercase">Ubicaion Geografica</label>
+                                            <input type="email" name="first_name" value="{{people.geographic_location_id}}" class="form-control mt-0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="id_frm==8">
+                                    <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-static mb-3" >
+                                            <label class="text-uppercase">estado civil</label>
+                                            <input type="email" name="first_name" value="{{people.marial_status}}" class="form-control mt-0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" v-if="id_frm==9">
+                                    <div class="col-12">
+                                        <p class="ct-docs-page-title-lead font-weight-normal text-sm">
+                                            Los cambios en tu nombre se verán reflejados en tu Cuenta.
+                                        </p>
+                                        <div class="input-group input-group-static mb-3" >
+                                            <label class="text-uppercase">Sexo</label>
+                                            <input type="email" name="first_name" value="{{people.sex}}" class="form-control mt-0">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 ct-docs-content-col">
                                         <h6 id="resources-and-credits">Quienes puede ver tu informacion</h3>
                                         <ul>
                                             <li>
                                                 <i class="material-icons text-lg position-relative h-100">people</i>
-                                                <span class="ms-1 text-xs">Las personas pueden ver esta información cuando se comunican contigo o si miran el contenido</span>
+                                                <span class="ms-1 font-weight-normal text-justify text-sm ms-3">
+                                                    Las personas pueden ver esta información cuando se comunican contigo o si miran el contenido de tu informacion asi como otros modulos vinculados a tu usuario.
+                                                </span>
                                             </li>
                                         </ul>
                                         <div class="ms-md-auto pe-md-3 w-50 end-100 my-2 my-lg-0">
-                                            <button type="button" class="btn btn-link">Cancelar</button>
-                                            <button type="button" class="btn bg-gradient-info" disabled>Guardar</button>
+                                            <button type="button" class="btn btn-link" @click="form=false">Cancelar</button>
+                                            <button type="button" class="btn bg-gradient-info">Guardar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -330,6 +431,6 @@
 {% block javascripts %}
 
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
-<script src="/static/assets/vue/apps/people.script.js"></script>
+<script src="/static/assets/vue/apps/people/profile.script.js"></script>
 
 {% endblock javascripts %}
