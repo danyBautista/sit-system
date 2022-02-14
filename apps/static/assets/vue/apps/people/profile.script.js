@@ -19,6 +19,16 @@ new Vue({
             self.id_frm = id;
             self.tl_frm = title;
             self.form = content;
+        },
+        update: function(id)
+        {
+            var data_people ={
+                'name': this.name,
+                'first_name': this.first_name,
+                'last_name': this.last_name
+            }
+            axios.put('/people/api/update/{this.dni}', data_people)
+            .then(res => console.log(Response))
         }
     },
 })

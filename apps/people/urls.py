@@ -10,5 +10,6 @@ urlpatterns = [
     path('', views.index, name='people.index'),
     path('view/<key_id>/', views.view, name='people.view'),
 
-    path('api/search/', views.UserListAPIView.as_view(), name='people.search')
+    path('api/search/', views.PeopleListAPIView.as_view(), name='people.search'),
+    path('api/update/<pk>/', views.PeopleUpdateAPIView.as_view(), name="people.update")
 ]

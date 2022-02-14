@@ -2,7 +2,10 @@
 """
 Copyright (c) 2019 - present GlastHeim.pe
 """
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.response import Response
+from rest_framework import status
+
 from django import template
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -77,9 +80,30 @@ def view(request, key_id):
 
 """ services start here """
 
-class UserListAPIView(ListAPIView):
+class PeopleListAPIView(ListAPIView):
     serializer_class = PeopleSerializer
 
     def get_queryset(self):
         kword = self.request.query_params.get('kword', '')
         return people.objects.filter(name__icontains = kword)
+
+class PeopleUpdateAPIView(UpdateAPIView):
+    serializer_class = PeopleSerializer
+
+    def get_queryset(self, pk):
+        return self.get_serializer().Meta.model.objects.filter(status = True).filter(dni = pk).first()
+
+    def patch(self, request, pk=None):
+        if self.get_queryset(pk):
+            PeopleSerializer = self.serializer_class(self.get_queryset(pk))
+            return Response(PeopleSerializer.data)
+        return Response({'error':'No existe usuario con estos datos!'})
+
+    def put(self, request, pk=None):
+
+        if self.get_queryset(pk):
+            PeopleSerializer = self.serializer_class(self.get_queryset(pk), data = request.data)
+            if PeopleSerializer.is_valid():
+                PeopleSerializer.save()
+                return Response(PeopleSerializer.data)
+            return Response(PeopleSerializer.errors)
