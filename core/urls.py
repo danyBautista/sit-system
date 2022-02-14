@@ -10,6 +10,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('certificate/', include("apps.certify.urls")),
     path('people/', include("apps.people.urls")),
     path('administration/', include("apps.administration.urls")),
     path('validations/', include("apps.validations.urls")),

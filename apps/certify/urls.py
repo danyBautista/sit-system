@@ -4,8 +4,8 @@ Copyright (c) 2019 - present GlastHeim.pe
 """
 
 from django.urls import path, re_path
-from apps.validations.views import ValidationsView
+from apps.certify.views import CertifyView
 
 urlpatterns = [
-    path('', ValidationsView.index, name='validate.index'),
+    path('', CertifyView.index, name='certify.index'),
 ]

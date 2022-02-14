@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-auto w-100 text-center my-4">
                         <div class="h-100">
-                            <a href="#" @click="viewForms(true, 0, 'Nombre de usuario')">
+                            <a href="#" @click="viewForms(true, 0, 'Nombre de usuario', {{people.dni}})">
                                 <h5 class="mb-1 display-6 fs-3">
                                     {{people.name}} {{people.first_name}} {{people.last_name}}
                                 </h5>
@@ -225,6 +225,18 @@
                                                 </div>
                                             </a>
                                         </li>
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 10, 'Fecha de nacimiento')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-30">Ubigeo:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{people.birth_date}}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
                                         <li class="list-group-item border-0 ps-0 pb-0">
                                             <strong class="text-dark text-sm">Social:</strong> &nbsp;
                                             <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
@@ -276,6 +288,18 @@
                                         </div>
                                     </a>
                                 </li>
+                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 11, 'estado')">
+                                        <div class="d-flex py-1">
+                                            <strong class="text-dark w-30">Estado:</strong>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="ms-2">{{ people.status }}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -298,7 +322,7 @@
                     <div class="col-9 pt-4">
                         <form action="" method="POST">
                             {% csrf_token %}
-                            <input type="hidden" name="{{people.dni}}">
+                            <input type="hidden" name="" v-model="id_frm">
                             <div class="card card-body shadow-none border-1">
                                 <div class="row" v-if="id_frm==0">
                                     <div class="col-12">
@@ -307,15 +331,15 @@
                                         </p>
                                         <div class="input-group input-group-static mb-3">
                                             <label class="text-uppercase">Nombre completo</label>
-                                            <input type="text" name="name" value="{{people.name}}" class="form-control mt-0">
+                                            <input type="text" v-model="name" name="name" value="" class="form-control mt-0">
                                         </div>
                                         <div class="input-group input-group-static mb-3">
                                             <label class="text-uppercase">Apellido materno</label>
-                                            <input type="text" name="first_name" value="{{people.first_name}}" class="form-control mt-0">
+                                            <input type="text" v-model="first_name" name="first_name" value="{{people.first_name}}" class="form-control mt-0">
                                         </div>
                                         <div class="input-group input-group-static mb-3" >
                                             <label class="text-uppercase">Apellido Paterno</label>
-                                            <input type="text" name="first_name" value="{{people.last_name}}" class="form-control mt-0">
+                                            <input type="text" v-model="last_name" name="last_name" value="{{people.last_name}}" class="form-control mt-0">
                                         </div>
                                     </div>
                                 </div>
@@ -413,7 +437,7 @@
                                         </ul>
                                         <div class="ms-md-auto pe-md-3 w-50 end-100 my-2 my-lg-0">
                                             <button type="button" class="btn btn-link" @click="form=false">Cancelar</button>
-                                            <button type="button" class="btn bg-gradient-info">Guardar</button>
+                                            <button type="button" class="btn bg-gradient-info" @click="update({{people.dni}})">Guardar</button>
                                         </div>
                                     </div>
                                 </div>

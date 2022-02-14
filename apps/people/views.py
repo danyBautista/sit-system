@@ -87,6 +87,13 @@ class PeopleListAPIView(ListAPIView):
         kword = self.request.query_params.get('kword', '')
         return people.objects.filter(name__icontains = kword)
 
+class SelectAPIView(ListAPIView):
+    serializer_class = PeopleSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return people.objects.filter(dni=pk)
+
 class PeopleUpdateAPIView(UpdateAPIView):
     serializer_class = PeopleSerializer
 
