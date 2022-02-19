@@ -17,8 +17,9 @@ new Vue({
     },
     methods: {
         searchUser: function(kword){
+            var route = document.getElementById("route_search").value;
             var self = this;
-            axios.get('/people/api/search/?kword=' + kword)
+            axios.get(route + kword)
             .then(function(response){
                 self.list_view = true
                 self.search_content = false
@@ -30,7 +31,8 @@ new Vue({
         },
         redirec_user: function(param)
         {
-            window.location.href = '/people/view/' + param +'/'
+            var redir = document.getElementById("route_view").value;
+            window.location.href = redir + param +'/'
         }
     },
 });

@@ -54,7 +54,7 @@ class BusinessForm(forms.ModelForm):
             'logo_small_path': forms.FileInput(attrs={'class':'form-control', 'placeholder':'Logo pequeño'}),
             'logo_large_path': forms.FileInput(attrs={'class':'form-control', 'placeholder':'Logo grande'}),
             'geographic_location': forms.Select(attrs={'class':'form-control', 'placeholder':'Localizacion geografica'}),
-            'economic_activitie': forms.CheckboxInput(attrs={'class':'form-control', 'placeholder':'actividad econocica'}),
+            'economic_activitie': forms.CheckboxSelectMultiple(attrs={'class':'form-check-input', 'placeholder':'actividad econocica'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input', 'placeholder':'estado'}),
-            'business_description': forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Descripcion'})
+            'business_description': forms.Textarea(attrs={'class':'form-control', 'rows':4, 'placeholder': 'Descripcion'})
         }

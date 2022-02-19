@@ -28,7 +28,7 @@ class people(models.Model):
     class Meta:
         db_table = 'people'
         ordering = ['name']
-        verbose_name_plural = 'people'
+        verbose_name_plural = 'Usuarios'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

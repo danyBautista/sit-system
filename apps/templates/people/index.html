@@ -66,7 +66,7 @@
                                     {% endif %}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-6 px-1">
-                                            <div class="card h-100">
+                                            <div class="card h-100 ms-2">
                                                 <div class="card-header pb-0">
                                                     <h6>Imagen de usuario</h6>
                                                 </div>
@@ -76,7 +76,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-8 col-md-6 mb-md-0 mb-4 px-1">
-                                            <div class="card">
+                                            <div class="card me-2">
                                                 <div class="card-header pb-0">
                                                     <h6>Datos personales</h6>
                                                 </div>
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 py-2 px-1">
-                                            <div class="card">
+                                            <div class="card mx-2">
                                                 <div class="card-header pb-0">
                                                     <h6>Datos generales</h6>
                                                 </div>
@@ -198,7 +198,7 @@
     </script>
     <div class="container-fluid py-4 ps-1">
         <div class="page-header min-height-300 border-radius-md mb-4" id="app">
-            <modal v-if="showModal" @close="showModal = false"  class="position-fixed z-index-3 w-form bg-light min-height-vh-100"></modal>
+            <modal v-if="showModal" @close="showModal = false"  class="position-fixed z-index-3 w-form bg-light max-height-vh-90"></modal>
             <span class="mask bg-transparent opacity-9">
                 <div class="row align-items-center mt-5">
                     <div class="col-md-5 ps-5">
@@ -224,6 +224,8 @@
                 </div>
             </span>
         </div>
+        <input type="hidden" name="route_search" id="route_search" value="{% url 'people.search' %}?kword=">
+        <input type="hidden" name="route_view" id="route_view" value="/people/view/">
         <div class="container px-0" id="table">
             <div class="card border-radius-md">
                 <div class="card-header pb-0">
@@ -269,7 +271,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                        <ul class="nav nav-pills nav-fill p-1" role="tablist" id="icon-views">
+                                        <ul class="nav nav-pills nav-fill z-index-1 p-1" role="tablist" id="icon-views">
                                             <li class="nav-item">
                                                 <a  @click="icon_content = true" class="nav-link mb-0 px-2 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true" href="#">
                                                     <span class="material-icons">

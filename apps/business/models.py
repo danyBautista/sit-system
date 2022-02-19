@@ -9,8 +9,8 @@ class business(models.Model):
     address = models.CharField(max_length=150, blank=True)
     phone = models.CharField(max_length=150, blank=True)
     webpage = models.CharField(max_length=150, blank=True)
-    registration_date = models.DateTimeField()
-    opening_date = models.DateField()
+    registration_date = models.DateTimeField(null=True)
+    opening_date = models.DateField(null=True)
     logo_small_path = models.ImageField(upload_to="bussines", null=True)
     logo_large_path = models.ImageField(upload_to="bussines", null=True)
     business_description = models.TextField(null=True)
@@ -24,7 +24,7 @@ class business(models.Model):
     class Meta:
         db_table = 'business'
         ordering = ['business_name']
-        verbose_name_plural = 'business'
+        verbose_name_plural = 'Empresas'
 
     def __str__(self):
         return self.business_name

@@ -6,18 +6,18 @@ class economic_activities(models.Model):
     category = models.IntegerField()
     sub_category = models.IntegerField()
     heading = models.CharField(max_length=150)
-    status = models.BooleanField()
+    status = models.BooleanField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     delete_at = models.DateTimeField(null=True)
 
     class Meta:
         db_table = 'economic_activities'
-        ordering = ['title']
-        verbose_name_plural = 'Economic_activities'
+        ordering = ['heading']
+        verbose_name_plural = 'Actividades economicas'
 
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        return self.heading
 
 class geographic_location(models.Model):
     id = models.CharField(max_length=6, primary_key=True, unique=True)
@@ -33,7 +33,7 @@ class geographic_location(models.Model):
     class Meta:
         db_table = 'geographic_location'
         ordering = ['id']
-        verbose_name_plural = 'geographic_location'
+        verbose_name_plural = 'ubicacion geografica'
 
     def __unicode__(self):
         return self.id
@@ -48,7 +48,7 @@ class sex(models.Model):
     class Meta:
         db_table = 'sex'
         ordering = ['id']
-        verbose_name_plural = 'sex'
+        verbose_name_plural = 'sexo'
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -63,7 +63,7 @@ class marial_status(models.Model):
     class Meta:
         db_table = 'marial_status'
         ordering = ['id']
-        verbose_name_plural = 'marial_status'
+        verbose_name_plural = 'Estado Civil'
 
     def __str__(self):
         return '{}'.format(self.name)

@@ -12,9 +12,9 @@ class types(models.Model):
     class Meta:
         db_table = 'type'
         ordering = ['name']
-        verbose_name_plural = 'type'
+        verbose_name_plural = 'Tipo'
 
-    def __srt__(self):
+    def __str__(self):
         return self.name
 
 class vehicles(models.Model):
@@ -34,12 +34,12 @@ class vehicles(models.Model):
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True)
+    delete_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = 'Vehicles'
         ordering = ['plate']
-        verbose_name_plural = 'vehicle'
+        verbose_name_plural = 'Vehiculos'
 
     def __str__(self):
         return self.model

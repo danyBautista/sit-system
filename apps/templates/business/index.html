@@ -47,26 +47,10 @@
                                     </div>
                                 </nav>
                                 <!-- End Navbar -->
-                                <hr class="horizontal dark mt-4 mb-2">
-                                <div class="content position-relative max-height-vh-100 h-100 ps">
-                                    {% if messages %}
-                                        {% for message in messages %}
-                                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                                <span class="alert-icon align-middle">
-                                                    <span class="material-icons text-md">
-                                                        warning
-                                                    </span>
-                                                </span>
-                                                <span class="alert-text"><strong>Cuidado!</strong>{{message}}</span>
-                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
+                                <div class="content position-relative max-height-vh-100 h-100 ps mt-4">
                                     <div class="row">
                                         <div class="col-lg-4 col-md-6 px-1">
-                                            <div class="card h-100">
+                                            <div class="card h-100 ms-2">
                                                 <div class="card-header pb-0">
                                                     <h6>Logo de la empresa</h6>
                                                 </div>
@@ -79,7 +63,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-8 col-md-6 mb-md-0 mb-4 px-1">
-                                            <div class="card">
+                                            <div class="card me-2">
                                                 <div class="card-header pb-0">
                                                     <h6>Datos institucionales</h6>
                                                 </div>
@@ -113,7 +97,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 py-2 px-1">
-                                            <div class="card">
+                                            <div class="card mx-2">
                                                 <div class="card-header pb-0">
                                                     <h6>Datos generales</h6>
                                                 </div>
@@ -142,6 +126,12 @@
                                                                     <div class="input-group input-group-static mb-3">
                                                                         {{ forms.phone }}
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 p-4">
+                                                                <div class="form-check">
+                                                                    {{forms.economic_activitie}}
+                                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Actuvidad Economica</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -178,8 +168,23 @@
     </script>
     <div class="container-fluid py-4 ps-1">
         <div class="page-header min-height-300 border-radius-md mb-4" id="app">
-            <modal v-if="showModal" @close="showModal = false"  class="position-fixed z-index-3 w-form bg-light min-height-vh-100"></modal>
+            <modal v-if="showModal" @close="showModal = false"  class="position-fixed z-index-3 w-form bg-light min-height-vh-90 ps ps--active-y"></modal>
             <span class="mask bg-transparent opacity-9">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="alert-icon align-middle">
+                                <span class="material-icons text-md">
+                                    warning
+                                </span>
+                            </span>
+                            <span class="alert-text"><strong>Cuidado!</strong>{{message}}</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 <div class="row align-items-center mt-5">
                     <div class="col-md-5 ps-5">
                         <p class="text-xs mb-0">Modulo</p>
@@ -209,40 +214,83 @@
                 <div class="card-header pb-0">
                     <div class="row">
                         <div class="col-lg-6 col-7">
-                            <h6>Usuarios registradors</h6>
+                            <h6>Empresas registradors</h6>
                             <p class="text-sm mb-0">
-                                <i class="fa fa-users text-info"></i>
+                                <i class="fa fa-city text-info"></i>
                                 <span class="font-weight-bold-ms-1">{{peoples.count}} Registros</span>
                             </p>
                         </div>
                         <div class="col-lg-6 col-5 my-auto text-end">
-                            <div class="dropdown float-lg-end pe-4">
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        chevron_left
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        chevron_right
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        format_list_bulleted
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        history
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        search
-                                    </span>
-                                </a>
-                            </div>
+                            <nav class="navbar shadow-none border-radius-md navbar-expand-lg navbar-light bg-light p-0">
+                                <div class="container-fluid px-0">
+                                    <button class="navbar-toggler ms-md-auto pe-md-3 nav-link text-body p-0" id="table-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                                        <div class="sidenav-toggler-inner">
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                        </div>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarScroll">
+                                        <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-tabel" id="icon-process">
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" aria-current="page" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_left
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_right
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        history
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-pills nav-fill p-1 z-index-1" role="tablist" id="icon-views">
+                                            <li class="nav-item">
+                                                <a  @click="icon_content = true" class="nav-link mb-0 px-2 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true" href="#">
+                                                    <span class="material-icons">
+                                                        format_list_bulleted
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a @click="icon_content = false" class="nav-link mb-0 px-2 py-1" href="#" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                                                    <span class="material-icons">
+                                                        apps
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <span class="nav-item">
+                                            <a class="nav-link" href="#" id="btn-search">
+                                                <span class="material-icons">
+                                                    search
+                                                </span>
+                                            </a>
+                                        </span>
+                                        <form class="d-flex d-none w-100" id="form-search">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Buscar {{title.name}}</label>
+                                                <input v-model="kword" type="text" class="form-control">
+                                                <button class="btn bg-gradient-secondary mb-0 px-3" type="submit" id="submit-search">
+                                                    <span class="material-icons">
+                                                        close
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -293,7 +341,7 @@
 {% block javascripts %}
 
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
-<script src="/static/assets/vue/apps/people.script.js"></script>
+<script src="/static/assets/vue/includes/forms.script.js"></script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
     new Chart(ctx, {
