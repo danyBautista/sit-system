@@ -39,14 +39,14 @@ class citv(models.Model):
     inspection_result = models.BooleanField()
     comment = models.TextField()
     Type_of_inspection = models.CharField(max_length=150)
-    file = models.FilePathField()
+    file = models.FileField(upload_to="citv", null=True)
     vehicle = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     type_service = models.ForeignKey(types_services, null=True, blank=True, on_delete=models.CASCADE)
     scope = models.ForeignKey(scopes, null=True, blank=True, on_delete=models.CASCADE)
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True)
+    delete_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = 'citv'

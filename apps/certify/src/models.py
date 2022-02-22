@@ -7,12 +7,12 @@ class src(models.Model):
     name = models.CharField(max_length=150)
     registration_date = models.DateTimeField()
     date_expiry = models.DateTimeField()
-    file = models.FilePathField()
+    file = models.FileField(upload_to="people", null=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True)
+    delete_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = 'SRC'

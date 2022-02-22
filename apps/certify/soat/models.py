@@ -31,13 +31,13 @@ class soat(models.Model):
     vin_serie = models.CharField(max_length=15)
     insured = models.CharField(max_length=150)
     amount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    file = models.FilePathField()
+    file = models.FileField(upload_to="people", null=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     owners = models.ManyToManyField(owner)
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True)
+    delete_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table = 'SOAT'
