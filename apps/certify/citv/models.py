@@ -13,7 +13,7 @@ class types_services(models.Model):
     class Meta:
         db_table = 'Type of service'
         ordering = ['name']
-        verbose_name_plural = 'type_of_service'
+        verbose_name_plural = 'Tipo de servicio'
 
     def __str__(self):
         return self.name
@@ -27,7 +27,7 @@ class scopes(models.Model):
     class Meta:
         db_table = 'scopes'
         ordering = ['name']
-        verbose_name_plural = 'scopes'
+        verbose_name_plural = 'Alcances'
 
     def __str__(self):
         return self.name
