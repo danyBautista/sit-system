@@ -5,8 +5,8 @@
 }
 .w-form
 {
-    right: 0;
-    left: 255px;
+    right: 5px !important;
+    left: 260px !important;
     top: 0;
 }
 .main-lef-margin.main-content {
@@ -14,7 +14,7 @@
 }
 @media only screen and (max-width: 992px) {
     .w-form{
-        left: 0;
+        left: 0 !important;
     }
     .main-lef-margin.main-content {
         margin-left: 0 !important;
@@ -55,4 +55,7 @@ ul li.list-card{list-style: none; display: flex;}
 {
     width: 100%;
     display: flex;
+}
+.h-sidebar{
+    height: calc(100vh - 110px) !important;
 }

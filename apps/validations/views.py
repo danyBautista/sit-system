@@ -9,10 +9,18 @@ from django.contrib import messages
 
 @login_required(login_url='/login/')
 # Create your views here.
-class ValidationsView(HttpResponse):
+class ListView(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)
         context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones'}
         html_template = loader.get_template('validations/index.html')
+        return HttpResponse(html_template.render(context, request))
+
+class CreateView(HttpResponse):
+    def index(request):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=7)
+        context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones'}
+        html_template = loader.get_template('validations/create.html')
         return HttpResponse(html_template.render(context, request))

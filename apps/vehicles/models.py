@@ -1,6 +1,7 @@
 from django.db import models
 from apps import business
 from apps.business.models import business
+from apps.people.models import people
 # Create your models here.
 class types(models.Model):
     name = models.CharField(max_length=100, default="No Comment Added")
@@ -21,15 +22,16 @@ class vehicles(models.Model):
     plate = models.CharField(max_length=8, primary_key=True, unique=True)
     mark = models.CharField(max_length=150)
     model = models.CharField(max_length=150)
-    year_of_production = models.DateField()
-    longitude = models.IntegerField()
-    height = models.IntegerField()
-    broad = models.IntegerField()
+    year_of_production = models.IntegerField()
+    longitude = models.DecimalField(max_digits=4, decimal_places=2)
+    height = models.DecimalField(max_digits=4, decimal_places=2)
+    broad = models.DecimalField(max_digits=4, decimal_places=2)
     service_door = models.IntegerField()
-    type_id = models.ForeignKey(types, null=True, blank=True, on_delete=models.CASCADE)
+    type = models.ForeignKey(types, null=True, blank=True, on_delete=models.CASCADE)
     category = models.CharField(max_length=150)
     comment = models.TextField()
-    business_id = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
+    business = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
+    users = models.ManyToManyField(people, blank=True)
     terms = models.CharField(max_length=8)
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)

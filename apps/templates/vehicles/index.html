@@ -6,127 +6,309 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <script type="text/x-template" id="modal-template">
-        
-    </script>
-    <div class="container-fluid py-4 ps-1">
-        <div class="page-header min-height-300 border-radius-md mb-4" id="app">
-            <modal v-if="showModal" @close="showModal = false"  class="position-fixed z-index-3 w-form bg-light min-height-vh-100"></modal>
-            <span class="mask bg-transparent opacity-9">
-                <div class="row align-items-center mt-5">
-                    <div class="col-md-5 ps-5">
-                        <p class="text-xs mb-0">Modulo</p>
-                        <h4 class="text-xxl font-weight-normal mb-1 text-capitalize">
-                            <span class="display-4">{{title.name}}</span>
-                        </h4>
-                        <h6 class="text-md font-weight-normal mb-1">
-                            <span>{{title.description}}</span>
-                        </h6>
-                        <a href="#" class="btn bg-gradient-info"  @click="showModal = true">
-                            <i class="material-icons opacity-10">add</i>
-                            Registrar nuevo
-                        </a>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="bg-transparent border-radius-lg py-3 pe-1">
-                            <div class="chart">
-                                <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-                            </div>
+<div class="container-fluid py-4 ps-1">
+    <div class="page-header min-height-300 border-radius-md mb-4" id="app">
+        <modal v-if="showModal" @close="showModal = false"  class="position-fixed z-index-3 w-form bg-light max-height-vh-90"></modal>
+        <span class="mask bg-transparent opacity-9">
+            <div class="row align-items-center mt-5">
+                <div class="col-md-5 ps-5">
+                    <p class="text-xs mb-0">Modulo</p>
+                    <h4 class="text-xxl font-weight-normal mb-1 text-capitalize">
+                        <span class="display-4">{{title.name}}</span>
+                    </h4>
+                    <h6 class="text-md font-weight-normal mb-1">
+                        <span>{{title.description}}</span>
+                    </h6>
+                    <a href="{% url 'vehicles.create' %}" class="btn bg-gradient-info"  @click="showModal = true">
+                        <i class="material-icons opacity-10">add</i>
+                        Registrar nuevo
+                    </a>
+                </div>
+                <div class="col-md-7">
+                    <div class="bg-transparent border-radius-lg py-3 pe-1">
+                        <div class="chart">
+                            <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
                         </div>
                     </div>
                 </div>
-            </span>
-        </div>
-        <div class="container px-0">
-            <div class="card border-radius-md">
-                <div class="card-header pb-0">
-                    <div class="row">
-                        <div class="col-lg-6 col-7">
-                            <h6>Usuarios registradors</h6>
-                            <p class="text-sm mb-0">
-                                <i class="fa fa-users text-info"></i>
-                                <span class="font-weight-bold-ms-1">{{peoples.count}} Registros</span>
-                            </p>
-                        </div>
-                        <div class="col-lg-6 col-5 my-auto text-end">
-                            <div class="dropdown float-lg-end pe-4">
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        chevron_left
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        chevron_right
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        format_list_bulleted
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        history
-                                    </span>
-                                </a>
-                                <a class="btn btn-outline-secondary btn-sm p-1">
-                                    <span class="material-icons">
-                                        search
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
+            </div>
+        </span>
+    </div>
+    <input type="hidden" name="route_search" id="route_search" value="{% url 'vehicle.search' %}?kword=">
+    <input type="hidden" name="route_view" id="route_view" value="/vehicles/view/">
+    <div class="container px-0" id="table">
+        <div class="card border-radius-md">
+            <div class="card-header pb-0">
+                <div class="row">
+                    <div class="col-lg-6 col-7">
+                        <h6>{{page}} registradors</h6>
+                        <p class="text-sm mb-0">
+                            <i class="fa fa-users text-info"></i>
+                            <span class="font-weight-bold-ms-1">{{peoples.count}} Registros</span>
+                        </p>
                     </div>
-                </div>
-                <div class="card-body px-2 pb-2 d-flex">
-                {% if peoples %}
-                    <ul class="w-100 ps-0">
-                        {% for item in peoples %}
-                        <li class="list-card">
-                            <div class="card card-frame w-100 m-2">
-                                <div class="card-body p-0">
-                                    <a class="dropdown-item border-radius-md" href="{% url 'people.view' key_id=item.dni %}">
-                                        <div class="d-flex py-1">
-                                            <div class="my-auto">
-                                                <img src="{{ item.user_photo_path.url }}" class="avatar avatar-sm  me-3 ">
-                                            </div>
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="text-sm font-weight-normal mb-1 crop-text">
-                                                    <span class="font-weight-bold">{{item.name}} {{item.first_name}} {{item.last_name}}</span>
-                                                </h6>
-                                                <p class="text-xs text-secondary mb-0 crop-text">
-                                                    <i class="fa fa-envelope me-1"></i>
-                                                    {{item.email}}
-                                                </p>
-                                            </div>
+                    <div class="col-lg-6 col-5 my-auto text-end">
+                        <nav class="navbar shadow-none border-radius-md navbar-expand-lg navbar-light bg-light p-0">
+                            <div class="container-fluid px-0">
+                                <button class="navbar-toggler ms-md-auto pe-md-3 nav-link text-body p-0" id="table-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                                    <div class="sidenav-toggler-inner">
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                    </div>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarScroll">
+                                    <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-tabel" id="icon-process">
+                                        <li class="nav-item">
+                                            <a class="nav-link disabled" aria-current="page" href="#">
+                                                <span class="material-icons">
+                                                    chevron_left
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link disabled" href="#">
+                                                <span class="material-icons">
+                                                    chevron_right
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <span class="material-icons">
+                                                    history
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav nav-pills nav-fill z-index-1 p-1" role="tablist" id="icon-views">
+                                        <li class="nav-item">
+                                            <a  @click="icon_content = true" class="nav-link mb-0 px-2 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true" href="#">
+                                                <span class="material-icons">
+                                                    format_list_bulleted
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a @click="icon_content = false" class="nav-link mb-0 px-2 py-1" href="#" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                                                <span class="material-icons">
+                                                    apps
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <span class="nav-item">
+                                        <a class="nav-link" href="#" id="btn-search">
+                                            <span class="material-icons">
+                                                search
+                                            </span>
+                                        </a>
+                                    </span>
+                                    <form class="d-flex d-none w-100" id="form-search">
+                                        <div class="input-group input-group-outline">
+                                            <label class="form-label">Buscar {{title.name}}</label>
+                                            <input v-model="kword" type="text" class="form-control">
+                                            <button class="btn bg-gradient-secondary mb-0 px-3" type="submit" id="submit-search">
+                                                <span class="material-icons">
+                                                    close
+                                                </span>
+                                            </button>
                                         </div>
-                                    </a>
+                                    </form>
                                 </div>
                             </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                        <div class="row mt-5 justify-content-md-center w-100">
-                            <div class="col-8">
-                                <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
-                                    <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
-                                </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
+            {% if peoples %}
+                <ul class="w-100 ps-0" v-if="!list_view">
+                    {% for item in peoples %}
+                    <li class="list-card">
+                        <div class="card card-frame w-100 m-2">
+                            <div class="card-body p-0">
+                                <a class="dropdown-item border-radius-md" href="{% url 'people.view' key_id=item.dni %}">
+                                    <div class="d-flex py-1">
+                                        <div class="my-auto">
+                                            <img src="{{ item.user_photo_path.url }}" class="avatar avatar-sm  me-3 ">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1 crop-text">
+                                                <span class="font-weight-bold">{{item.name}} {{item.first_name}} {{item.last_name}}</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0 crop-text">
+                                                <i class="fa fa-envelope me-1"></i>
+                                                {{item.email}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                    {% endif %}
-                </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <ul class="w-100 ps-0" v-if="!search_content">
+                    <li class="list-card" v-for="item in list_user" :key="item.dni">
+                        <div class="card card-frame w-100 m-2">
+                            <div class="card-body p-0">
+                                <a class="dropdown-item border-radius-md" href="#" @click="redirec_user(item.dni)">
+                                    <div class="d-flex py-1">
+                                        <div class="my-auto">
+                                            <img src="#" class="avatar avatar-sm  me-3 ">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1 crop-text">
+                                                <span class="font-weight-bold">{$item.name$} {$item.first_name$} {$item.last_name$}</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0 crop-text">
+                                                <i class="fa fa-envelope me-1"></i>
+                                                {$item.email$}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
+                    <div class="row mt-5 justify-content-md-center w-100">
+                        <div class="col-8">
+                            <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                                <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-body px-2 pb-2" v-if="icon_content">
+                {% if peoples %}
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuario</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Funcion</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Habilitado</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de cupleaños</th>
+                            <th class="text-secondary opacity-7"></th>
+                        </tr>
+                    </thead>
+                    <tbody v-if="!list_view">
+                        {% for item in peoples %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'people.view' key_id=item.dni %}">
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg" class="avatar avatar-sm me-3">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">{{item.name}} {{item.first_name}} {{item.last_name}}</h6>
+                                            <p class="text-xs text-secondary mb-0">{{ item.email }}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">Manager</p>
+                                <p class="text-xs text-secondary mb-0">Organization</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                {% if item.status == True %}
+                                    <span class="badge badge-sm badge-success">Online</span>
+                                {% else %}
+                                    <span class="badge badge-sm badge-secondary">Offline</span>
+                                {% endif %}
+                            </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs font-weight-normal">{{item.birth_date}}</span>
+                            </td>
+                            <td class="align-middle">
+                                <div class="dropdown float-lg-end pe-4">
+                                    <button class="btn btn-link text-secondary mb-0 cursor-pointer" id="{{item.dni}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="material-icons">
+                                            more_vert
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute" aria-labelledby="{{item.dni}}">
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Editar</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Eliminar</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Ver</a></li>
+                                        <li><hr class="horizontal light mt-0 mb-2"></li>
+                                        <li><a class="dropdown-item border-radius-md bg-gradient-danger" href="javascript:;">Borrar</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tbody v-if="!search_content">
+                        <tr v-for="item in list_user" :key="item.dni">
+                            <td>
+                                <a href="#"  @click="redirec_user(item.dni)">
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg" class="avatar avatar-sm me-3">
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">{$item.name$} {$item.first_name$} {$item.last_name$}</h6>
+                                            <p class="text-xs text-secondary mb-0">{$ item.email $}</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0">Manager</p>
+                                <p class="text-xs text-secondary mb-0">Organization</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <span class="badge badge-sm badge-success" v-if="item.status">Online</span>
+                                <span class="badge badge-sm badge-secondary" v-if="!item.status">Offline</span>
+                            </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs font-weight-normal">{$item.birth_date$}</span>
+                            </td>
+                            <td class="align-middle">
+                                <div class="dropdown float-lg-end pe-4">
+                                    <button class="btn btn-link text-secondary mb-0 cursor-pointer" :id="item.dni" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="material-icons">
+                                            more_vert
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute">
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Editar</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Eliminar</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Ver</a></li>
+                                        <li><hr class="horizontal light mt-0 mb-2"></li>
+                                        <li><a class="dropdown-item border-radius-md bg-gradient-danger" href="javascript:;">Borrar</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% else %}
+                    <div class="row mt-5 justify-content-md-center w-100">
+                        <div class="col-8">
+                            <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                                <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
-<script src="/static/assets/vue/apps/people.script.js"></script>
+<script src="/static/assets/vue/includes/table.script.js"></script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
     new Chart(ctx, {

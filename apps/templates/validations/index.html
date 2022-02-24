@@ -7,7 +7,6 @@
 
 {% block content %}
     <script type="text/x-template" id="modal-template">
-        
     </script>
     <div class="container-fluid py-4 ps-1">
         <div class="page-header min-height-300 border-radius-md mb-4" id="app">
@@ -22,7 +21,7 @@
                         <h6 class="text-md font-weight-normal mb-1">
                             <span>{{title.description}}</span>
                         </h6>
-                        <a href="#" class="btn bg-gradient-info"  @click="showModal = true">
+                        <a href="{% url 'validate.create' %}" class="btn bg-gradient-info"  @click="showModal = true">
                             <i class="material-icons opacity-10">add</i>
                             Registrar nuevo
                         </a>

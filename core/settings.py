@@ -39,10 +39,7 @@ INSTALLED_APPS = [
     'apps.control',
     'apps.validations',
     'apps.vehicles',
-    'apps.certify.citv',
-    'apps.certify.soat',
-    'apps.certify.src',
-    'apps.certify.svct',
+    'apps.certify',
     'apps.owner',
     'apps.people',
     'apps.business'

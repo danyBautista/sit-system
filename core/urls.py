@@ -16,6 +16,7 @@ urlpatterns = [
     path('validations/', include("apps.validations.urls")),
     path('vehicles/', include("apps.vehicles.urls")),
     path('business/', include("apps.business.urls")),
+    path('modules/', include("apps.modules.urls")),
     path('admin/', admin.site.urls),          # Django admin route
     path("", include("apps.authentication.urls")), # Auth routes - login / register
     path("", include("apps.home.urls"))            # UI Kits Html files
