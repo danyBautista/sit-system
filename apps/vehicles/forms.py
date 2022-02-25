@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.vehicles.models import vehicles
+from apps.vehicles.models import vehicles, types
 
 class VehicleForm(forms.ModelForm):
     """Form definition for MODELNAME."""
@@ -57,4 +57,21 @@ class VehicleForm(forms.ModelForm):
             'business' : forms.Select(attrs={'class':'form-control w-80'}),
             'terms' : forms.Textarea(attrs={'class':'form-control', 'rows' : '3'}),
             'status' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
+        }
+
+class TypeVehicleForm():
+    class Meta:
+        model = types
+
+        fields = [
+            'name',
+            'status'
+        ]
+        labels = {
+            'name' : 'Nombre',
+            'status': 'Estado'
+        }
+        widgets = {
+            'name' : forms.TextInput(attrs={'class': 'form-control form-control-lg'}),
+            'status': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }

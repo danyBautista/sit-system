@@ -10,7 +10,7 @@ from django.contrib import messages
 
 from apps.includes.sidebar.models import Sidebar
 from apps.vehicles.models import vehicles
-from apps.vehicles.forms import VehicleForm
+from apps.vehicles.forms import VehicleForm, TypeVehicleForm
 from .serializers import VehiclesSerializer
 
 # Create your views here.

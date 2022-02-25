@@ -15,7 +15,7 @@ class business(models.Model):
     logo_large_path = models.ImageField(upload_to="bussines", null=True)
     business_description = models.TextField(null=True)
     geographic_location = models.ForeignKey(geographic_location, null=True, blank=True, on_delete=models.CASCADE)
-    economic_activitie = models.ManyToManyField(economic_activities)
+    economic_activitie = models.ManyToManyField(economic_activities, blank=True)
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
