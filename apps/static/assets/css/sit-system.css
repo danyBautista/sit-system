@@ -59,3 +59,6 @@ ul li.list-card{list-style: none; display: flex;}
 .h-sidebar{
     height: calc(100vh - 110px) !important;
 }
+.hm-100{
+    height: calc(100vh - 16px) !important;
+}

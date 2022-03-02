@@ -4,8 +4,10 @@ Copyright (c) 2019 - present GlastHeim.pe
 """
 
 from django.urls import path, re_path
-from apps.certify.views import CertifyView
+from apps.certify import views
 
 urlpatterns = [
-    path('', CertifyView.index, name='certify.index'),
+    path('', views.CertifyView, name='certify.index'),
+
+    path('select/', views.ValidateLegal, name='certify.select')
 ]

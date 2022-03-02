@@ -1,0 +1,156 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="container-fluid py-4 ps-1">
+        <div class="bg-light max-height-vh-90">
+            <div class="content">
+                <div class="container position-sticky z-index-sticky top-0 me-5 scrollspy-example" data-bs-spy="scroll" data-bs-offset="0">
+                    <div class="row justify-content-md-center" id="operations">
+                        <div class="col-8">
+                            <div class="content position-relative mt-4 max-height-vh-100 h-100 ps-1">
+                                <form action="{% url 'validate.val' %}" method="POST">
+                                    
+                                    {% csrf_token %}
+                                    <div class="card me-2">
+                                        <div class="card-header text-uppercase pb-0">
+                                            <h6>placa n°: {{unit.plate}} - {{unit.business}}</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row my-4">
+                                                <div class="col-md-4">
+                                                    <div class="card" data-animation="true">
+                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                            <div class="icon icon-lg icon-shape {{soat.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                                <i class="material-icons opacity-10">{{soat.icon}}</i>
+                                                            </div>
+                                                            <a class="d-block blur-shadow-image">
+                                                                <img src="/static/assets/img/law.png" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                            </a>
+                                                            <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/law.png&quot;);"></div>
+                                                        </div>
+                                                        <div class="card-body text-center">
+                                                            <div class="d-flex mt-n6 mx-auto">
+                                                                <a class="btn btn-link text-success ms-auto border-0" title="Crear" id="btn-soat" data-bs-toggle="modal" data-bs-target="#soat_form">
+                                                                    <i class="material-icons text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom">add</i>
+                                                                </a>
+                                                                <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar" type="button">
+                                                                    <i class="material-icons text-lg">edit</i>
+                                                                </button>
+                                                            </div>
+                                                            <h5 class="font-weight-normal mt-3">
+                                                                <a href="javascript:;">Validacion Legal</a>
+                                                            </h5>
+                                                        </div>
+                                                        <hr class="dark horizontal my-0">
+                                                        <div class="card-footer">
+                                                            <small>{{soat.message}}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card" data-animation="true">
+                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                            <div class="icon icon-lg icon-shape bg-gradient-danger shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                                <i class="material-icons opacity-10">error</i>
+                                                            </div>
+                                                            <a class="d-block blur-shadow-image">
+                                                                <img src="/static/assets/img/technician.png" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                            </a>
+                                                            <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/technician.png&quot;);"></div>
+                                                        </div>
+                                                        <div class="card-body text-center">
+                                                            <div class="d-flex mt-n6 mx-auto">
+                                                                <a class="btn btn-link text-success ms-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Crear">
+                                                                    <i class="material-icons text-lg">add</i>
+                                                                </a>
+                                                                <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                                                                    <i class="material-icons text-lg">edit</i>
+                                                                </button>
+                                                            </div>
+                                                            <h5 class="font-weight-normal mt-3">
+                                                                <a href="javascript:;">Validacion tecnica</a>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="card" data-animation="true">
+                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                            <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                                <i class="material-icons opacity-10">check</i>
+                                                            </div>
+                                                            <a class="d-block blur-shadow-image">
+                                                                <img src="/static/assets/img/insurance.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                            </a>
+                                                            <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/insurance.jpg&quot;);"></div>
+                                                        </div>
+                                                        <div class="card-body text-center">
+                                                            <div class="d-flex mt-n6 mx-auto">
+                                                                <a class="btn btn-link text-success ms-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Crear">
+                                                                    <i class="material-icons text-lg">add</i>
+                                                                </a>
+                                                                <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                                                                    <i class="material-icons text-lg">edit</i>
+                                                                </button>
+                                                            </div>
+                                                            <h5 class="font-weight-normal mt-3">
+                                                                <a href="javascript:;">Validacion seguro</a>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn bg-gradient-warning btn-lg w-100 text-uppercase" disabled>No Continuar con el tramite</button>
+                                        </div>
+                                        <div class="card-footer bg-warning text-white" v-if="footer">
+                                            hola mundo
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="soat_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content blur-dark">
+                <div class="modal-body p-0">
+                    <div class="card card-plain">
+                        <div class="card-header pb-0 text-left">
+                            <h5 class="">Registrar nuevo SOAT</h5>
+                            <p class="mb-0">Ingrese el nuevo tipo de vehiculo que sea adecuado para usted</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group input-group-lg input-group-outline my-2">
+                                <label class="form-label">Nombre</label>
+                                <input v-model="name" type="text" class="form-control" name="name" autocomplete="off">
+                            </div>
+                            <div class="form-check form-switch">
+                                <input v-model="status" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Habilitado</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn bg-gradient-primary" ">Registrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/vue/apps/validate/validate.operation.script.js"></script>
+{% endblock javascripts %}

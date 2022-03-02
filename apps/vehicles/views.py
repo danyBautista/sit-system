@@ -1,4 +1,7 @@
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+)
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -9,20 +12,23 @@ from django.template import loader
 from django.contrib import messages
 
 from apps.includes.sidebar.models import Sidebar
-from apps.vehicles.models import vehicles
+from apps.vehicles.models import vehicles, types
 from apps.vehicles.forms import VehicleForm, TypeVehicleForm
-from .serializers import VehiclesSerializer
+from .serializers import (
+    VehiclesSerializer,
+    TypesVehiclesSerializer
+)
 
 # Create your views here.
 
 @login_required(login_url='/login/')
-
 # Create your views here.
 class VehiclesViews(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=5)
-        context = {'segment': 'vehicles', 'sidebars': sidebar, 'title': title, 'page':'Vehiculos'}
+        units = vehicles.objects.all()
+        context = {'segment': 'vehicles', 'sidebars': sidebar, 'title': title, 'page':'Vehiculos', 'vehicles': units}
         html_template = loader.get_template('vehicles/index.html')
         return HttpResponse(html_template.render(context, request))
 
@@ -37,7 +43,7 @@ class VehiclesCreate(HttpResponse):
                 form.save()
             else:
                 messages.error(request, form)
-            return redirect('people.index')
+            return redirect('vehicles.index')
         else:
             form = VehicleForm()
 
@@ -51,4 +57,14 @@ class VehiclesListAPIView(ListAPIView):
 
     def get_queryset(self):
         kword = self.request.query_params.get('kword', '')
-        return vehicles.objects.filter(name__icontains = kword)
+        return vehicles.objects.filter(plate__icontains = kword)
+
+class CreateTypeVehicle(CreateAPIView):
+    serializer_class = TypesVehiclesSerializer
+
+class TypeVehicleList(ListAPIView):
+    serializer_class = TypesVehiclesSerializer
+
+    def get_queryset(self):
+        kword = self.request.query_params.get('kword', '')
+        return types.objects.filter(name__icontains = kword)

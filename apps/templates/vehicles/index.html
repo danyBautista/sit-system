@@ -44,7 +44,7 @@
                         <h6>{{page}} registradors</h6>
                         <p class="text-sm mb-0">
                             <i class="fa fa-users text-info"></i>
-                            <span class="font-weight-bold-ms-1">{{peoples.count}} Registros</span>
+                            <span class="font-weight-bold-ms-1">{{vehicles.count}} Registros</span>
                         </p>
                     </div>
                     <div class="col-lg-6 col-5 my-auto text-end">
@@ -122,20 +122,20 @@
                 </div>
             </div>
             <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
-            {% if peoples %}
+            {% if vehicles %}
                 <ul class="w-100 ps-0" v-if="!list_view">
-                    {% for item in peoples %}
+                    {% for items in vehicles %}
                     <li class="list-card">
                         <div class="card card-frame w-100 m-2">
                             <div class="card-body p-0">
-                                <a class="dropdown-item border-radius-md" href="{% url 'people.view' key_id=item.dni %}">
+                                <a class="dropdown-item border-radius-md" href="#">
                                     <div class="d-flex py-1">
                                         <div class="my-auto">
-                                            <img src="{{ item.user_photo_path.url }}" class="avatar avatar-sm  me-3 ">
+                                            <img src="#" class="avatar avatar-sm  me-3 ">
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="text-sm font-weight-normal mb-1 crop-text">
-                                                <span class="font-weight-bold">{{item.name}} {{item.first_name}} {{item.last_name}}</span>
+                                                <span class="font-weight-bold">{{item.plate}} {{item.first_name}} {{item.last_name}}</span>
                                             </h6>
                                             <p class="text-xs text-secondary mb-0 crop-text">
                                                 <i class="fa fa-envelope me-1"></i>
@@ -173,47 +173,56 @@
                         </div>
                     </li>
                 </ul>
-                {% else %}
-                    <div class="row mt-5 justify-content-md-center w-100">
-                        <div class="col-8">
-                            <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
-                                <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
-                            </div>
+            {% else %}
+                <div class="row mt-5 justify-content-md-center w-100">
+                    <div class="col-8">
+                        <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                            <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
                         </div>
                     </div>
-                {% endif %}
+                </div>
+            {% endif %}
             </div>
             <div class="card-body px-2 pb-2" v-if="icon_content">
-                {% if peoples %}
+                {% if vehicles %}
                 <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuario</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Funcion</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Vehiculo</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Caracteristicas</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Empresa</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Habilitado</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de cupleaños</th>
                             <th class="text-secondary opacity-7"></th>
                         </tr>
                     </thead>
                     <tbody v-if="!list_view">
-                        {% for item in peoples %}
+                        {% for item in vehicles %}
                         <tr>
                             <td>
-                                <a href="{% url 'people.view' key_id=item.dni %}">
+                                <a href="">
                                     <div class="d-flex px-2 py-1">
                                         <div>
                                             <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg" class="avatar avatar-sm me-3">
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">{{item.name}} {{item.first_name}} {{item.last_name}}</h6>
-                                            <p class="text-xs text-secondary mb-0">{{ item.email }}</p>
+                                            <h6 class="mb-0 text-xs">{{item.plate}}</h6>
+                                            <p class="text-xs text-secondary mb-0">{{ item.mark }} {{ item.model }}</p>
                                         </div>
                                     </div>
                                 </a>
                             </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs font-weight-normal">
+                                    <strong>Año de fabricacion :</strong>{{item.year_of_production}} - 
+                                    <strong>Longitud : </strong>{{item.longitude}}<br> 
+                                    <strong>Altura : </strong>{{item.height}} -
+                                    <strong>Ancho : </strong>{{item.broad}} -
+                                    <strong>Puertas de servicio</strong>{{item.service_door}}
+                                </span>
+                            </td>
                             <td>
-                                <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                <p class="text-xs text-secondary mb-0">Organization</p>
+                                <p class="text-xs font-weight-bold mb-0">{{item.business}}</p>
+                                <p class="text-xs text-secondary mb-0">{{item.business.ruc}}</p>
                             </td>
                             <td class="align-middle text-center text-sm">
                                 {% if item.status == True %}
@@ -221,9 +230,6 @@
                                 {% else %}
                                     <span class="badge badge-sm badge-secondary">Offline</span>
                                 {% endif %}
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-normal">{{item.birth_date}}</span>
                             </td>
                             <td class="align-middle">
                                 <div class="dropdown float-lg-end pe-4">

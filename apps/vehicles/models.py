@@ -8,7 +8,7 @@ class types(models.Model):
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True)
+    delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
         db_table = 'type'
@@ -31,7 +31,7 @@ class vehicles(models.Model):
     category = models.CharField(max_length=150)
     comment = models.TextField()
     business = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
-    users = models.ManyToManyField(people, blank=True)
+    owners = models.ManyToManyField(people, blank=True)
     terms = models.CharField(max_length=8)
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)

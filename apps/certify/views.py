@@ -1,12 +1,16 @@
+from apps.vehicles.models import vehicles
+from rest_framework.generics import ListAPIView
+from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.template import loader
-from apps.includes.sidebar.models import Sidebar
-from apps.business.forms import BusinessForm
-from apps.business.models import business
 from django.contrib import messages
 
+from django.template import loader
+from apps.includes.sidebar.models import Sidebar
+from apps.certify.models import soat
+
+from .serializers import SOATSerializer
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -19,3 +23,22 @@ class CertifyView(HttpResponse):
         context = {'segment': 'certify', 'sidebars': sidebar, 'title': title, 'page':'Certificados'}
         html_template = loader.get_template('certify/index.html')
         return HttpResponse(html_template.render(context, request))
+
+class ValidateLegal(HttpResponse):
+    def index(request):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=6)
+        print(request);
+        context = {'segment': 'certify', 'sidebars': sidebar, 'title': title, 'page':'Certificados'}
+        html_template = loader.get_template('certify/select.html')
+        return HttpResponse(html_template.render(context, request))
+
+""" services start here """
+class API_ValidateLegal(ListAPIView):
+    serializer_class = SOATSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['vehicles']
+
+    def get_queryset(self):
+        queryset = soat.objects.all().select_related('vehicles')
+        return queryset.filter(status = True)

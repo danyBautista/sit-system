@@ -4,9 +4,10 @@ Copyright (c) 2019 - present GlastHeim.pe
 """
 
 from django.urls import path, re_path
-from apps.validations.views import ListView, CreateView
+from apps.validations.views import ListView, SearchView, ValidateVehicle
 
 urlpatterns = [
     path('', ListView.index, name='validate.index'),
-    path('create/', CreateView.index, name='validate.create'),
+    path('search/', SearchView.index, name='validate.search'),
+    path('select/', ValidateVehicle.index, name='validate.val'),
 ]

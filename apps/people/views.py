@@ -2,7 +2,7 @@
 """
 Copyright (c) 2019 - present GlastHeim.pe
 """
-from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -87,6 +87,13 @@ class PeopleListAPIView(ListAPIView):
         kword = self.request.query_params.get('kword', '')
         return people.objects.filter(name__icontains = kword)
 
+class PeopleSearchDNI(ListAPIView):
+    serializer_class = PeopleSerializer
+
+    def get_queryset(self):
+        dni = self.request.query_params.get('kword', '')
+        return people.objects.filter(dni__icontains = dni)
+
 class SelectAPIView(ListAPIView):
     serializer_class = PeopleSerializer
 
@@ -114,3 +121,6 @@ class PeopleUpdateAPIView(UpdateAPIView):
                 PeopleSerializer.save()
                 return Response(PeopleSerializer.data)
             return Response(PeopleSerializer.errors)
+
+class PeopleCreateAPI(CreateAPIView):
+    serializer_class = PeopleSerializer

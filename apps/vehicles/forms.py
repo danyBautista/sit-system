@@ -1,3 +1,5 @@
+from django.contrib.admin.widgets import AutocompleteSelect
+from django.contrib import admin
 from django import forms
 
 from apps.vehicles.models import vehicles, types
@@ -7,7 +9,6 @@ class VehicleForm(forms.ModelForm):
 
     class Meta:
         """Meta definition for MODELNAMEform."""
-
         model = vehicles
 
         fields = [
@@ -23,6 +24,7 @@ class VehicleForm(forms.ModelForm):
             'category',
             'comment',
             'business',
+            'owners',
             'terms',
             'status',
         ]
@@ -44,19 +46,20 @@ class VehicleForm(forms.ModelForm):
         }
         widgets = {
             'plate' : forms.TextInput(attrs={'class':'form-control  form-control-lg'}),
-            'mark' : forms.TextInput(attrs={'class':'form-control form-control-md'}),
-            'model' : forms.TextInput(attrs={'class':'form-control form-control-md'}),
-            'year_of_production' : forms.TextInput(attrs={'class':'form-control', 'type':'number'}),
-            'longitude' : forms.TextInput(attrs={'class':'form-control', 'type': 'number'}),
-            'height' : forms.TextInput(attrs={'class':'form-control', 'type' : 'number'}),
-            'broad' : forms.TextInput(attrs={'class':'form-control', 'type': 'number'}),
-            'service_door' : forms.TextInput(attrs={'class':'form-control', 'type' : 'number'}),
-            'type' : forms.Select(attrs={'class':'form-control w-50'}),
-            'category' : forms.TextInput(attrs={'class':'form-control'}),
+            'mark' : forms.TextInput(attrs={'class':'form-control  form-control-sm'}),
+            'model' : forms.TextInput(attrs={'class':'form-control  form-control-sm'}),
+            'year_of_production' : forms.TextInput(attrs={'class':'form-control form-control-sm', 'type':'number'}),
+            'longitude' : forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+            'height' : forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+            'broad' : forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+            'service_door' : forms.TextInput(attrs={'class':'form-control form-control-sm', 'type' : 'number'}),
+            'type' :  forms.Select(attrs={'class':'form-control w-60'}),#AutocompleteSelect(                            vehicles._meta.get_field('type').remote_field,                            admin.site,                            attrs={'class':'form-control form-control-sm w-50'}                        ),
+            'category' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'comment' : forms.Textarea(attrs={'class':'form-control', 'rows' : '3'}),
             'business' : forms.Select(attrs={'class':'form-control w-80'}),
             'terms' : forms.Textarea(attrs={'class':'form-control', 'rows' : '3'}),
             'status' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'owners' : forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'})
         }
 
 class TypeVehicleForm():

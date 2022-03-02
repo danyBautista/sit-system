@@ -1,4 +1,5 @@
 import re
+from rest_framework.generics import CreateAPIView
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -8,6 +9,7 @@ from apps.business.forms import BusinessForm
 from apps.business.models import business
 from django.contrib import messages
 
+from .serializers import BusinessSerializers
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -15,7 +17,7 @@ class ListView(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=4)
-        context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Empresas'}
+        context = {'segment': 'business', 'sidebars': sidebar, 'title': title, 'page':'Empresas'}
         html_template = loader.get_template('business/index.html')
         return HttpResponse(html_template.render(context, request))
 
@@ -62,6 +64,10 @@ class BusinessCreate(HttpResponse):
         else:
             form = BusinessForm()
 
-        context = {'segment': 'vehicles', 'sidebars': sidebar, 'title': title, 'page':'Empresas', 'form' : form}
+        context = {'segment': 'business', 'sidebars': sidebar, 'title': title, 'page':'Empresas', 'form' : form}
         html_template = loader.get_template('business/create.html')
         return HttpResponse(html_template.render(context, request))
+
+""" services start here """
+class businessAPICreate(CreateAPIView):
+    serializer_class = BusinessSerializers
