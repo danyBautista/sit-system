@@ -126,16 +126,37 @@
                     <div class="card card-plain">
                         <div class="card-header pb-0 text-left">
                             <h5 class="">Registrar nuevo SOAT</h5>
-                            <p class="mb-0">Ingrese el nuevo tipo de vehiculo que sea adecuado para usted</p>
+                            <p class="mb-0">Ingrese los datos necesarios para el registro del SOAT</p>
                         </div>
                         <div class="card-body">
-                            <div class="input-group input-group-lg input-group-outline my-2">
-                                <label class="form-label">Nombre</label>
-                                <input v-model="name" type="text" class="form-control" name="name" autocomplete="off">
-                            </div>
-                            <div class="form-check form-switch">
-                                <input v-model="status" class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked="">
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Habilitado</label>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 px-1">
+                                    <div class="card h-100 ms-2">
+                                        <div class="card-header pb-0">
+                                            <h6>Subir archivo</h6>
+                                        </div>
+                                        <div class="card-body p-3"  >
+                                            <div class="form-control border dropzone" id="dropzone">
+                                                <div class="fallback">
+                                                    <input name="file" type="file" multiple />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 px-1">
+                                    <div class="card h-100 ms-2">
+                                        <div class="card-header pb-0">
+                                            <h6>Datos generales del SOAT</h6>
+                                        </div>
+                                        <div class="card-body p-3">
+                                            <div class="input-group input-group-lg input-group-outline my-2">
+                                                <label class="form-label">Placa de rodaje</label>
+                                                <input type="text" name="plate" maxlength="8" required="required" id="id_plate" class="form-control  form-control-lg" onfocus="focused(this)" onfocusout="defocused(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,4 +174,5 @@
 {% block javascripts %}
 
 <script src="/static/assets/vue/apps/validate/validate.operation.script.js"></script>
+<script src="/static/assets/js/plugins/dropzone.min.js"></script>
 {% endblock javascripts %}

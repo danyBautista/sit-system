@@ -1,4 +1,5 @@
 from django.db import models
+from apps.business.models import business
 
 # Create your models here.
 from apps.vehicles.models import vehicles
@@ -76,7 +77,7 @@ class categories(models.Model):
 class soat(models.Model):
     policy = models.CharField(max_length=8)
     certify = models.CharField(max_length=10)
-    insurance_company = models.CharField(max_length = 150)
+    insurance_company = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
     number = models.IntegerField()
     registration_date = models.DateTimeField()
     date_expiry = models.DateTimeField()
