@@ -3,7 +3,7 @@ from apps.business.models import business
 
 # Create your models here.
 from apps.vehicles.models import vehicles
-from apps.owner.models import owner
+from apps.people.models import people
 
 # Create your models here.
 class types_services(models.Model):
@@ -76,22 +76,22 @@ class categories(models.Model):
 
 class soat(models.Model):
     policy = models.CharField(max_length=8)
-    certify = models.CharField(max_length=10)
+    certify = models.CharField(max_length=10, null=True)
     insurance_company = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
     number = models.IntegerField()
     registration_date = models.DateTimeField()
     date_expiry = models.DateTimeField()
     category = models.ForeignKey(categories, null=True, blank=True, on_delete=models.CASCADE)
     vin_serie = models.CharField(max_length=15)
-    insured = models.CharField(max_length=150)
+    insured = models.CharField(max_length=150, blank=True, null=True)
     amount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     file = models.FileField(upload_to="soat", null=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
-    owners = models.ManyToManyField(owner)
+    owners = models.ManyToManyField(people, blank=True)
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True, blank=True)
+    delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
         db_table = 'SOAT'

@@ -14,7 +14,6 @@
                         <div class="col-8">
                             <div class="content position-relative mt-4 max-height-vh-100 h-100 ps-1">
                                 <form action="{% url 'validate.val' %}" method="POST">
-                                    
                                     {% csrf_token %}
                                     <div class="card me-2">
                                         <div class="card-header text-uppercase pb-0">
@@ -120,50 +119,149 @@
         </div>
     </div>
     <div class="modal fade" id="soat_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
-                    <div class="card card-plain">
-                        <div class="card-header pb-0 text-left">
-                            <h5 class="">Registrar nuevo SOAT</h5>
-                            <p class="mb-0">Ingrese los datos necesarios para el registro del SOAT</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 px-1">
-                                    <div class="card h-100 ms-2">
-                                        <div class="card-header pb-0">
-                                            <h6>Subir archivo</h6>
+                    <form action="{% url 'certify.create.soat' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card card-plain">
+                            <div class="card-header pb-0 text-left">
+                                <h5 class="">Registrar nuevo SOAT</h5>
+                                <p class="mb-0">Ingrese los datos necesarios para el registro del SOAT</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Cargar archivo</h6>
+                                            </div>
+                                            <div class="card-body p-3"  >
+                                                <div class="form-control border dropzone" id="dropzone">
+                                                    <div class="fallback">
+                                                        {{forms.SOAT_F.file}}
+                                                    </div>
+                                                </div>
+                                                <div class="form-check form-switch mt-4">
+                                                    {{forms.SOAT_F.status}}
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">SOAT habilitado</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="card-body p-3"  >
-                                            <div class="form-control border dropzone" id="dropzone">
-                                                <div class="fallback">
-                                                    <input name="file" type="file" multiple />
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Vigencia de la poliza</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="input-group input-group-lg input-group-outline my-2">
+                                                    <label class="form-label">N° de seguro</label>
+                                                    {{ forms.SOAT_F.policy}}
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-outline my-2">
+                                                    <label class="form-label">Certificado</label>
+                                                    {{ forms.SOAT_F.certify}}
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="input-group input-group-ms input-group-static my-2">
+                                                            <label>Fecha de registro</label>
+                                                            {{ forms.SOAT_F.registration_date}}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group input-group-ms input-group-static my-2">
+                                                            <label>Fecha de caducidad</label>
+                                                            {{ forms.SOAT_F.date_expiry}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="input-group input-group-lg input-group-static my-2">
+                                                    <label>Aseguradora</label>
+                                                    {{ forms.SOAT_F.insurance_company}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 px-1">
-                                    <div class="card h-100 ms-2">
-                                        <div class="card-header pb-0">
-                                            <h6>Datos generales del SOAT</h6>
-                                        </div>
-                                        <div class="card-body p-3">
-                                            <div class="input-group input-group-lg input-group-outline my-2">
-                                                <label class="form-label">Placa de rodaje</label>
-                                                <input type="text" name="plate" maxlength="8" required="required" id="id_plate" class="form-control  form-control-lg" onfocus="focused(this)" onfocusout="defocused(this)">
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <div class="card h-100">
+                                            <div class="card-header pb-0">
+                                                <h6>Vehículo asegurado</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="row">
+                                                    <input type="hidden" name="vehicles" value="{{unit.plate}}">
+                                                    <div class="col-md-6">
+                                                        <div>
+                                                            <small>Placa del vehiculo</small>
+                                                            <h5>{{unit.plate}}</h5>
+                                                        </div>
+                                                        <div>
+                                                            <small>Categoria</small>
+                                                            <h5>{{unit.category}}</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="input-group input-group-sm input-group-outline my-2">
+                                                            <label class="form-label">Vin / N° de serie</label>
+                                                            {{ forms.SOAT_F.vin_serie}}
+                                                        </div>
+                                                        <div class="input-group input-group-sm input-group-outline my-2">
+                                                            <label class="form-label">Importe Prima</label>
+                                                            {{ forms.SOAT_F.amount}}
+                                                        </div>
+                                                        <div class="input-group input-group-sm input-group-outline my-2">
+                                                            <label class="form-label">Numero</label>
+                                                            {{ forms.SOAT_F.number}}
+                                                        </div>
+                                                    </div>
+                                                    <hr class="dark horizontal my-2">
+                                                    <div class="overflow-auto overflow-y-auto w-lg-auto">
+                                                        {% for user in unit.owners.all %}
+                                                            <span class="chk-result badge bg-gradient-secondary py-1 mx-1">
+                                                                <input type="checkbox" class="d-none" name="owners" value="{{user.dni}}" id="{{user.dni}}" checked="checked">
+                                                                <span>{{user.name}} {{user.first_name}} {{user.last_name}}</span>
+                                                                <!--<button type="button" class="btn text-warning bg-transparent btn-sm mb-0 ms-2 p-1">
+                                                                    <span class="material-icons">
+                                                                        close
+                                                                    </span>
+                                                                </button>-->
+                                                            </span>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-link bg-gradient-secondary mb-0" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn bg-gradient-primary mb-0">Registrar</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-link bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn bg-gradient-primary" ">Registrar</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="citv_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+        <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content blur-dark">
+                <div class="modal-body p-0">
+                    <form action="{% url 'certify.create.soat' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card card-plain">
+                            <div class="card-header pb-0 text-left">
+                                <h5 class="">Registrar nuevo SOAT</h5>
+                                <p class="mb-0">Ingrese los datos necesarios para el registro del SOAT</p>
+                            </div>
+                            <div class="card-body"></div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

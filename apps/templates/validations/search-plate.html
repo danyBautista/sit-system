@@ -27,7 +27,7 @@
                                             </div>
                                             <div class="input-group input-group-lg input-group-addon input-group-outline my-4">
                                                 <label class="form-label">Buscar placa</label>
-                                                <input type="text" name="plate" class="form-control">
+                                                <input type="text" name="plate" class="form-control" autocomplete="off">
                                                 <button class="btn bg-gradient-secondary mb-0 px-3" type="submit" id="submit-search">
                                                     <span class="material-icons">
                                                         search
@@ -40,7 +40,7 @@
                                                 </small>
                                             </div>
                                         </div>
-                                        <div class="card-footer bg-warning text-white" v-if="footer">
+                                        <div class="card-footer bg-warning text-white d-none" v-if="footer">
                                             hola mundo
                                         </div>
                                     </div>

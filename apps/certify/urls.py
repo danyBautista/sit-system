@@ -8,6 +8,6 @@ from apps.certify import views
 
 urlpatterns = [
     path('', views.CertifyView, name='certify.index'),
-
+    path('create/soat', views.createAPI_SOAT.as_view(), name='certify.create.soat'),
     path('select/', views.ValidateLegal, name='certify.select')
 ]
