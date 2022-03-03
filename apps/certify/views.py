@@ -9,7 +9,7 @@ from django.template import loader
 from apps.includes.sidebar.models import Sidebar
 from apps.certify.models import soat
 from apps.certify.forms import SOATForm
-from .serializers import SOATSerializer
+from .serializers import SOATSerializer, CITVSerializer
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -60,3 +60,10 @@ class createAPI_SOAT(CreateAPIView):
     def post(self, *args, **kwargs):
         super().post(*args, **kwargs)
         return redirect('validate.val', plate=self.vehicles)
+
+class createAPI_CITV(CreateAPIView):
+    serializer_class = CITVSerializer
+
+    def post(self, *args, **kwargs):
+        super().post(*args, **kwargs)
+        return redirect('validate.val', plate=self.vehicle)

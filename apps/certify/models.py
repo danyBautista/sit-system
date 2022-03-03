@@ -48,7 +48,7 @@ class citv(models.Model):
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True, blank=True)
+    delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
         db_table = 'citv'

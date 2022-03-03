@@ -6,7 +6,7 @@ Copyright (c) 2019 - present glastheim.pe
 from dataclasses import fields
 from django import forms
 
-from apps.certify.models import soat
+from apps.certify.models import soat, citv
 
 class SOATForm(forms.ModelForm):
     class Meta:
@@ -57,5 +57,35 @@ class SOATForm(forms.ModelForm):
             'amount': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'file': forms.FileInput(attrs={'class':'form-control'}),
             'owners': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+        }
+
+class CITVForm(forms.ModelForm):
+    class Meta:
+        model = citv
+
+        fields = [
+            'id',
+            'Registration_date',
+            'expiration_date',
+            'inspection_result',
+            'comment',
+            'Type_of_inspection',
+            'file',
+            'vehicle',
+            'type_service',
+            'scope',
+            'status'
+        ]
+        widgets = {
+            'id': forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            'Registration_date': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),
+            'expiration_date':forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),
+            'inspection_result': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'comment' : forms.Textarea(attrs={'class':'form-control', 'rows': 3, 'placeholder': 'Comentarios'}),
+            'Type_of_inspection': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'file' : forms.FileInput(attrs={'class':'form-control'}),
+            'type_service': forms.Select(attrs={'class':'form-control'}),
+            'scope': forms.Select(attrs={'class':'form-control'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
         }

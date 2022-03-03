@@ -8,9 +8,9 @@ from django.contrib import messages
 import datetime
 
 from apps.vehicles.models import vehicles
-from apps.certify.models import soat
+from apps.certify.models import soat, citv
 
-from apps.certify.forms import SOATForm
+from apps.certify.forms import SOATForm, CITVForm
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -45,16 +45,23 @@ class ValidateVehicle(HttpResponse):
                 vehicle = vehicles.objects.filter(plate = pk, status = True).first()
                 if vehicle:
                     SOAT = soat.objects.filter(vehicles=pk, status=True).first()
+                    CITV = citv.objects.filter(vehicle=pk, status=True).first()
                 else:
                     return redirect('vehicles.create')
 
         form_soat = SOATForm()
+        form_citv = CITVForm()
         if SOAT:
             msg_soat = {'class': 'bg-gradient-success', 'icon': 'check', 'message': SOAT.policy, 'data': SOAT}
         else:
             msg_soat = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe SOAT', 'data': SOAT}
 
-        forms = {'SOAT_F': form_soat}
+        if CITV:
+            msg_citv = {'class': 'bg-gradient-success', 'icon': 'check', 'message': CITV.id, 'data': CITV}
+        else:
+            msg_citv = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe CITV', 'data': CITV}
+
+        forms = {'SOAT_F': form_soat, 'CITV_F': form_citv}
         context =   {
                         'segment': 'validate',
                         'sidebars': sidebar,
@@ -62,6 +69,7 @@ class ValidateVehicle(HttpResponse):
                         'page':'Validaciones',
                         'unit': vehicle,
                         'soat' : msg_soat,
+                        'citv' : msg_citv,
                         'forms' : forms
                     }
         html_template = loader.get_template('validations/validate.html')
