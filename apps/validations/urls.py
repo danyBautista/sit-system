@@ -11,5 +11,5 @@ urlpatterns = [
     path('search/', SearchView.index, name='validate.search'),
     path('select/', ValidateVehicle.index, name='validate.val'),
     path('procedure/<str:pk>', ProcedureRegister.index, name='procedure.register'),
-    path('procedure/create/', ProcedureCreate.index, name='procedure.create')
+    path('procedure/create/', ProcedureCreate.as_view(), name='procedure.create')
 ]

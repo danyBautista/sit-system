@@ -9,7 +9,7 @@ class routes(models.Model):
         (8,'C8'),(9,'C9'),(10,'C10'),(11,'C11'),
     )
     route = models.CharField(max_length=6)
-    concession = models.CharField(max_length=10, choices=CONCESSIONS, default=1)
+    concession = models.CharField(max_length=10, choices=CONCESSIONS, default='1')
     status = models.BooleanField()
     limit = models.IntegerField(null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -52,7 +52,7 @@ class procedure(models.Model):
     )
     proceedings = models.CharField(max_length=6)
     license_plate = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
-    check_date = models.DateField(auto_now_add=True)
+    check_date = models.DateField()
     qualification = models.CharField(max_length=30, choices=ANCIENT_PERIOD, default=1)
     id_route = models.ForeignKey(routes, null=True, blank=True, on_delete=models.CASCADE)
     ancient_period = models.CharField(max_length=30, choices=ANCIENT_PERIOD, default=1)

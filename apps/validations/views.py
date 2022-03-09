@@ -1,17 +1,27 @@
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+)
+from rest_framework.response import Response
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from apps.includes.sidebar.models import Sidebar
 from django.contrib import messages
-
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
 import datetime
 
 from apps.vehicles.models import vehicles
 from apps.certify.models import soat, citv, src, svct
+from apps.validations.models import routes
 
 from apps.certify.forms import SOATForm, CITVForm, SRCForm, SVCTForm
-from apps.validations.forms import RoutesForm
+from apps.validations.forms import RoutesForm, ProcedureForm
+
+from .serializers import RouteSerializer
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -113,33 +123,13 @@ class ProcedureRegister(HttpResponse):
         unit = vehicles.objects.get(plate = pk)
 
         ROUTE_F = RoutesForm()
-
-        forms = {'form_r': ROUTE_F}
+        PROCEDURE_F = ProcedureForm
+        forms = {'form_r': ROUTE_F, 'form_p' : PROCEDURE_F}
 
         context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones', 'unit': unit, 'forms': forms}
         html_template = loader.get_template('procedure/create.html')
         return HttpResponse(html_template.render(context, request))
 
-@login_required(login_url='/login/')
-class ProcedureCreate(HttpResponse):
-    def index(request):
-        sidebar = Sidebar.objects.all()
-        title = Sidebar.objects.get(id=5)
-        plate = request.POST.get('plate', '')
-        form = RoutesForm(request.POST)
-        if request.method == "POST":
-            if form.is_valid():
-                route = form.cleaned_data.get("route")
-                concession = form.cleaned_data.get("concession")
-                limit = form.cleaned_data.get("limit")
-                status = form.cleaned_data.get("status")
-                form.save()
-            else:
-                messages.error(request, form)
-            return redirect('/validations/procedure', plate)
-        else:
-            form = RoutesForm()
 
-        context = {'segment': 'vehicles', 'sidebars': sidebar, 'title': title, 'page':'Vehiculos', 'form' : form}
-        html_template = loader.get_template('vehicles/create.html')
-        return HttpResponse(html_template.render(context, request))
+class ProcedureCreate(CreateAPIView):
+    serializer_class = RouteSerializer
