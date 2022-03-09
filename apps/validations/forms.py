@@ -33,11 +33,13 @@ class ProcedureForm(forms.ModelForm):
             'proceedings',
             'check_date',
             'id_route',
-            'status'
+            'status',
+            'due_date'
             ]
         widgets = {
             'proceedings' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off'}),
             'check_date' : forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
             'id_route' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'due_date':forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
         }
