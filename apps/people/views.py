@@ -13,6 +13,7 @@ from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
 from apps.people.models import people
 from apps.includes.sidebar.models import Sidebar
 from apps.people.forms import PeopleForm

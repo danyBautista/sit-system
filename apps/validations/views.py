@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from apps.includes.sidebar.models import Sidebar
@@ -8,9 +8,10 @@ from django.contrib import messages
 import datetime
 
 from apps.vehicles.models import vehicles
-from apps.certify.models import soat, citv
+from apps.certify.models import soat, citv, src, svct
 
-from apps.certify.forms import SOATForm, CITVForm
+from apps.certify.forms import SOATForm, CITVForm, SRCForm, SVCTForm
+from apps.validations.forms import RoutesForm
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -46,11 +47,15 @@ class ValidateVehicle(HttpResponse):
                 if vehicle:
                     SOAT = soat.objects.filter(vehicles=pk, status=True).first()
                     CITV = citv.objects.filter(vehicle=pk, status=True).first()
+                    SRC = src.objects.filter(vehicles=pk, status=True).first()
+                    SVCT = svct.objects.filter(vehicles=pk, status=True).first()
                 else:
                     return redirect('vehicles.create')
 
         form_soat = SOATForm()
         form_citv = CITVForm()
+        form_src = SRCForm()
+        form_svct = SVCTForm()
         if SOAT:
             msg_soat = {'class': 'bg-gradient-success', 'icon': 'check', 'message': SOAT.policy, 'data': SOAT}
         else:
@@ -61,7 +66,17 @@ class ValidateVehicle(HttpResponse):
         else:
             msg_citv = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe CITV', 'data': CITV}
 
-        forms = {'SOAT_F': form_soat, 'CITV_F': form_citv}
+        if SRC and SVCT:
+            msg_seg = {'class': 'bg-gradient-success', 'icon': 'check', 'message': SRC.id, 'data': SRC}
+        else:
+            msg_seg = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe seguros', 'data': SRC}
+
+        if SOAT and CITV and SRC and SVCT:
+            disable = ""
+        else:
+            disable = "disabled"
+
+        forms = {'SOAT_F': form_soat, 'CITV_F': form_citv, 'SRC_F': form_src, 'SVCT_F': form_svct}
         context =   {
                         'segment': 'validate',
                         'sidebars': sidebar,
@@ -70,7 +85,9 @@ class ValidateVehicle(HttpResponse):
                         'unit': vehicle,
                         'soat' : msg_soat,
                         'citv' : msg_citv,
-                        'forms' : forms
+                        'segc' : msg_seg,
+                        'forms' : forms,
+                        'disable' : disable
                     }
         html_template = loader.get_template('validations/validate.html')
         return HttpResponse(html_template.render(context, request))
@@ -84,4 +101,45 @@ class SelectView(HttpResponse):
         title = Sidebar.objects.get(id=7)
         context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones'}
         html_template = loader.get_template('validations/select.html')
+        return HttpResponse(html_template.render(context, request))
+
+
+@login_required(login_url='/login/')
+# Create your views here.
+class ProcedureRegister(HttpResponse):
+    def index(request, pk):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=7)
+        unit = vehicles.objects.get(plate = pk)
+
+        ROUTE_F = RoutesForm()
+
+        forms = {'form_r': ROUTE_F}
+
+        context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones', 'unit': unit, 'forms': forms}
+        html_template = loader.get_template('procedure/create.html')
+        return HttpResponse(html_template.render(context, request))
+
+@login_required(login_url='/login/')
+class ProcedureCreate(HttpResponse):
+    def index(request):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=5)
+        plate = request.POST.get('plate', '')
+        form = RoutesForm(request.POST)
+        if request.method == "POST":
+            if form.is_valid():
+                route = form.cleaned_data.get("route")
+                concession = form.cleaned_data.get("concession")
+                limit = form.cleaned_data.get("limit")
+                status = form.cleaned_data.get("status")
+                form.save()
+            else:
+                messages.error(request, form)
+            return redirect('/validations/procedure', plate)
+        else:
+            form = RoutesForm()
+
+        context = {'segment': 'vehicles', 'sidebars': sidebar, 'title': title, 'page':'Vehiculos', 'form' : form}
+        html_template = loader.get_template('vehicles/create.html')
         return HttpResponse(html_template.render(context, request))

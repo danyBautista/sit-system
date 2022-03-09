@@ -6,7 +6,7 @@ Copyright (c) 2019 - present glastheim.pe
 from dataclasses import fields
 from django import forms
 
-from apps.certify.models import soat, citv
+from apps.certify.models import soat, citv, src, svct
 
 class SOATForm(forms.ModelForm):
     class Meta:
@@ -88,4 +88,42 @@ class CITVForm(forms.ModelForm):
             'type_service': forms.Select(attrs={'class':'form-control'}),
             'scope': forms.Select(attrs={'class':'form-control'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+        }
+
+class SRCForm(forms.ModelForm):
+    class Meta:
+        model = src
+
+        fields = {
+            'name',
+            'registration_date',
+            'date_expiry',
+            'file',
+            'status'
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            'registration_date': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),
+            'date_expiry': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),
+            'file': forms.FileInput(attrs={'class':'form-control'}),
+            'status': forms.CheckboxInput(attrs={'class':'form-check-input'})
+        }
+
+class SVCTForm(forms.ModelForm):
+    class Meta:
+        model = svct
+
+        fields = {
+            'name',
+            'registration_date',
+            'date_expiry',
+            'file',
+            'status'
+        }
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            'registration_date': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),
+            'date_expiry': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),
+            'file': forms.FileInput(attrs={'class':'form-control'}),
+            'status': forms.CheckboxInput(attrs={'class':'form-check-input'})
         }

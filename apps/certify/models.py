@@ -106,12 +106,12 @@ class src(models.Model):
     name = models.CharField(max_length=150)
     registration_date = models.DateTimeField()
     date_expiry = models.DateTimeField()
-    file = models.FileField(upload_to="people", null=True)
+    file = models.FileField(upload_to="src", null=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
-    delete_at = models.DateTimeField(null=True, blank=True)
+    delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
         db_table = 'SRC'
@@ -126,12 +126,12 @@ class svct(models.Model):
     name = models.CharField(max_length=150)
     registration_date = models.DateTimeField()
     date_expiry = models.DateTimeField()
-    file = models.FileField(upload_to="people", null=True)
+    file = models.FileField(upload_to="svct", null=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True,null=True)
-    delete_at = models.DateTimeField(null=True, blank=True)
+    delete_at = models.DateTimeField(auto_now=True,null=True, blank=True)
 
     class Meta:
         db_table = 'SVCT'

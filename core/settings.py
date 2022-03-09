@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'apps.certify',
     'apps.owner',
     'apps.people',
-    'apps.business'
+    'apps.business',
+    'apps.procedure',
 ]
 
 MIDDLEWARE = [
