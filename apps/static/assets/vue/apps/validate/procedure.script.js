@@ -22,7 +22,14 @@ new Vue({
             {
                 axios.get('/certificate/api/select/soat/' + license_plate.val())
                 .then( function(response){
-                    console.log(Object.keys(response.data).length)
+                    reslg = Object.keys(response.data).length
+                    if(reslf > 1 )
+                    {
+                        alert('mayor a uno')
+                    }
+                    else{
+                        alert('igual a uno')
+                    }
                 })
                 .catch(function(error){
                     console.log(error)
