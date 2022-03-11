@@ -11,16 +11,16 @@
 
     <div class="container-fluid p-1">
         <div class="bg-light max-height-vh-90">
-            <div class="position-sticky z-index-sticky top-0 me-3 scrollspy-example" id="vehicles" data-bs-spy="scroll" data-bs-offset="0">
+            <div class="position-sticky z-index-sticky top-0 me-3 scrollspy-example" id="procedure" data-bs-spy="scroll" data-bs-offset="0">
                 <form action="{% url 'vehicles.create' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <nav class="navbar shadow-lg rounded navbar-expand-lg z-index-3 position-fixed w-form pt-4 blur-gradient-primary start-0 end-0 mx-0 bg-light">
                         <div class="container-fluid ps-2 pe-0">
-                            <a href="{% url 'validate.index' %}" class="btn btn-link px-1 me-3" @click="$emit('close')">
+                            <a href="{% url 'validate.create' %}" class="btn btn-link px-1 me-3" @click="$emit('close')">
                                 <i class="material-icons opacity-10">close</i>
                             </a>
                             <div class="navbar-brand font-weight-bolder ms-lg-0 ms-3 brand-form">
-                                Nuevo registro
+                                {$ title $}
                             </div>
                             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon mt-2">
@@ -49,7 +49,7 @@
                         <div class="col-12">
                             <div class="position-relative mt-3 max-height-vh-100 h-100 ps">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 px-1">
+                                    <div class="col-lg-3 col-md-3 px-1">
                                         <div class="card h-100 ms-2">
                                             <div class="card-header pb-0">
                                                 <h6>Datos del expediente</h6>
@@ -59,50 +59,38 @@
                                                     <label class="form-label">Expediente</label>
                                                     {{forms.form_p.proceedings}}
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="d-flex">
-                                                            <div class="input-group input-group-sm input-group-static">
-                                                                <label for="exampleFormControlSelect1" class="ms-0">Ruta</label>
-                                                                {{forms.form_p.id_route}}
-                                                            </div>
-                                                            <button class="btn bg-gradient-success h-50 mt-3 btn-sm d-flex mb-0" type="button" id="btn-route" data-bs-toggle="modal" data-bs-target="#routes">
-                                                                <span class="material-icons">
-                                                                    add
-                                                                </span>
-                                                            </button>
-                                                        </div>
+                                                <div class="d-flex">
+                                                    <div class="input-group input-group-sm input-group-static">
+                                                        <label for="exampleFormControlSelect1" class="ms-0">Ruta</label>
+                                                        {{forms.form_p.route}}
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="input-group input-group-sm input-group-static">
-                                                            <label>Fecha de Control</label>
-                                                            {{forms.form_p.check_date}}
-                                                        </div>
-                                                    </div>
+                                                    <button class="btn bg-gradient-success h-50 mt-3 btn-sm d-flex mb-0" type="button" id="btn-route" data-bs-toggle="modal" data-bs-target="#routes">
+                                                        <span class="material-icons">
+                                                            add
+                                                        </span>
+                                                    </button>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-check form-switch d-flex align-items-center mt-3">
-                                                            {{forms.form_p.status}}
-                                                            <label class="form-check-label mb-0 ms-3" for="rememberMe">Expediente habilitada</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="input-group input-group-sm input-group-static">
-                                                            <label>fecha de vencimiento</label>
-                                                            {{forms.form_p.due_date}}
-                                                        </div>
-                                                    </div>
+                                                <div class="input-group input-group-sm input-group-static">
+                                                    <label>Fecha de Control</label>
+                                                    {{forms.form_p.check_date}}
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static">
+                                                    <label>fecha de vencimiento</label>
+                                                    {{forms.form_p.due_date}}
+                                                </div>
+                                                <div class="form-check form-switch d-flex align-items-center mt-3">
+                                                    {{forms.form_p.status}}
+                                                    <label class="form-check-label mb-0 ms-3" for="rememberMe">Expediente habilitada</label>
                                                 </div>
                                                 <hr class="dark horizontal my-2">
                                                 <div>
-                                                    <ul class="px-2 me-sm-n4 ct-docs-content-col">
+                                                    <ul class="px-2 me-sm-n4 ct-docs-content-col list-unstyled">
                                                         <li class="mb-2 me-2">
-                                                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                                            <a class="dropdown-item border-radius-md" href="javascript:;"  id="btn-route" data-bs-toggle="modal" data-bs-target="#contracts">
                                                                 <div class="d-flex py-1">
                                                                     <div class="my-auto">
-                                                                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                            <i class="material-icons opacity-10">privacy_tip</i>
+                                                                        <div id="icon-contract" class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                            <i class="material-icons opacity-10" >privacy_tip</i>
                                                                         </div>
                                                                     </div>
                                                                     <div class="d-flex flex-column justify-content-center">
@@ -110,15 +98,16 @@
                                                                             <span class="font-weight-bold">Contrato</span>
                                                                         </h5>
                                                                     </div>
-                                                                    <small class="text-uppercase d-flex mt-2 ms-1">ninguno</small>
+                                                                    <input type="hidden" name="contract" id="contract">
+                                                                    <small class="text-uppercase d-flex mt-2 ms-1" id="code">ninguno</small>
                                                                 </div>
                                                             </a>
                                                         </li>
                                                         <li class="mb-2 me-2">
-                                                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                                                            <a class="dropdown-item border-radius-md" href="javascript:;" id="id_authorization" data-bs-toggle="modal" data-bs-target="#authorization">
                                                                 <div class="d-flex py-1">
                                                                     <div class="my-auto">
-                                                                        <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                        <div id="icon-authorization" class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
                                                                             <i class="material-icons opacity-10">privacy_tip</i>
                                                                         </div>
                                                                     </div>
@@ -127,17 +116,18 @@
                                                                             <span class="font-weight-bold">Autorizacion</span>
                                                                         </h5>
                                                                     </div>
-                                                                    <small class="text-uppercase d-flex mt-2 ms-1">ninguno</small>
+                                                                    <input type="hidden" name="contract" id="id_autorization">
+                                                                    <small class="text-uppercase d-flex mt-2 ms-1" id="code_autrization">ninguno</small>
                                                                 </div>
                                                             </a>
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <button type="button" class="btn btn-secondary btn-lg w-100 my-2">Verificar</button>
+                                                <button type="button" class="btn btn-secondary btn-lg w-100 my-2" @click="validateOptions()">Verificar</button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 px-1">
+                                    <div class="col-lg-9 col-md-9 px-1">
                                         <div class="card h-100 me-2">
                                             <div class="card-header pb-0">
                                                 <h6>Datos generales del vehiculo</h6>
@@ -145,14 +135,16 @@
                                             <div class="card-body p-3">
                                                 <input type="hidden" name="vehicles" value="{{pk}}">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-3">
                                                         <small>Placa del vehiculo</small>
                                                         <h3><i class="fa fa-bus text-success me-3"></i>{{unit.plate}}</h3>
+                                                        <input type="hidden" name="license_plate" id="id_license_plate" value="{{unit.plate}}" readonly>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-9">
                                                         <small>Propietarios</small>
                                                         {% for user in unit.owners.all %}
                                                         <span class="chk-result badge bg-gradient-secondary py-1 mx-1">
+                                                            <input type="checkbox" name="owner" id="id_owner" value="{{ user.dni }}" checked class="d-none">
                                                             <span><i class="fa fa-user me-2"></i>{{user.name}} {{user.first_name}} {{user.last_name}}</span>
                                                         </span>
                                                         {% endfor %}
@@ -186,19 +178,17 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-header pb-0">
-                                                <h6>Verificacion de estado</h6>
-                                            </div>
                                             <div class="card-body p-3">
                                                 <div class="row">
-                                                    <div class="col-12">
-                                                        <ul class="px-2 me-sm-n4 ct-docs-content-col">
-                                                            <li class="mb-2 me-5">
+                                                    <div class="col-md-4">
+                                                        <ul class="px-2 me-sm-n2 list-group list-unstyled">
+                                                            <li class="mb-2">
                                                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">check</i>
+                                                                            <div :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', scolor]" >
+                                                                                <i class="material-icons opacity-10" v-if="score_icon">question_mark</i>
+                                                                                <i class="fas fa-sync fa-spin me-1" v-if="score_load"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
@@ -206,58 +196,218 @@
                                                                                 <span class="font-weight-bold">Calificacion</span>
                                                                             </h5>
                                                                         </div>
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">aceptado</small>
+                                                                        {{forms.form_p.score}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">{$ score_text $}</small>
                                                                     </div>
                                                                 </a>
                                                             </li>
-                                                            <li class="mb-2 me-5">
+                                                            <li class="mb-2">
                                                                 <a class="dropdown-item border-radius-md" href="#">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
                                                                             <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">check</i>
+                                                                                <i class="material-icons opacity-10">question_mark</i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
                                                                             <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">Tarjeta de propiedad</span>
+                                                                                <span class="font-weight-bold ">Antigüedad</span>
                                                                             </h5>
                                                                         </div>
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">SI</small>
+                                                                        {{forms.form_p.seniority_period}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">Observado</small>
                                                                     </div>
                                                                 </a>
                                                             </li>
-                                                            <li class="mb-2 me-5">
+                                                            <li class="mb-2">
                                                                 <a class="dropdown-item border-radius-md" href="#">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
                                                                             <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">check</i>
+                                                                                <i class="material-icons opacity-10">question_mark</i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
                                                                             <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">Periodo de Antiguedad</span>
+                                                                                <span class="font-weight-bold ">Habilitacion</span>
                                                                             </h5>
                                                                         </div>
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">aceptado</small>
+                                                                        {{forms.form_p.enabled}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">Observado</small>
                                                                     </div>
                                                                 </a>
                                                             </li>
-                                                            <li class="mb-2 me-5">
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <ul class="px-2 me-sm-n2 list-group list-unstyled">
+                                                            <li class="mb-2">
                                                                 <a class="dropdown-item border-radius-md" href="#">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
                                                                             <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">check</i>
+                                                                                <i class="material-icons opacity-10">question_mark</i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
                                                                             <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">Boletín Informativo de RR PP</span>
+                                                                                {{forms.form_p.soat}}
+                                                                                <span class="font-weight-bold ">SOAT</span>
                                                                             </h5>
                                                                         </div>
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">si</small>
+                                                                        {{forms.form_p.soat_status}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">INDETERMINADO</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                {{forms.form_p.citv}}
+                                                                                <span class="font-weight-bold ">CITV</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.citv_status}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">INDETERMINADO</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                {{forms.form_p.src}}
+                                                                                <span class="font-weight-bold ">SRC</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.src_status}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">INDETERMINADO</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                {{forms.form_p.svct}}
+                                                                                <span class="font-weight-bold ">svct</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.svct_status}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">INDETERMINADO</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <ul class="px-2 me-sm-n2 list-group list-unstyled">
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                <span class="font-weight-bold ">tarjeta de propiedad</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.property_card}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">NO</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                <span class="font-weight-bold ">Boletin informativo RRPP</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.RRPP_Newsletter}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                <span class="font-weight-bold ">Contrato de Vinculacion</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.bonding_contract}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                <span class="font-weight-bold ">Autorización Vehicular</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.vehicle_authorization}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="d-flex py-1">
+                                                                        <div class="my-auto">
+                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
+                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="d-flex flex-column justify-content-center">
+                                                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                                                <span class="font-weight-bold ">Verificación en el SISTRAN</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                        {{forms.form_p.check_sistran}}
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
                                                                     </div>
                                                                 </a>
                                                             </li>
@@ -295,8 +445,8 @@
                         <input type="hidden" name="vehicles" value="{{unit.plate}}">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-left">
-                                <h5 class="">Registrar nuevo CITV</h5>
-                                <p class="mb-0">Ingrese los datos necesarios para el registro del SOAT</p>
+                                <h5 class="">Registrar nueva Ruta</h5>
+                                <p class="mb-0">Ingrese los datos necesarios para el registro nueva RUTA</p>
                             </div>
                             <div class="card-body">
                                 <div class="input-group input-group-lg input-group-outline my-3">
@@ -325,6 +475,163 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="contracts" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content blur-dark">
+                <div class="modal-body p-0">
+                    <form action="{% url 'procedure.create' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="vehicles" value="{{unit.plate}}">
+                        <div class="card card-plain">
+                            <div class="card-header pb-0 text-left">
+                                <h5 class="">Registrar nueva contrato</h5>
+                                <p class="mb-0">Ingrese los datos necesarios para el registro nueva RUTA</p>
+                                <button class="btn me-1 bg-gradient-info d-flex align-self-end float-end mt-n6" type="button" @click="CreateContract()">
+                                    <i class="material-icons opacity-10">check</i>
+                                    Guardar registro
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Datos del contrato</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="input-group input-group-lg input-group-outline mt-0 mb-3">
+                                                    <label class="form-label">Codigo del contrato</label>
+                                                    <input type="text" v-model="code" class="form-control form-control-lg">
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static my-3">
+                                                    <label >Fecha de registro</label>
+                                                    <input type="date" v-model="registration_date" class="form-control form-control-sm">
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static my-3">
+                                                    <label>Fecha de vencimiento</label>
+                                                    <input type="date" v-model="due_date" class="form-control form-control-sm">
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" v-model="stts" type="checkbox" id="flexSwitchCheckDefault" checked="">
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Contrato vigente</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Subir documento</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="form-control border dropzone" id="dropzone">
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" @change="onFileChange"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="authorization" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content blur-dark">
+                <div class="modal-body p-0">
+                    <form action="{% url 'procedure.create' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="vehicles" value="{{unit.plate}}">
+                        <div class="card card-plain">
+                            <div class="card-header pb-0 text-left">
+                                <h5 class="">Registrar nueva contrato</h5>
+                                <p class="mb-0">Ingrese los datos necesarios para el registro nueva RUTA</p>
+                                <button class="btn me-1 bg-gradient-info d-flex align-self-end float-end mt-n6" type="button" @click="createAuthorization()">
+                                    <i class="material-icons opacity-10">check</i>
+                                    Guardar registro
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Datos del contrato </h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="input-group input-group-lg input-group-outline mt-0 mb-3">
+                                                    <label class="form-label">Codigo del Documento</label>
+                                                    <input type="text" v-model="code" class="form-control form-control-lg">
+                                                </div>
+                                                <div class="input-group input-group-static">
+                                                    <label for="exampleFormControlSelect2" class="ms-0">Habilitacion</label>
+                                                    <select multiple="" class="form-control pb-4" id="exampleFormControlSelect2">
+                                                        <option value="Observado" selected>Observado</option>
+                                                        <option value="Aceptado">Aceptar</option>
+                                                        <option value="Rechazado">Recharzar</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" v-model="stts" type="checkbox" id="flexSwitchCheckDefault" checked="">
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Contrato vigente</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Subir documento</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="form-control border dropzone" id="dropzone">
+                                                    <div class="fallback">
+                                                        <input name="file" type="file" @change="onFileChange"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+        <div class="modal-dialog modal-lg modal-dialog-scrollable modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <div class="card card-plain">
+                        <div class="card-header pb-0 d-flex text-left">
+                            <div id="bg-message" :class="['border-radius-lg', 'text-center', 'me-3', 'py-2', 'px-3', 'align-items-center', 'justify-content-center', gbMessage]">
+                                <i id="icon" class="material-icons opacity-10 text-white mb-0 h3">question_mark</i>
+                            </div>
+                            <div class="w-90">
+                                <h5 id="title-mesage">{$title$}</h5>
+                                <p class="mb-0" id="content">{$content$}</p>
+                            </div>
+                        </div>
+                        <div class="card-body py-0">
+                            <div id="content-body"></div>
+                            <hr class="dark horizontal my-2">
+                            <button id="bg-btn-message" :class="['btn', 'me-1', 'd-flex', 'align-self-end', 'float-end', gbMessage]" type="button" @click="closeMessage()">
+                                <i class="material-icons opacity-10">check</i>
+                                Aceptar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
@@ -336,5 +643,9 @@
         $('.select-single').select2();
     });
 </script>
-<script src="/static/assets/vue/apps/validate/register.script.js"></script>
+<script src="/static/assets/vue/apps/validate/routes.script.js"></script>
+<script src="/static/assets/vue/apps/validate/contracts.script.js"></script>
+<script src="/static/assets/vue/apps/validate/authorization.script.js"></script>
+<script src="/static/assets/vue/apps/validate/procedure.script.js"></script>
+<script src="/static/assets/vue/apps/validate/message.script.js"></script>
 {% endblock javascripts %}

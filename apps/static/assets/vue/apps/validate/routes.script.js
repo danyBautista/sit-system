@@ -29,7 +29,7 @@ new Vue({
             }
             axios({
                 method: 'POST',
-                url: '/validations/procedure/create/',
+                url: '../api/route/create/',
                 headers: headers,
                 data: data_create
             })

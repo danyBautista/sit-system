@@ -1,15 +1,20 @@
+from xmlrpc.client import boolean
 from django.db import models
 
+from apps.people.models import people
 from apps.vehicles.models import vehicles
+from apps.certify.models import soat, citv, src, svct
 # Create your models here.
 
 class routes(models.Model):
     CONCESSIONS = (
-        (1,'C1'),(2,'C2'),(3,'C3'),(4,'C4'),(5,'C5'),(6,'C6'),(7,'C7'),
-        (8,'C8'),(9,'C9'),(10,'C10'),(11,'C11'),
+        ('C1', 'C1'),('C2','C2'),('C3','C3'),('C4','C4'),('C5','C5'),('C6','C6'),('C7','C7'),
+        ('C8','C8'),('C9','C9'),('C10','C10'),('C11','C11'),
     )
     route = models.CharField(max_length=6)
     concession = models.CharField(max_length=10, choices=CONCESSIONS, default='1')
+    short_name = models.CharField(max_length=50, null=True)
+    road = models.TextField(null=True)
     status = models.BooleanField()
     limit = models.IntegerField(null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -22,13 +27,13 @@ class routes(models.Model):
         verbose_name_plural = 'route'
 
     def __str__(self):
-        return self.route
+        return self.concession + " - " + self.route
 
 class binding_contracts(models.Model):
-    code = models.CharField(max_length=6)
+    code = models.CharField(max_length=16)
     registration_date = models.DateField()
     due_date = models.DateField()
-    document = models.FileField('binding_contratcs', null=True, blank=True)
+    document = models.FileField(upload_to='binding_contratcs', null=True, blank=True)
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
@@ -42,24 +47,42 @@ class authorization_documents(models.Model):
     )
     code = models.CharField(max_length=6)
     enabled = models.CharField(max_length=30, choices=SKILLED, default=1)
+    file = models.FileField(upload_to='authorizacion_doc', null=True, blank=True)
     status = models.BooleanField()
 
 class procedure(models.Model):
-    ANCIENT_PERIOD = (
-        (1, 'Aceptado'),
-        (2, 'Rechazado'),
-        (3, 'Observado')
+    PROFILE = (
+        ('ACEPTADO', 'Aceptado'),
+        ('RECHAZADO', 'Rechazado'),
+        ('OBSERVADO', 'Observado')
+    )
+    VALIDITY = (
+        ('VIGENTE', 'vigente'),
+        ('NO VIGENTE', 'No vigente'),
+        ('INDETERMINADO', 'Indeterminado')
     )
     proceedings = models.CharField(max_length=6)
-    license_plate = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     check_date = models.DateField()
-    qualification = models.CharField(max_length=30, choices=ANCIENT_PERIOD, default=1)
-    id_route = models.ForeignKey(routes, null=True, blank=True, on_delete=models.CASCADE)
-    ancient_period = models.CharField(max_length=30, choices=ANCIENT_PERIOD, default=1)
+    license_plate = models.ForeignKey(vehicles, on_delete=models.CASCADE, default='000000')
+    route = models.ForeignKey(routes, null=True, blank=True, on_delete=models.CASCADE)
+    score = models.CharField(max_length=9, choices=PROFILE)
     property_card = models.BooleanField()
-    RRPP_Newsletter = models.CharField(max_length=2)
+    seniority_period = models.CharField(max_length=9, choices=PROFILE)
+    soat = models.ForeignKey(soat, null=True, blank=True, on_delete=models.CASCADE)
+    soat_status = models.CharField(max_length=13, choices=VALIDITY)
+    citv = models.ForeignKey(citv, null=True, blank=True, on_delete=models.CASCADE)
+    citv_status = models.CharField(max_length=13, choices=VALIDITY)
+    src = models.ForeignKey(src, null=True, blank=True, on_delete=models.CASCADE)
+    src_status = models.CharField(max_length=13, choices=VALIDITY)
+    svct = models.ForeignKey(svct, null=True, blank=True, on_delete=models.CASCADE)
+    svct_status = models.CharField(max_length=13, choices=VALIDITY)
+    RRPP_Newsletter = models.BooleanField()
+    owner = models.ManyToManyField(people)
     contract = models.ForeignKey(binding_contracts, null=True, blank=True, on_delete=models.CASCADE)
-    bonding = models.BooleanField()
+    bonding_contract =  models.BooleanField()
+    enabled = models.CharField(max_length=9, choices=PROFILE)
+    vehicle_authorization  =  models.BooleanField()
+    check_sistran  =  models.BooleanField()
     due_date = models.DateField()
     status = models.BooleanField()
     authorization = models.ForeignKey(authorization_documents, blank=True, null=True, on_delete=models.CASCADE)
@@ -74,3 +97,10 @@ class procedure(models.Model):
 
     def __str__(self):
         return self.proceedings
+
+class vehicle_replacement_process(models.Model):
+    procedure = models.ForeignKey(procedure, null=True, blank=True, on_delete=models.CASCADE)
+    plate = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
+    informative_ticket = models.BooleanField()
+    vehicle_autorizacion = models.BooleanField()
+    status = models.BooleanField()

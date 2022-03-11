@@ -16,12 +16,12 @@ import datetime
 
 from apps.vehicles.models import vehicles
 from apps.certify.models import soat, citv, src, svct
-from apps.validations.models import routes
+from apps.validations.models import routes, procedure
 
 from apps.certify.forms import SOATForm, CITVForm, SRCForm, SVCTForm
 from apps.validations.forms import RoutesForm, ProcedureForm
 
-from .serializers import RouteSerializer
+from .serializers import RouteSerializer, BindingContractsSerializer, AuthorizationDocumentSerializer
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -133,3 +133,15 @@ class ProcedureRegister(HttpResponse):
 
 class ProcedureCreate(CreateAPIView):
     serializer_class = RouteSerializer
+
+class ContractCreate(CreateAPIView):
+    serializer_class = BindingContractsSerializer
+
+class authorizaitonCreate(CreateAPIView):
+    serializer_class = AuthorizationDocumentSerializer
+
+class ValidateCreate(CreateView):
+    model = procedure
+    template_name = 'procedure/create.html'
+    fields = '__all__'
+    success_url = "/create"
