@@ -54,10 +54,10 @@ class API_ValidateLegal(ListAPIView):
         queryset = soat.objects.all().select_related('vehicles')
         return queryset.filter(status = True)
 
-class createAPI_SOAT(CreateAPIView):
+class createAPI_SOAT(CreateView):
     serializer_class = SOATSerializer
 
-    def post(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         super().post(*args, **kwargs)
         return redirect('validate.val')
 
@@ -66,6 +66,7 @@ class createAPI_CITV(CreateAPIView):
 
     def post(self, *args, **kwargs):
         super().post(*args, **kwargs)
+        print(self)
         return redirect('validate.search')
 
 class createAPI_SRC(CreateAPIView):
