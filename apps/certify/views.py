@@ -54,7 +54,7 @@ class API_ValidateLegal(ListAPIView):
         queryset = soat.objects.all().select_related('vehicles')
         return queryset.filter(status = True)
 
-class createAPI_SOAT(CreateView):
+class createAPI_SOAT(CreateAPIView):
     serializer_class = SOATSerializer
 
     def get(self, *args, **kwargs):
