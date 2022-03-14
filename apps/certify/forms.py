@@ -47,7 +47,7 @@ class SOATForm(forms.ModelForm):
         widgets = {
             'policy' : forms.TextInput(attrs={'class':'form-control form-control-lg'}),
             'certify': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-            'insurance_company': forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'insurance_company': forms.Select(attrs={'class':'form-control form-control-sm select-single', 'style': 'width:100%'}),
             'number': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'registration_date': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),
             'date_expiry': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type': 'date'}),

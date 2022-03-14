@@ -3,7 +3,7 @@
 {% block title %} Dashboard {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}<link href="/static/assets/css/select2.min.css" rel="stylesheet">{% endblock stylesheets %}
 
 {% block content %}
     <div class="container-fluid py-4 ps-1">
@@ -13,112 +13,110 @@
                     <div class="row justify-content-md-center" id="operations">
                         <div class="col-8">
                             <div class="content position-relative mt-4 max-height-vh-100 h-100 ps-1">
-                                <form action="{% url 'validate.val' %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="card me-2">
-                                        <div class="card-header text-uppercase pb-0">
-                                            <h6>placa n°: {{unit.plate}} - {{unit.business}}</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row my-4">
-                                                <div class="col-md-4">
-                                                    <div class="card" data-animation="true">
-                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                                            <div class="icon icon-lg icon-shape {{soat.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                                                                <i class="material-icons opacity-10">{{soat.icon}}</i>
-                                                            </div>
-                                                            <a class="d-block blur-shadow-image">
-                                                                <img src="/static/assets/img/law.png" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                                                            </a>
-                                                            <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/law.png&quot;);"></div>
+                                {% csrf_token %}
+                                <div class="card me-2">
+                                    <div class="card-header text-uppercase pb-0">
+                                        <h6>placa n°: {{unit.plate}} - {{unit.business}}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row my-4">
+                                            <div class="col-md-4">
+                                                <div class="card" data-animation="true">
+                                                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                        <div class="icon icon-lg icon-shape {{soat.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                            <i class="material-icons opacity-10">{{soat.icon}}</i>
                                                         </div>
-                                                        <div class="card-body text-center">
-                                                            <div class="d-flex mt-n6 mx-auto">
-                                                                <a class="btn btn-link text-success ms-auto border-0" title="Crear" id="btn-soat" data-bs-toggle="modal" data-bs-target="#soat_form">
-                                                                    <i class="material-icons text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom">add</i>
-                                                                </a>
-                                                                <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar" type="button">
-                                                                    <i class="material-icons text-lg">edit</i>
-                                                                </button>
-                                                            </div>
-                                                            <h5 class="font-weight-normal mt-3">
-                                                                <a href="javascript:;">Validacion Legal</a>
-                                                            </h5>
-                                                        </div>
-                                                        <hr class="dark horizontal my-0">
-                                                        <div class="card-footer">
-                                                            <small>{{soat.message}}</small>
-                                                        </div>
+                                                        <a class="d-block blur-shadow-image">
+                                                            <img src="/static/assets/img/law.png" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                        </a>
+                                                        <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/law.png&quot;);"></div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="card" data-animation="true">
-                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                                            <div class="icon icon-lg icon-shape  {{citv.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                                                                <i class="material-icons opacity-10"> {{citv.icon}}</i>
-                                                            </div>
-                                                            <a class="d-block blur-shadow-image">
-                                                                <img src="/static/assets/img/technician.png" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                    <div class="card-body text-center">
+                                                        <div class="d-flex mt-n6 mx-auto">
+                                                            <a class="btn btn-link text-success ms-auto border-0" title="Crear" id="btn-soat" data-bs-toggle="modal" data-bs-target="#soat_form">
+                                                                <i class="material-icons text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom">add</i>
                                                             </a>
-                                                            <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/technician.png&quot;);"></div>
+                                                            <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar" type="button">
+                                                                <i class="material-icons text-lg">edit</i>
+                                                            </button>
                                                         </div>
-                                                        <div class="card-body text-center">
-                                                            <div class="d-flex mt-n6 mx-auto">
-                                                                <a class="btn btn-link text-success ms-auto border-0" id="btn-citv" data-bs-toggle="modal" data-bs-target="#citv_form">
-                                                                    <i class="material-icons text-lg">add</i>
-                                                                </a>
-                                                                <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
-                                                                    <i class="material-icons text-lg">edit</i>
-                                                                </button>
-                                                            </div>
-                                                            <h5 class="font-weight-normal mt-3">
-                                                                <a href="javascript:;">Validacion tecnica</a>
-                                                            </h5>
-                                                        </div>
-                                                        <hr class="dark horizontal my-0">
-                                                        <div class="card-footer">
-                                                            <small>{{citv.message}}</small>
-                                                        </div>
+                                                        <h5 class="font-weight-normal mt-3">
+                                                            <a href="javascript:;">Validacion Legal</a>
+                                                        </h5>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="card" data-animation="true">
-                                                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                                            <div class="icon icon-lg icon-shape {{segc.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                                                                <i class="material-icons opacity-10">{{segc.icon}}</i>
-                                                            </div>
-                                                            <a class="d-block blur-shadow-image">
-                                                                <img src="/static/assets/img/insurance.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                                                            </a>
-                                                            <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/insurance.jpg&quot;);"></div>
-                                                        </div>
-                                                        <div class="card-body text-center">
-                                                            <div class="d-flex mt-n6 mx-auto">
-                                                                <a class="btn btn-link text-success ms-auto border-0" id="btn-seg" data-bs-toggle="modal" data-bs-target="#seg_form">
-                                                                    <i class="material-icons text-lg">add</i>
-                                                                </a>
-                                                                <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
-                                                                    <i class="material-icons text-lg">edit</i>
-                                                                </button>
-                                                            </div>
-                                                            <h5 class="font-weight-normal mt-3">
-                                                                <a href="javascript:;">Validacion seguro</a>
-                                                            </h5>
-                                                        </div>
-                                                        <hr class="dark horizontal my-0">
-                                                        <div class="card-footer">
-                                                            <small>{{segc.message}}</small>
-                                                        </div>
+                                                    <hr class="dark horizontal my-0">
+                                                    <div class="card-footer">
+                                                        <small>{{soat.message}}</small>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <a href="{% url 'procedure.register' pk=unit.plate %}" class="btn bg-gradient-warning btn-lg w-100 text-uppercase" {{disable}}> Continuar con el tramite</a>
+                                            <div class="col-md-4">
+                                                <div class="card" data-animation="true">
+                                                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                        <div class="icon icon-lg icon-shape  {{citv.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                            <i class="material-icons opacity-10"> {{citv.icon}}</i>
+                                                        </div>
+                                                        <a class="d-block blur-shadow-image">
+                                                            <img src="/static/assets/img/technician.png" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                        </a>
+                                                        <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/technician.png&quot;);"></div>
+                                                    </div>
+                                                    <div class="card-body text-center">
+                                                        <div class="d-flex mt-n6 mx-auto">
+                                                            <a class="btn btn-link text-success ms-auto border-0" id="btn-citv" data-bs-toggle="modal" data-bs-target="#citv_form">
+                                                                <i class="material-icons text-lg">add</i>
+                                                            </a>
+                                                            <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                                                                <i class="material-icons text-lg">edit</i>
+                                                            </button>
+                                                        </div>
+                                                        <h5 class="font-weight-normal mt-3">
+                                                            <a href="javascript:;">Validacion tecnica</a>
+                                                        </h5>
+                                                    </div>
+                                                    <hr class="dark horizontal my-0">
+                                                    <div class="card-footer">
+                                                        <small>{{citv.message}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card" data-animation="true">
+                                                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                        <div class="icon icon-lg icon-shape {{segc.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                            <i class="material-icons opacity-10">{{segc.icon}}</i>
+                                                        </div>
+                                                        <a class="d-block blur-shadow-image">
+                                                            <img src="/static/assets/img/insurance.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                        </a>
+                                                        <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/insurance.jpg&quot;);"></div>
+                                                    </div>
+                                                    <div class="card-body text-center">
+                                                        <div class="d-flex mt-n6 mx-auto">
+                                                            <a class="btn btn-link text-success ms-auto border-0" id="btn-seg" data-bs-toggle="modal" data-bs-target="#seg_form">
+                                                                <i class="material-icons text-lg">add</i>
+                                                            </a>
+                                                            <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                                                                <i class="material-icons text-lg">edit</i>
+                                                            </button>
+                                                        </div>
+                                                        <h5 class="font-weight-normal mt-3">
+                                                            <a href="javascript:;">Validacion seguro</a>
+                                                        </h5>
+                                                    </div>
+                                                    <hr class="dark horizontal my-0">
+                                                    <div class="card-footer">
+                                                        <small>{{segc.message}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="card-footer bg-warning text-white" v-if="footer">
-                                            hola mundo
-                                        </div>
+                                        <a href="{% url 'procedure.register' pk=unit.plate %}" class="btn bg-gradient-warning btn-lg w-100 text-uppercase {{disable}}"> Continuar con el tramite</a>
                                     </div>
-                                </form>
+                                    <div class="card-footer bg-warning text-white" v-if="footer">
+                                        hola mundo
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -470,7 +468,13 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="/static/assets/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select-single').select2();
+    });
+</script>
 <script src="/static/assets/vue/apps/validate/validate.operation.script.js"></script>
 <script src="/static/assets/js/plugins/dropzone.min.js"></script>
 {% endblock javascripts %}

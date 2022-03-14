@@ -7,7 +7,8 @@ new Vue({
         search: true,
         validate: false,
         footer: false,
-        plate: ''
+        plate: '',
+        message: ''
     },
     methods : {
         searchPlate : function(){
@@ -16,16 +17,20 @@ new Vue({
             {
                 axios.get('../../vehicles/api/search/?kword=' + this.plate)
                 .then(function(response){
-                    self.title = 'Placa N°: ' + response.data[0].plate
-                    self.search = false
-                    self.validate= true
+                    reslg = Object.keys(response.data).length
+                    console.log(response)
+                    if(reslg == 1)
+                        window.location.href = "../../validations/select/" + self.plate
+                    else
+                        window.location.href = "../../vehicles/create/"
                 })
                 .catch(function(error){
                     console.log(error)
                 })
             }
             else{
-                this.plate = 'Ingrese una placa para continuar'
+                this.message = 'No registro ninguna placa vehicular.'
+                this.footer = true
             }
         },
         CreateSOAT : function(){

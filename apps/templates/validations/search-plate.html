@@ -13,38 +13,36 @@
                     <div class="row justify-content-md-center" id="operations">
                         <div class="col-8">
                             <div class="content position-relative mt-4 max-height-vh-100 h-100 ps-1">
-                                <form action="{% url 'validate.val' %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="card me-2">
-                                        <div class="card-header text-uppercase pb-0">
-                                            <h6>BUSCAR PLACA</h6>
+                                {% csrf_token %}
+                                <div class="card me-2">
+                                    <div class="card-header text-uppercase pb-0">
+                                        <h6>{$ title $}</h6>
+                                    </div>
+                                    <div class="card-body pt-4" v-if="search">
+                                        <div >
+                                            <small>
+                                                Para iniciar un registro nuevo registro ingrese una placa de vehiculo para poder continuar con el registro.
+                                            </small>
                                         </div>
-                                        <div class="card-body pt-4" v-if="search">
-                                            <div >
-                                                <small>
-                                                    Para iniciar un registro nuevo registro ingrese una placa de vehiculo para poder continuar con el registro.
-                                                </small>
-                                            </div>
-                                            <div class="input-group input-group-lg input-group-addon input-group-outline my-4">
-                                                <label class="form-label">Buscar placa</label>
-                                                <input type="text" name="plate" class="form-control" autocomplete="off">
-                                                <button class="btn bg-gradient-secondary mb-0 px-3" type="submit" id="submit-search">
-                                                    <span class="material-icons">
-                                                        search
-                                                    </span>
-                                                </button>
-                                            </div>
-                                            <div class=" mb-4">
-                                                <small>
-                                                    En caso de que la placa que ingreso no existe, registre un nuevo vehiculo mediante el <a class="link-info" href="{% url 'vehicles.create' %}">siguiente enlace</a> .
-                                                </small>
-                                            </div>
+                                        <div class="input-group input-group-lg input-group-addon input-group-outline my-4">
+                                            <label class="form-label">Buscar placa</label>
+                                            <input type="text" v-model="plate" name="plate" class="form-control" autocomplete="off">
+                                            <button class="btn bg-gradient-secondary mb-0 px-3" type="button" id="submit-search" v-on:keyup.enter="searchPlate()" @click="searchPlate()">
+                                                <span class="material-icons">
+                                                    search
+                                                </span>
+                                            </button>
                                         </div>
-                                        <div class="card-footer bg-warning text-white d-none" v-if="footer">
-                                            hola mundo
+                                        <div class=" mb-4">
+                                            <small>
+                                                En caso de que la placa que ingreso no existe, registre un nuevo vehiculo mediante el <a class="link-info" href="{% url 'vehicles.create' %}">siguiente enlace</a> .
+                                            </small>
                                         </div>
                                     </div>
-                                </form>
+                                    <div class="card-footer bg-warning text-white" v-if="footer">
+                                        <h6 id="title-mesage text-white">{$message$}</h6>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

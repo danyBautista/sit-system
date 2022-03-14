@@ -43,29 +43,25 @@ class SearchView(HttpResponse):
         return HttpResponse(html_template.render(context, request))
 
 class ValidateVehicle(HttpResponse):
-    def index(request):
+    def index(request, pk):
+        print(pk)
         msg_soat = dict
         now = datetime.datetime.now()
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)
-        if request.method == "POST":
-            pk = request.POST.get('plate', '')
-            if pk == '':
-                return redirect('validate.search')
-            else:
-                vehicle = vehicles.objects.filter(plate = pk, status = True).first()
-                if vehicle:
-                    SOAT = soat.objects.filter(vehicles=pk, status=True).first()
-                    CITV = citv.objects.filter(vehicle=pk, status=True).first()
-                    SRC = src.objects.filter(vehicles=pk, status=True).first()
-                    SVCT = svct.objects.filter(vehicles=pk, status=True).first()
-                else:
-                    return redirect('vehicles.create')
+
+        vehicle = vehicles.objects.filter(plate = pk, status = True).first()
+
+        SOAT = soat.objects.filter(vehicles=pk, status=True).first()
+        CITV = citv.objects.filter(vehicle=pk, status=True).first()
+        SRC = src.objects.filter(vehicles=pk, status=True).first()
+        SVCT = svct.objects.filter(vehicles=pk, status=True).first()
 
         form_soat = SOATForm()
         form_citv = CITVForm()
         form_src = SRCForm()
         form_svct = SVCTForm()
+
         if SOAT:
             msg_soat = {'class': 'bg-gradient-success', 'icon': 'check', 'message': SOAT.policy, 'data': SOAT}
         else:

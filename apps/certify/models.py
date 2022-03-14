@@ -75,8 +75,8 @@ class categories(models.Model):
         return self.name
 
 class soat(models.Model):
-    policy = models.CharField(max_length=8)
-    certify = models.CharField(max_length=10, null=True)
+    policy = models.CharField(max_length=15)
+    certify = models.CharField(max_length=15, null=True)
     insurance_company = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
     number = models.IntegerField()
     registration_date = models.DateField()
