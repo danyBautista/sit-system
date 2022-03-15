@@ -13,5 +13,7 @@ urlpatterns = [
     path('create/src', views.createAPI_SRC.as_view(), name='certify.create.src'),
     path('create/svct', views.createAPI_SVCT.as_view(), name='certify.create.svct'),
     path('select/', views.ValidateLegal, name='certify.select'),
-    path('api/select/soat/<plate>', views.API_ValidateLegal.as_view(), name='select.soat')
+    path('api/select/soat/', views.API_ValidateLegalSOAT.as_view(), name='select.soat'),
+    path('api/select/citv/', views.API_ValidateLegalCITV.as_view(), name='select.citv'),
+    path('api/select/src/', views.API_ValidateLegalSRC.as_view(), name='select.src')
 ]

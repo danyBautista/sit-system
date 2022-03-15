@@ -12,6 +12,7 @@ from apps.includes.sidebar.models import Sidebar
 from apps.certify.models import citv, soat, src, svct
 from apps.certify.forms import CITVForm, SOATForm, SRCForm, SVCTForm
 from .serializers import SOATSerializer, CITVSerializer, SRCSerializer, SVCTSerializer
+from apps.certify import serializers
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -48,13 +49,29 @@ class CreateSOAT(HttpResponse):
         return redirect('validate.val', pk=plate)
 
 """ services start here """
-class API_ValidateLegal(ListAPIView):
+class API_ValidateLegalSOAT(ListAPIView):
     serializer_class = SOATSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['vehicles']
 
     def get_queryset(self):
         queryset = soat.objects.all().select_related('vehicles')
+        return queryset.filter(status = True)
+
+class API_ValidateLegalCITV(ListAPIView):
+    serializer_class = CITVSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['vehicle']
+    def get_queryset(self):
+        queryset = citv.objects.all().select_related('vehicle')
+        return queryset.filter(status = True)
+
+class API_ValidateLegalSRC(ListAPIView):
+    serializer_class = SRCSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['vehicles']
+    def get_queryset(self):
+        queryset = src.objects.all().select_related('vehicles')
         return queryset.filter(status = True)
 
 class createAPI_SOAT(CreateView):

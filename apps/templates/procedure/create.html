@@ -246,8 +246,7 @@
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
                                                                             <div :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', soatcolor]" >
-                                                                                <i class="material-icons opacity-10" v-if="soat_icon">{$ soat_mark $}</i>
-                                                                                <i class="fas fa-sync fa-spin me-1" v-if="soat_load"></i>
+                                                                                <i :class="['fas', soaticon, 'me-1', 'opacity-10']"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
@@ -265,8 +264,8 @@
                                                                 <a class="dropdown-item border-radius-md" href="#">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            <div  :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', citvcolor]" >
+                                                                                <i :class="['fas', citvicon, 'me-1']"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
@@ -276,7 +275,7 @@
                                                                             </h5>
                                                                         </div>
                                                                         {{forms.form_p.citv_status}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">INDETERMINADO</small>
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">{$citv_text$}</small>
                                                                     </div>
                                                                 </a>
                                                             </li>
@@ -284,8 +283,8 @@
                                                                 <a class="dropdown-item border-radius-md" href="#">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            <div :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', srccolor]">
+                                                                                <i :class="['fas', srcicon, 'me-1']"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
@@ -295,7 +294,7 @@
                                                                             </h5>
                                                                         </div>
                                                                         {{forms.form_p.src_status}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">INDETERMINADO</small>
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">{$src_text$}</small>
                                                                     </div>
                                                                 </a>
                                                             </li>

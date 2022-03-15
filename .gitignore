@@ -30,6 +30,7 @@ apps/static/assets/yarn.lock
 apps/static/assets/.temp
 
 # media
-
 core/media/*
 
+# settings
+core/settings.py
