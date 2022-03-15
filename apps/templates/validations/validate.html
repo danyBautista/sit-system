@@ -260,7 +260,7 @@
                 <div class="modal-body p-0">
                     <form action="{% url 'certify.create.citv' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <input type="hidden" name="vehicleS" value="{{unit.plate}}">
+                        <input type="hidden" name="vehicle" value="{{unit.plate}}">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-left">
                                 <h5 class="">Registrar nuevo CITV</h5>
@@ -345,7 +345,6 @@
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
-                    <input type="hidden" name="vehicle" value="{{unit.plate}}">
                     <div class="card card-plain">
                         <div class="card-body">
                             <nav>
@@ -358,6 +357,7 @@
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                     <form action="{% url 'certify.create.src' %}" method="POST" enctype="multipart/form-data">
                                         {% csrf_token %}
+                                        <input type="hidden" name="vehicles" value="{{unit.plate}}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 px-1">
                                                 <div class="card h-100 ms-2">
@@ -409,6 +409,7 @@
                                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                     <form action="{% url 'certify.create.svct' %}" method="POST" enctype="multipart/form-data">
                                         {% csrf_token %}
+                                        <input type="hidden" name="vehicles" value="{{unit.plate}}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 px-1">
                                                 <div class="card h-100 ms-2">

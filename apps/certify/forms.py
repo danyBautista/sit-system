@@ -99,6 +99,7 @@ class SRCForm(forms.ModelForm):
             'registration_date',
             'date_expiry',
             'file',
+            'vehicles',
             'status'
         }
         widgets = {
@@ -118,6 +119,7 @@ class SVCTForm(forms.ModelForm):
             'registration_date',
             'date_expiry',
             'file',
+            'vehicles',
             'status'
         }
         widgets = {
