@@ -74,6 +74,14 @@ class API_ValidateLegalSRC(ListAPIView):
         queryset = src.objects.all().select_related('vehicles')
         return queryset.filter(status = True)
 
+class API_ValidateLegalSVCT(ListAPIView):
+    serializer_class = SVCTSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['vehicles']
+    def get_queryset(self):
+        queryset = svct.objects.all().select_related('vehicles')
+        return queryset.filter(status = True)
+
 class createAPI_SOAT(CreateView):
     model = soat
     form_class = SOATForm

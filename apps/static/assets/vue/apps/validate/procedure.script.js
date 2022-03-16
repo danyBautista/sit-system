@@ -3,9 +3,8 @@ new Vue({
     delimiters: ['{$','$}'],
     data:{
         title : 'Nuevo registro',
-        score_icon: true,
-        score_load: false,
-        scolor: 'text-dark',
+        scoreicon: 'fa-question',
+        scorecolor: 'text-dark',
         score_text: 'Observado',
 
         soaticon: 'fa-question',
@@ -14,16 +13,19 @@ new Vue({
 
         citvcolor: 'text-dark',
         citvicon: 'fa-question',
-        citv_text: 'Vigente',
+        citv_text: 'Indeterminado',
 
         srccolor: 'text-dark',
         srcicon: 'fa-question',
-        src_text: 'Vigente'
+        src_text: 'Indeterminado',
+
+        svctcolor: 'text-dark',
+        svcticon: 'fa-question',
+        svct_text: 'Indeterminado'
     },
     methods: {
         validateOptions : function(){
-            this.score_icon = false
-            this.score_load = true
+            this.scoreicon = 'fa-sync fa-spin'
             this.scolor = 'text-info',
             this.score_text = 'Procesando...'
 
@@ -75,6 +77,41 @@ new Vue({
                                                 self.srccolor = 'text-success'
                                                 self.srcicon = 'fa-check'
                                                 self.src_text = 'Vigente'
+                                                $('#id_src_status').val(self.src_text)
+                                                $('#id_src').val(response.data[0].id)
+                                                axios.get('/certificate/api/select/svct/?vehicles=' + license_plate.val())
+                                                .then(function(response){
+                                                    self.svctcolor = 'text-info'
+                                                    self.svcticon = 'fa-sync fa-spin'
+                                                    self.svct_text = 'Procesando...'
+                                                    var _count = Object.keys(response.data).length
+                                                    if(_count == 1){
+                                                        self.svctcolor = 'text-success'
+                                                        self.svcticon = 'fa-check'
+                                                        self.svct_text = 'Vigente'
+                                                        $('#id_svct_status').val(self.src_text)
+                                                        $('#id_svct').val(response.data[0].id)
+
+                                                        self.scoreicon = 'fa-check'
+                                                        self.scorecolor = 'text-success'
+                                                        self.score_text = 'aceptado'
+                                                        $('#id_score').val(self.score_text)
+                                                    }else{
+                                                        self.svctcolor = 'text-warning'
+                                                        self.svct_text = 'No vigente'
+                                                        self.svcticon = 'fa-exclamation'
+
+                                                        message =   [
+                                                            'Existe mas de un SVCT',
+                                                            'Actualmente encontramos ' + _count + ' registros para esta placa',
+                                                            ''
+                                                        ]
+                                                        self.ViewMessage('info', message);
+                                                    }
+                                                })
+                                                .catch(function(error){
+                                                    console.log(error)
+                                                })
                                             }
                                             else{
                                                 self.srccolor = 'text-warning'

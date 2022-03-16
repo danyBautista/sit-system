@@ -183,12 +183,55 @@
                                                     <div class="col-md-4">
                                                         <ul class="px-2 me-sm-n2 list-group list-unstyled">
                                                             <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="form-check">
+                                                                        {{forms.form_p.property_card}}
+                                                                        <label class="custom-control-label mb-0" for="customCheck1">tarjeta de propiedad</label>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="form-check">
+                                                                        {{forms.form_p.RRPP_Newsletter}}
+                                                                        <label class="custom-control-label mb-0" for="customCheck1">Boletin informativo RRPP</label>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="form-check">
+                                                                        {{forms.form_p.bonding_contract}}
+                                                                        <label class="custom-control-label mb-0" for="customCheck1">Contrato de Vinculacion</label>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="form-check">
+                                                                        {{forms.form_p.vehicle_authorization}}
+                                                                        <label class="custom-control-label mb-0" for="customCheck1">Autorización Vehicular</label>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li class="mb-2">
+                                                                <a class="dropdown-item border-radius-md" href="#">
+                                                                    <div class="form-check">
+                                                                        {{forms.form_p.check_sistran}}
+                                                                        <label class="custom-control-label mb-0" for="customCheck1">Verificación en el SISTRAN</label>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <ul class="px-2 me-sm-n2 list-group list-unstyled">
+                                                            <li class="mb-2">
                                                                 <a class="dropdown-item border-radius-md" href="javascript:;">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
-                                                                            <div :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', scolor]" >
-                                                                                <i class="material-icons opacity-10" v-if="score_icon">question_mark</i>
-                                                                                <i class="fas fa-sync fa-spin me-1" v-if="score_load"></i>
+                                                                            <div :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', scorecolor]" >
+                                                                                <i :class="['fas', scoreicon, 'me-1']"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
@@ -302,8 +345,8 @@
                                                                 <a class="dropdown-item border-radius-md" href="#">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            <div :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', svctcolor]">
+                                                                                <i :class="['fas', svcticon, 'me-1']"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
@@ -313,106 +356,13 @@
                                                                             </h5>
                                                                         </div>
                                                                         {{forms.form_p.svct_status}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">INDETERMINADO</small>
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">{$svct_text$}</small>
                                                                     </div>
                                                                 </a>
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <ul class="px-2 me-sm-n2 list-group list-unstyled">
-                                                            <li class="mb-2">
-                                                                <a class="dropdown-item border-radius-md" href="#">
-                                                                    <div class="d-flex py-1">
-                                                                        <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex flex-column justify-content-center">
-                                                                            <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">tarjeta de propiedad</span>
-                                                                            </h5>
-                                                                        </div>
-                                                                        {{forms.form_p.property_card}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">NO</small>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li class="mb-2">
-                                                                <a class="dropdown-item border-radius-md" href="#">
-                                                                    <div class="d-flex py-1">
-                                                                        <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex flex-column justify-content-center">
-                                                                            <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">Boletin informativo RRPP</span>
-                                                                            </h5>
-                                                                        </div>
-                                                                        {{forms.form_p.RRPP_Newsletter}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li class="mb-2">
-                                                                <a class="dropdown-item border-radius-md" href="#">
-                                                                    <div class="d-flex py-1">
-                                                                        <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex flex-column justify-content-center">
-                                                                            <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">Contrato de Vinculacion</span>
-                                                                            </h5>
-                                                                        </div>
-                                                                        {{forms.form_p.bonding_contract}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li class="mb-2">
-                                                                <a class="dropdown-item border-radius-md" href="#">
-                                                                    <div class="d-flex py-1">
-                                                                        <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex flex-column justify-content-center">
-                                                                            <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">Autorización Vehicular</span>
-                                                                            </h5>
-                                                                        </div>
-                                                                        {{forms.form_p.vehicle_authorization}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                            <li class="mb-2">
-                                                                <a class="dropdown-item border-radius-md" href="#">
-                                                                    <div class="d-flex py-1">
-                                                                        <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="d-flex flex-column justify-content-center">
-                                                                            <h5 class="text-sm font-weight-normal mt-2">
-                                                                                <span class="font-weight-bold ">Verificación en el SISTRAN</span>
-                                                                            </h5>
-                                                                        </div>
-                                                                        {{forms.form_p.check_sistran}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">no</small>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
