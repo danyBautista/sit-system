@@ -7,6 +7,10 @@ new Vue({
         scorecolor: 'text-dark',
         score_text: 'Observado',
 
+        pericon : 'fa-question',
+        percolor: 'text-dark',
+        per_text: 'Observado',
+
         soaticon: 'fa-question',
         soatcolor: 'text-dark',
         soat_text: 'Indeterminado',
@@ -31,8 +35,15 @@ new Vue({
 
             var license_plate = $('#id_license_plate')
             var date_check = $('#id_check_date')
+            var year = $('#id_year_of_production')
+
+            this.pericon = 'fa-sync fa-spin'
+            this.percolor = 'text-info'
+            this.per_text = 'Procesando...'
 
             var self = this;
+
+            var date = new Date(date_check.val())
             if(license_plate.val() != '' && date_check.val() != '')
             {
                 axios.get('/certificate/api/select/soat/?vehicles=' + license_plate.val())
@@ -96,6 +107,32 @@ new Vue({
                                                         self.scorecolor = 'text-success'
                                                         self.score_text = 'aceptado'
                                                         $('#id_score').val(self.score_text)
+
+                                                        axios.get('../api/control/year/')
+                                                        .then(function(response){
+                                                            if(date.getFullYear() - year.val() <= response.data[0].years_antiquity)
+                                                            {
+                                                                self.pericon = 'fa-check'
+                                                                self.percolor = 'text-success'
+                                                                self.per_text = 'aceptado'
+                                                                $('#id_seniority_period').val(self.per_text)
+                                                            }
+                                                            else{
+                                                                self.percolor = 'text-warning'
+                                                                self.per_text = 'No vigente'
+                                                                self.pericon = 'fa-exclamation'
+
+                                                                message =   [
+                                                                    'Periodo de antiguedad',
+                                                                    'Actualemte el vehiculo excede el periodo de antiguedad inppuesto por ' + response.data[0].years_antiquity,
+                                                                    ''
+                                                                ]
+                                                                self.ViewMessage('warning', message);
+                                                            }
+                                                        })
+                                                        .catch(function(error){
+
+                                                        })
                                                     }else{
                                                         self.svctcolor = 'text-warning'
                                                         self.svct_text = 'No vigente'

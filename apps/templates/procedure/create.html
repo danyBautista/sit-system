@@ -11,12 +11,12 @@
 
     <div class="container-fluid p-1">
         <div class="bg-light max-height-vh-90">
-            <div class="position-sticky z-index-sticky top-0 me-3 scrollspy-example" id="procedure" data-bs-spy="scroll" data-bs-offset="0">
-                <form action="{% url 'vehicles.create' %}" method="POST" enctype="multipart/form-data">
+            <div class="top-0 me-3 scrollspy-example" id="procedure" data-bs-spy="scroll" data-bs-offset="0">
+                <form action="{% url 'validate.create' %}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <nav class="navbar shadow-lg rounded navbar-expand-lg z-index-3 position-fixed w-form pt-4 blur-gradient-primary start-0 end-0 mx-0 bg-light">
                         <div class="container-fluid ps-2 pe-0">
-                            <a href="{% url 'validate.create' %}" class="btn btn-link px-1 me-3" @click="$emit('close')">
+                            <a href="{% url 'validate.index' %}" class="btn btn-link px-1 me-3" @click="$emit('close')">
                                 <i class="material-icons opacity-10">close</i>
                             </a>
                             <div class="navbar-brand font-weight-bolder ms-lg-0 ms-3 brand-form">
@@ -58,6 +58,7 @@
                                                 <div class="input-group input-group-lg input-group-outline my-3">
                                                     <label class="form-label">Expediente</label>
                                                     {{forms.form_p.proceedings}}
+                                                    {{forms.form_p.year_proceeding}}
                                                 </div>
                                                 <div class="d-flex">
                                                     <div class="input-group input-group-sm input-group-static">
@@ -137,9 +138,10 @@
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <small>Placa del vehiculo</small>
-                                                        <h3><i class="fa fa-bus text-success me-3"></i>{{unit.plate}}</h3>
+                                                        <h3 class="mb-0"><i class="fa fa-bus text-success me-3"></i>{{unit.plate}}</h3>
+                                                        <h6><small>{{unit.year_of_production}}</small></h6>
                                                         <input type="hidden" name="license_plate" id="id_license_plate" value="{{unit.plate}}" readonly>
-                                                    </div>
+                                                        <input type="hidden" name="year_of_production" id="id_year_of_production" value="{{unit.year_of_production}}" readonly>                                                    </div>
                                                     <div class="col-md-9">
                                                         <small>Propietarios</small>
                                                         {% for user in unit.owners.all %}
@@ -248,8 +250,8 @@
                                                                 <a class="dropdown-item border-radius-md" href="#">
                                                                     <div class="d-flex py-1">
                                                                         <div class="my-auto">
-                                                                            <div class="text-dark text-center me-2 d-flex align-items-center justify-content-center">
-                                                                                <i class="material-icons opacity-10">question_mark</i>
+                                                                            <div :class="['text-center', 'me-2', 'd-flex', 'align-items-center', 'justify-content-center', percolor]">
+                                                                                <i :class="['fas', pericon, 'me-1']"></i>
                                                                             </div>
                                                                         </div>
                                                                         <div class="d-flex flex-column justify-content-center">
@@ -258,7 +260,7 @@
                                                                             </h5>
                                                                         </div>
                                                                         {{forms.form_p.seniority_period}}
-                                                                        <small class="text-uppercase d-flex mt-2 ms-1">Observado</small>
+                                                                        <small class="text-uppercase d-flex mt-2 ms-1">{$per_text$}</small>
                                                                     </div>
                                                                 </a>
                                                             </li>
@@ -362,7 +364,6 @@
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -390,7 +391,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-sm modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
-                    <form action="{% url 'procedure.create' %}" method="POST">
+                    <form action="{% url 'procedure.create' %}" method="POST" id="form_route">
                         {% csrf_token %}
                         <input type="hidden" name="vehicles" value="{{unit.plate}}">
                         <div class="card card-plain">
@@ -499,8 +500,8 @@
                         <input type="hidden" name="vehicles" value="{{unit.plate}}">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-left">
-                                <h5 class="">Registrar nueva contrato</h5>
-                                <p class="mb-0">Ingrese los datos necesarios para el registro nueva RUTA</p>
+                                <h5 class="">Autorizacion vehicular</h5>
+                                <p class="mb-0">Registro del documento de Habilitación o Autorización de la Unidad Vehicular</p>
                                 <button class="btn me-1 bg-gradient-info d-flex align-self-end float-end mt-n6" type="button" @click="createAuthorization()">
                                     <i class="material-icons opacity-10">check</i>
                                     Guardar registro
@@ -591,6 +592,10 @@
 <script>
     $(document).ready(function() {
         $('.select-single').select2();
+        $('.select-title').select2({
+            width: '70px',
+            height: '47px'
+        });
     });
 </script>
 <script src="/static/assets/vue/apps/validate/routes.script.js"></script>

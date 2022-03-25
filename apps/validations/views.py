@@ -16,12 +16,12 @@ import datetime
 
 from apps.vehicles.models import vehicles
 from apps.certify.models import soat, citv, src, svct
-from apps.validations.models import routes, procedure
+from apps.validations.models import routes, procedure, validation_tools
 
 from apps.certify.forms import SOATForm, CITVForm, SRCForm, SVCTForm
 from apps.validations.forms import RoutesForm, ProcedureForm
 
-from .serializers import RouteSerializer, BindingContractsSerializer, AuthorizationDocumentSerializer
+from .serializers import RouteSerializer, BindingContractsSerializer, AuthorizationDocumentSerializer, ValidationToolsSerializer
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -119,13 +119,12 @@ class ProcedureRegister(HttpResponse):
         unit = vehicles.objects.get(plate = pk)
 
         ROUTE_F = RoutesForm()
-        PROCEDURE_F = ProcedureForm
+        PROCEDURE_F = ProcedureForm()
         forms = {'form_r': ROUTE_F, 'form_p' : PROCEDURE_F}
 
         context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones', 'unit': unit, 'forms': forms}
         html_template = loader.get_template('procedure/create.html')
         return HttpResponse(html_template.render(context, request))
-
 
 class ProcedureCreate(CreateAPIView):
     serializer_class = RouteSerializer
@@ -138,6 +137,16 @@ class authorizaitonCreate(CreateAPIView):
 
 class ValidateCreate(CreateView):
     model = procedure
-    template_name = 'procedure/create.html'
-    fields = '__all__'
-    success_url = "/create"
+    def post(self, request, *args, **kwargs):
+        form = ProcedureForm
+        if form.is_valid():
+            procedure = form.save()
+            procedure.save()
+            return HttpResponseRedirect(reverse_lazy('validate.index', args=[procedure.id]))
+        return render(request, 'procedure/create.html', {'form': form})
+
+class YearAntiquity(ListAPIView):
+    serializer_class = ValidationToolsSerializer
+
+    def get_queryset(self):
+        return validation_tools.objects.filter(status_years = True)

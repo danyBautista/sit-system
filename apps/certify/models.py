@@ -35,7 +35,7 @@ class scopes(models.Model):
         return self.name
 
 class citv(models.Model):
-    id = models.CharField(primary_key=True, max_length=21)
+    id = models.CharField(primary_key=True, max_length=25)
     Registration_date =models.DateTimeField()
     expiration_date = models.DateTimeField()
     inspection_result = models.BooleanField()

@@ -1,5 +1,6 @@
 from xmlrpc.client import boolean
 from django.db import models
+from datetime import datetime, date, timedelta
 
 from apps.people.models import people
 from apps.vehicles.models import vehicles
@@ -12,7 +13,7 @@ class routes(models.Model):
         ('C8','C8'),('C9','C9'),('C10','C10'),('C11','C11'),
     )
     route = models.CharField(max_length=6)
-    concession = models.CharField(max_length=10, choices=CONCESSIONS, default='1')
+    concession = models.CharField(max_length=10, choices=CONCESSIONS)
     short_name = models.CharField(max_length=50, null=True)
     road = models.TextField(null=True)
     status = models.BooleanField()
@@ -45,10 +46,15 @@ class authorization_documents(models.Model):
         (2, 'Rechazado'),
         (3, 'Observado')
     )
-    code = models.CharField(max_length=6)
+    code = models.CharField(max_length=30)
     enabled = models.CharField(max_length=30, choices=SKILLED, default=1)
     file = models.FileField(upload_to='authorizacion_doc', null=True, blank=True)
     status = models.BooleanField()
+    commnet = models.TextField(null=True, blank=True)
+
+class validation_tools(models.Model):
+    years_antiquity = models.IntegerField()
+    status_years = models.BooleanField()
 
 class procedure(models.Model):
     PROFILE = (
@@ -61,7 +67,11 @@ class procedure(models.Model):
         ('NO VIGENTE', 'No vigente'),
         ('INDETERMINADO', 'Indeterminado')
     )
+    current_date = datetime.today()
+    YEAR_CHOICES = [(r,r) for r in range(2000, datetime.today().year+1)]
+    #print(current_date)
     proceedings = models.CharField(max_length=6)
+    year_proceeding = models.CharField(max_length=4, choices=YEAR_CHOICES, default=current_date.year)
     check_date = models.DateField()
     license_plate = models.ForeignKey(vehicles, on_delete=models.CASCADE, default='000000')
     route = models.ForeignKey(routes, null=True, blank=True, on_delete=models.CASCADE)
@@ -86,6 +96,7 @@ class procedure(models.Model):
     due_date = models.DateField()
     status = models.BooleanField()
     authorization = models.ForeignKey(authorization_documents, blank=True, null=True, on_delete=models.CASCADE)
+    years = models.ForeignKey(validation_tools, null=True, blank=True, on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
     delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)

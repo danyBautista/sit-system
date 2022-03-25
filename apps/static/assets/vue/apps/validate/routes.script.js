@@ -9,7 +9,7 @@ new Vue({
     },
     methods : {
         RetisterRoute : function(){
-            route = document.getElementById('id_route')
+            route = $("#routes").find('input#id_route')//document.getElementById('id_route')
             concession = document.getElementById('id_concession')
             stt  = document.getElementById('id_status')
             limit  = document.getElementById('id_limit')
@@ -20,9 +20,8 @@ new Vue({
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             };
-
             data_create = {
-                'route' : route.value,
+                'route' : route.val(),
                 'concession' : concession.value,
                 'status' : stt.value,
                 'limit' : limit.value
@@ -35,7 +34,11 @@ new Vue({
             })
             .then( function(response){
                 $("#routes").modal('hide');
-                console.log(response)
+                let $option = $('<option />', {
+                    text: response.data.concession + '-' + response.data.route,
+                    value: response.data.id,
+                });
+                $('select[id=id_route]').prepend($option);
             })
             .catch(function(error){
                 console.log(error)

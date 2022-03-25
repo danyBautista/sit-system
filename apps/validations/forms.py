@@ -31,6 +31,7 @@ class ProcedureForm(forms.ModelForm):
         model = procedure
         fields = [
             'proceedings',
+            'year_proceeding',
             'check_date',
             'license_plate',
             'route',
@@ -58,6 +59,7 @@ class ProcedureForm(forms.ModelForm):
         ]
         widgets = {
             'proceedings' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off'}),
+            'year_proceeding' : forms.Select(attrs={'class':'form-control  form-control-lg select-title', 'autocomplete': 'off'}),
             'check_date' : forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
             'route' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
