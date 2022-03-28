@@ -19,9 +19,9 @@ from apps.certify.models import soat, citv, src, svct
 from apps.validations.models import routes, procedure, validation_tools
 
 from apps.certify.forms import SOATForm, CITVForm, SRCForm, SVCTForm
-from apps.validations.forms import RoutesForm, ProcedureForm
+from apps.validations.forms import RoutesForm, ProcedureForm, SubstitutionForm
 
-from .serializers import RouteSerializer, BindingContractsSerializer, AuthorizationDocumentSerializer, ValidationToolsSerializer
+from .serializers import RouteSerializer, BindingContractsSerializer, AuthorizationDocumentSerializer, ValidationToolsSerializer, ProcedureSerializer
 # Create your views here.
 
 @login_required(login_url='/login/')
@@ -120,7 +120,8 @@ class ProcedureRegister(HttpResponse):
 
         ROUTE_F = RoutesForm()
         PROCEDURE_F = ProcedureForm()
-        forms = {'form_r': ROUTE_F, 'form_p' : PROCEDURE_F}
+        SUBSTITUTION_F = SubstitutionForm()
+        forms = {'form_r': ROUTE_F, 'form_p' : PROCEDURE_F, 'form_s' : SUBSTITUTION_F}
 
         context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones', 'unit': unit, 'forms': forms}
         html_template = loader.get_template('procedure/create.html')
@@ -135,15 +136,15 @@ class ContractCreate(CreateAPIView):
 class authorizaitonCreate(CreateAPIView):
     serializer_class = AuthorizationDocumentSerializer
 
-class ValidateCreate(CreateView):
-    model = procedure
-    def post(self, request, *args, **kwargs):
-        form = ProcedureForm
-        if form.is_valid():
-            procedure = form.save()
-            procedure.save()
-            return HttpResponseRedirect(reverse_lazy('validate.index', args=[procedure.id]))
-        return render(request, 'procedure/create.html', {'form': form})
+class ValidateCreate(CreateAPIView):
+    serializer_class = ProcedureSerializer
+    #model = procedure
+    #form_class = ProcedureForm
+    #template_name = 'procedure/create.html'
+    #success_url = reverse_lazy('validate.index')
+    #def form_valid(self, form):
+    #    form.instance.user = self.request.user
+    #    return super(ValidateCreate, self).form_valid(form)
 
 class YearAntiquity(ListAPIView):
     serializer_class = ValidationToolsSerializer

@@ -1,6 +1,7 @@
+from dataclasses import field
 from rest_framework import serializers
 
-from .models import routes, binding_contracts, authorization_documents, validation_tools
+from .models import routes, binding_contracts, authorization_documents, validation_tools, procedure
 
 class RouteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,4 +21,9 @@ class AuthorizationDocumentSerializer(serializers.ModelSerializer):
 class ValidationToolsSerializer(serializers.ModelSerializer):
     class Meta:
         model = validation_tools
+        fields = ('__all__')
+
+class ProcedureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = procedure
         fields = ('__all__')

@@ -56,6 +56,14 @@ class validation_tools(models.Model):
     years_antiquity = models.IntegerField()
     status_years = models.BooleanField()
 
+class vehicle_substitution(models.Model):
+	sustitucion = models.BooleanField()
+	exit_ticket = models.BooleanField()
+	plate = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
+	vehicle_authorization_document = models.BooleanField()
+	file_authorization = models.FileField(upload_to='substitution', null=True, blank=True)
+
+
 class procedure(models.Model):
     PROFILE = (
         ('ACEPTADO', 'Aceptado'),
@@ -97,6 +105,7 @@ class procedure(models.Model):
     status = models.BooleanField()
     authorization = models.ForeignKey(authorization_documents, blank=True, null=True, on_delete=models.CASCADE)
     years = models.ForeignKey(validation_tools, null=True, blank=True, on_delete=models.CASCADE)
+    substitution = models.ForeignKey(vehicle_substitution, null=True, blank=True, on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
     delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)

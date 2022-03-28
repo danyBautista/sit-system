@@ -8,7 +8,7 @@ from apps.validations.views import ListView, SearchView, ValidateVehicle, Proced
 
 urlpatterns = [
     path('', ListView.index, name='validate.index'),
-    path('create', ValidateCreate.as_view(), name='validate.create'),
+    path('create/', ValidateCreate.as_view(), name='validate.create'),
     path('search/', SearchView.index, name='validate.search'),
     path('select/<str:pk>', ValidateVehicle.index, name='validate.val'),
     path('procedure/<str:pk>', ProcedureRegister.index, name='procedure.register'),

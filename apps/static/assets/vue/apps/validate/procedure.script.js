@@ -11,6 +11,10 @@ new Vue({
         percolor: 'text-dark',
         per_text: 'Observado',
 
+        enbicon : 'fa-question',
+        enbcolor: 'text-dark',
+        enb_text: 'Observado',
+
         soaticon: 'fa-question',
         soatcolor: 'text-dark',
         soat_text: 'Indeterminado',
@@ -30,7 +34,7 @@ new Vue({
     methods: {
         validateOptions : function(){
             this.scoreicon = 'fa-sync fa-spin'
-            this.scolor = 'text-info',
+            this.scorecolor = 'text-info',
             this.score_text = 'Procesando...'
 
             var license_plate = $('#id_license_plate')
@@ -40,6 +44,10 @@ new Vue({
             this.pericon = 'fa-sync fa-spin'
             this.percolor = 'text-info'
             this.per_text = 'Procesando...'
+
+            this.enbicon = 'fa-sync fa-spin'
+            this.enbcolor= 'text-info'
+            this.enb_text= 'Procesando...'
 
             var self = this;
 
@@ -116,6 +124,18 @@ new Vue({
                                                                 self.percolor = 'text-success'
                                                                 self.per_text = 'aceptado'
                                                                 $('#id_seniority_period').val(self.per_text)
+
+                                                                var authorization = $("#icon-authorization").children('i').html()
+                                                                var comment = $('#comment').children('i').hasClass('text-secondary')
+                                                                if((authorization == 'privacy_tip' && comment == true) || ($('#year_prod').html() >= 2017 ) || $('#id_check_sistran').prop('checked') == true)
+                                                                {
+                                                                    self.enbicon = 'fa-check'
+                                                                    self.enbcolor= 'text-success'
+                                                                    self.enb_text= 'aceptado'
+                                                                }
+                                                                else{
+                                                                    alert('falta documento de autorizacion' + comment)
+                                                                }
                                                             }
                                                             else{
                                                                 self.percolor = 'text-warning'
@@ -265,6 +285,30 @@ new Vue({
             $('#content').html(c[1])
             $('#content-body').html(c[2])
 
+        },
+        RegisterProcedure : function(){
+            var CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+            const fd = new FormData()
+            fd.append('proceedings', $('#id_proceedings').val())
+            fd.append('check_date', $('#id_check_date').val())
+
+            let headers = {
+                "X-CSRFToken": CSRF_TOKEN,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            };
+            axios({
+                method: 'POST',
+                url: '../create/',
+                headers: headers,
+                data: fd
+            })
+            .then( function(response){
+                console.log(response)
+            })
+            .catch(function(error){
+                console.log(error)
+            })
         }
     },
 })

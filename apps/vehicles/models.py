@@ -44,5 +44,5 @@ class vehicles(models.Model):
         verbose_name_plural = 'Vehiculos'
 
     def __str__(self):
-        return self.model
+        return self.plate
 

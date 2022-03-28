@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.validations.models import procedure, routes
+from apps.validations.models import procedure, routes, vehicle_substitution
 
 class RoutesForm(forms.ModelForm):
     class Meta:
@@ -24,6 +24,23 @@ class RoutesForm(forms.ModelForm):
             'concession' : forms.Select(attrs={'class':'form-control  form-control-sm'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
             'limit' : forms.NumberInput(attrs={'class':'form-control form-control-sm', 'v-model' : 'limit'})
+        }
+class SubstitutionForm(forms.ModelForm):
+    class Meta:
+        model = vehicle_substitution
+        fields = [
+            'sustitucion',
+            'exit_ticket',
+            'plate',
+            'vehicle_authorization_document',
+            'file_authorization'
+        ]
+        widgets = {
+            'sustitucion' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'exit_ticket' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'plate': forms.Select(attrs={'class':'form-check-input select-sustit'}),
+            'vehicle_authorization_document' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'file_authorization' : forms.FileInput(attrs={'class':'form-control'})
         }
 
 class ProcedureForm(forms.ModelForm):
