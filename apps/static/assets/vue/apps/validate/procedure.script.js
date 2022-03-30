@@ -66,10 +66,10 @@ new Vue({
                         if(response.data[0].date_expiry > date_check.val())
                         {
                             self.soatcolor = 'text-success'
-                            self.soat_text = 'Vigente'
+                            self.soat_text = 'VIGENTE'
                             self.soaticon = 'fa-check'
                             $('#id_soat_status').val(self.soat_text)
-                            $('#id_soat').val(response.data[0].policy)
+                            $('#id_soat').val(response.data[0].id)
                             axios.get('/certificate/api/select/citv/?vehicle=' + license_plate.val())
                             .then(function(response){
                                 self.citvcolor = 'text-info'
@@ -81,7 +81,7 @@ new Vue({
                                     if(response.data[0].expiration_date > date_check.val())
                                     {
                                         self.citvcolor = 'text-success'
-                                        self.citv_text = 'Vigente'
+                                        self.citv_text = 'VIGENTE'
                                         self.citvicon = 'fa-check'
                                         $('#id_citv_status').val(self.citv_text)
                                         $('#id_citv').val(response.data[0].id)
@@ -95,7 +95,7 @@ new Vue({
                                             {
                                                 self.srccolor = 'text-success'
                                                 self.srcicon = 'fa-check'
-                                                self.src_text = 'Vigente'
+                                                self.src_text = 'VIGENTE'
                                                 $('#id_src_status').val(self.src_text)
                                                 $('#id_src').val(response.data[0].id)
                                                 axios.get('/certificate/api/select/svct/?vehicles=' + license_plate.val())
@@ -107,13 +107,13 @@ new Vue({
                                                     if(_count == 1){
                                                         self.svctcolor = 'text-success'
                                                         self.svcticon = 'fa-check'
-                                                        self.svct_text = 'Vigente'
+                                                        self.svct_text = 'VIGENTE'
                                                         $('#id_svct_status').val(self.src_text)
                                                         $('#id_svct').val(response.data[0].id)
 
                                                         self.scoreicon = 'fa-check'
                                                         self.scorecolor = 'text-success'
-                                                        self.score_text = 'aceptado'
+                                                        self.score_text = 'ACEPTADO'
                                                         $('#id_score').val(self.score_text)
 
                                                         axios.get('../api/control/year/')
@@ -122,7 +122,7 @@ new Vue({
                                                             {
                                                                 self.pericon = 'fa-check'
                                                                 self.percolor = 'text-success'
-                                                                self.per_text = 'aceptado'
+                                                                self.per_text = 'ACEPTADO'
                                                                 $('#id_seniority_period').val(self.per_text)
 
                                                                 var authorization = $("#icon-authorization").children('i').html()
@@ -131,7 +131,8 @@ new Vue({
                                                                 {
                                                                     self.enbicon = 'fa-check'
                                                                     self.enbcolor= 'text-success'
-                                                                    self.enb_text= 'aceptado'
+                                                                    self.enb_text= 'ACEPTADO'
+                                                                    $('#id_enabled').val(self.enb_text)
                                                                 }
                                                                 else{
                                                                     alert('falta documento de autorizacion' + comment)
@@ -139,7 +140,7 @@ new Vue({
                                                             }
                                                             else{
                                                                 self.percolor = 'text-warning'
-                                                                self.per_text = 'No vigente'
+                                                                self.per_text = 'NO VIGENTE'
                                                                 self.pericon = 'fa-exclamation'
 
                                                                 message =   [
@@ -155,7 +156,7 @@ new Vue({
                                                         })
                                                     }else{
                                                         self.svctcolor = 'text-warning'
-                                                        self.svct_text = 'No vigente'
+                                                        self.svct_text = 'NO VIGENTE'
                                                         self.svcticon = 'fa-exclamation'
 
                                                         message =   [
@@ -172,7 +173,7 @@ new Vue({
                                             }
                                             else{
                                                 self.srccolor = 'text-warning'
-                                                self.src_text = 'No vigente'
+                                                self.src_text = 'NO VIGENTE'
                                                 self.srcicon = 'fa-exclamation'
 
                                                 message =   [
@@ -189,7 +190,7 @@ new Vue({
                                     }
                                     else{
                                         self.citvcolor = 'text-warning'
-                                        self.citv_text = 'No vigente'
+                                        self.citv_text = 'NO VIGENTE'
                                         self.citvicon = 'fa-exclamation'
 
                                         message =   [
@@ -215,7 +216,7 @@ new Vue({
                         }
                         else{
                             self.soatcolor = 'text-warning'
-                            self.soat_text = 'No vigente'
+                            self.soat_text = 'NO VIGENTE'
                             self.soat_mark = 'fa-exclamation'
 
                             message =   [
@@ -289,8 +290,33 @@ new Vue({
         RegisterProcedure : function(){
             var CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
             const fd = new FormData()
+            alert($('#frm_validations').serialize())
+            var list_id_activity = []
+
             fd.append('proceedings', $('#id_proceedings').val())
             fd.append('check_date', $('#id_check_date').val())
+            fd.append('year_proceeding',$('#id_year_proceeding').val())
+            fd.append('route',$('#id_route').val())
+            fd.append('due_date',$('#id_due_date').val())
+            fd.append('contract',$('#id_contract').val())
+            fd.append('authorization',$('#id_authorization').val())
+            fd.append('substitution',$('#id_substitution').val())
+            fd.append('vehicles',$('#id_vehicles').val())
+            fd.append('year',$('#id_year').val())
+            fd.append('lisense_plate',$('#id_license_plate').val())
+            fd.append('year_of_production',$('#id_year_of_production').val())
+            fd.append('score',$('#id_score').val())
+            fd.append('seniority_period',$('#id_seniority_period').val())
+            fd.append('enabled',$('#id_enabled').val())
+            fd.append('soat',$('#id_soat').val())
+            fd.append('soat_status',$('#id_soat_status').val())
+            fd.append('citv',$('#id_citv').val())
+            fd.append('citv_status',$('#id_citv_status').val())
+            fd.append('src',$('#id_src').val())
+            fd.append('src_status',$('#id_src_status').val())
+            fd.append('svct',$('#id_svct').val())
+            fd.append('svct_status',$('#id_svct_status').val())
+            fd.append('status', $('#id_status').val())
 
             let headers = {
                 "X-CSRFToken": CSRF_TOKEN,

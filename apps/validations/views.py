@@ -136,15 +136,11 @@ class ContractCreate(CreateAPIView):
 class authorizaitonCreate(CreateAPIView):
     serializer_class = AuthorizationDocumentSerializer
 
-class ValidateCreate(CreateAPIView):
-    serializer_class = ProcedureSerializer
-    #model = procedure
-    #form_class = ProcedureForm
-    #template_name = 'procedure/create.html'
-    #success_url = reverse_lazy('validate.index')
-    #def form_valid(self, form):
-    #    form.instance.user = self.request.user
-    #    return super(ValidateCreate, self).form_valid(form)
+class ValidateCreate(HttpResponse):
+    def index(request):
+        if request.method == "POST":
+            print(request.POST['proceedings'])
+            form = ProcedureForm(request.POST)
 
 class YearAntiquity(ListAPIView):
     serializer_class = ValidationToolsSerializer

@@ -12,8 +12,7 @@
     <div class="container-fluid p-1">
         <div class="bg-light max-height-vh-90">
             <div class="top-0 me-3 scrollspy-example" id="procedure" data-bs-spy="scroll" data-bs-offset="0">
-                <form action="{% url 'validate.create' %}" method="POST" id="frm_validations" enctype="multipart/form-data">
-                    {% csrf_token %}
+                <form action="{% url 'validate.create' %}" method="POST" id="frm_validations">
                     <nav class="navbar shadow-lg rounded navbar-expand-lg z-index-3 position-fixed w-form pt-4 blur-gradient-primary start-0 end-0 mx-0 bg-light">
                         <div class="container-fluid ps-2 pe-0">
                             <a href="{% url 'validate.index' %}" class="btn btn-link px-1 me-3" @click="$emit('close')">
@@ -36,7 +35,7 @@
                                 </ul>
                                 <ul class="navbar-nav d-lg-block d-none">
                                     <li class="nav-item">
-                                        <button class="btn me-1 bg-gradient-info" type="button" @click="RegisterProcedure()">
+                                        <button class="btn me-1 bg-gradient-info" type="submit">
                                             <i class="material-icons opacity-10">check</i>
                                             Guardar registro
                                         </button>
@@ -45,6 +44,7 @@
                             </div>
                         </div>
                     </nav>
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-12">
                             <div class="position-relative mt-3 max-height-vh-100 h-100 ps">
@@ -99,7 +99,7 @@
                                                                             <span class="font-weight-bold">Contrato</span>
                                                                         </h5>
                                                                     </div>
-                                                                    <input type="hidden" name="contract" id="contract">
+                                                                    <input type="hidden" name="contract" id="id_contract">
                                                                     <small class="text-uppercase d-flex mt-2 ms-1" id="code">ninguno</small>
                                                                 </div>
                                                             </a>
