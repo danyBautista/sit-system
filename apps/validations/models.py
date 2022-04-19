@@ -56,6 +56,9 @@ class validation_tools(models.Model):
     years_antiquity = models.IntegerField()
     status_years = models.BooleanField()
 
+    def __str__(self):
+        return str(self.years_antiquity)
+
 class vehicle_substitution(models.Model):
 	sustitucion = models.BooleanField()
 	exit_ticket = models.BooleanField()
@@ -77,11 +80,10 @@ class procedure(models.Model):
     )
     current_date = datetime.today()
     YEAR_CHOICES = [(r,r) for r in range(2000, datetime.today().year+1)]
-    #print(current_date)
     proceedings = models.CharField(max_length=6)
-    year_proceeding = models.CharField(max_length=4, choices=YEAR_CHOICES, default=current_date.year)
+    year_proceeding = models.CharField(max_length=4)#, choices=YEAR_CHOICES, default=current_date.year)
     check_date = models.DateField()
-    license_plate = models.ForeignKey(vehicles, on_delete=models.CASCADE, default='000000')
+    license_plate = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     route = models.ForeignKey(routes, null=True, blank=True, on_delete=models.CASCADE)
     score = models.CharField(max_length=9, choices=PROFILE)
     property_card = models.BooleanField()

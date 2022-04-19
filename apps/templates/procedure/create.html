@@ -12,7 +12,7 @@
     <div class="container-fluid p-1">
         <div class="bg-light max-height-vh-90">
             <div class="top-0 me-3 scrollspy-example" id="procedure" data-bs-spy="scroll" data-bs-offset="0">
-                <form action="{% url 'validate.create' %}" method="POST" id="frm_validations">
+                <form action="{% url 'validate.create.proceeding' %}" method="POST" id="frm_validations">
                     <nav class="navbar shadow-lg rounded navbar-expand-lg z-index-3 position-fixed w-form pt-4 blur-gradient-primary start-0 end-0 mx-0 bg-light">
                         <div class="container-fluid ps-2 pe-0">
                             <a href="{% url 'validate.index' %}" class="btn btn-link px-1 me-3" @click="$emit('close')">
@@ -70,6 +70,10 @@
                                                             add
                                                         </span>
                                                     </button>
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static">
+                                                    <label for="exampleFormControlSelect1" class="ms-0">Años de control</label>
+                                                    {{forms.form_p.years}}
                                                 </div>
                                                 <div class="input-group input-group-sm input-group-static">
                                                     <label>Fecha de Control</label>
@@ -163,7 +167,6 @@
                                                                 <i class="fas fa-comment {%if unit.comment == '' %} text-info {% else %} text-secondary {%endif%}"></i>
                                                             </a>
                                                         </h6>
-                                                        <input type="hidden" name="year" id="id_year">
                                                         <input type="hidden" name="license_plate" id="id_license_plate" value="{{unit.plate}}" readonly>
                                                         <input type="hidden" name="year_of_production" id="id_year_of_production" value="{{unit.year_of_production}}" readonly>
                                                     </div>
@@ -608,7 +611,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="substitution" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+    <div class="modal fade" id="substitution" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg modal-dialog-scrollable modal-sm modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">

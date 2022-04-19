@@ -11,7 +11,7 @@ from django.template import loader
 from apps.includes.sidebar.models import Sidebar
 from django.contrib import messages
 from django.views.generic import CreateView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 import datetime
 
 from apps.vehicles.models import vehicles
@@ -136,11 +136,14 @@ class ContractCreate(CreateAPIView):
 class authorizaitonCreate(CreateAPIView):
     serializer_class = AuthorizationDocumentSerializer
 
-class ValidateCreate(HttpResponse):
-    def index(request):
-        if request.method == "POST":
-            print(request.POST['proceedings'])
-            form = ProcedureForm(request.POST)
+class ValidateCreate(CreateView):
+    model = procedure
+    form_class = ProcedureForm
+    template_name  = 'procedure/create.html'
+    def get_success_url(self):
+        return reverse('validate.create', kwargs={
+            'pk': self.object.vehicles.pk,
+        })
 
 class YearAntiquity(ListAPIView):
     serializer_class = ValidationToolsSerializer
