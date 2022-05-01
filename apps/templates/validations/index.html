@@ -36,15 +36,231 @@
                 </div>
             </span>
         </div>
+        <input type="hidden" name="route_search" id="route_search" value="{% url 'people.search' %}?kword=">
+        <input type="hidden" name="route_view" id="route_view" value="/people/view/">
+        <div class="container px-0" id="table">
+            <div class="card border-radius-md">
+                <div class="card-header pb-0">
+                    <div class="row">
+                        <div class="col-lg-6 col-7">
+                            <h6>Tramites registradors</h6>
+                            <p class="text-sm mb-0">
+                                <i class="fa fa-file text-info"></i>
+                                <span class="font-weight-bold-ms-1">{{procedures.count}} Registros</span>
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-5 my-auto text-end">
+                            <nav class="navbar shadow-none border-radius-md navbar-expand-lg navbar-light bg-light p-0">
+                                <div class="container-fluid px-0">
+                                    <button class="navbar-toggler ms-md-auto pe-md-3 nav-link text-body p-0" id="table-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                                        <div class="sidenav-toggler-inner">
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                        </div>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarScroll">
+                                        <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-tabel" id="icon-process">
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" aria-current="page" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_left
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_right
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        history
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-pills nav-fill z-index-1 p-1" role="tablist" id="icon-views">
+                                            <li class="nav-item">
+                                                <a  @click="icon_content = true" class="nav-link mb-0 px-2 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true" href="#">
+                                                    <span class="material-icons">
+                                                        format_list_bulleted
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a @click="icon_content = false" class="nav-link mb-0 px-2 py-1" href="#" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                                                    <span class="material-icons">
+                                                        apps
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <span class="nav-item">
+                                            <a class="nav-link" href="#" id="btn-search">
+                                                <span class="material-icons">
+                                                    search
+                                                </span>
+                                            </a>
+                                        </span>
+                                        <form class="d-flex d-none w-100" id="form-search">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Buscar {{title.name}}</label>
+                                                <input v-model="kword" type="text" class="form-control">
+                                                <button class="btn bg-gradient-secondary mb-0 px-3" type="submit" id="submit-search">
+                                                    <span class="material-icons">
+                                                        close
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
+                    {% if procedures %}
+                        <ul class="w-100 ps-0" v-if="!list_view">
+                            {% for item in peoples %}
+                            <li class="list-card">
+                                <div class="card card-frame w-100 m-2">
+                                    <div class="card-body p-0">
+                                        <a class="dropdown-item border-radius-md" href="#">
+                                            <div class="d-flex py-1">
+                                                <div class="my-auto">
+                                                    <img src="#" class="avatar avatar-sm  me-3 ">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="text-sm font-weight-normal mb-1 crop-text">
+                                                        <span class="font-weight-bold">hola mundo</span>
+                                                    </h6>
+                                                    <p class="text-xs text-secondary mb-0 crop-text">
+                                                        <i class="fa fa-envelope me-1"></i>
+                                                        hola mundo 2
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor%}
+                        </ul>
+                        <ul class="w-100 ps-0" v-if="!search_content">
+                            <li class="list-card" v-for="item in list_user" :key="item.dni">
+                                <div class="card card-frame w-100 m-2">
+                                    <div class="card-body p-0">
+                                        <a class="dropdown-item border-radius-md" href="#" @click="redirec_user(item.dni)">
+                                            <div class="d-flex py-1">
+                                                <div class="my-auto">
+                                                    <img src="#" class="avatar avatar-sm  me-3 ">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="text-sm font-weight-normal mb-1 crop-text">
+                                                        <span class="font-weight-bold">hola mundo</span>
+                                                    </h6>
+                                                    <p class="text-xs text-secondary mb-0 crop-text">
+                                                        <i class="fa fa-envelope me-1"></i>
+                                                        hola mundo
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <div class="row mt-5 justify-content-md-center w-100">
+                            <div class="col-8">
+                                <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                                    <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body px-2 pb-2" v-if="icon_content">
+                    {% if procedures %}
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tramite</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Placa</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ruta</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Propietarios</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de contro</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody v-if="!list_view">
+                            {% for item in procedures %}
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="/static/assets/img/folder.png" class="avatar avatar-sm border-radius-lg me-3">
+                                                <div class="text-white position-absolute mt-n3 border-radius-xl bg-success ms-3">
+                                                    <i class="fas fa-check me-1 opacity-10"></i>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-xs">{{item.proceedings}}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{item.year_proceeding}}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">{{item.license_plate}}</p>
+                                    <p class="text-xs text-secondary mb-0">{{item.license_plate.mark}}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <p class="text-xs font-weight-bold mb-0">{{item.route.concession}} - {{item.route.route}}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <div class="avatar-group mt-2">
+                                        {% for avatar in item.owner.all %}
+                                            <a href="javascript:;" class="avatar avatar-xs rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{avatar.name}} {{avatar.first_name}} {{avatar.last_name}}">
+                                                <img src="/static/assets/img/team-1.jpg" alt="team1">
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    {{item.check_date}}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <div class="row mt-5 justify-content-md-center w-100">
+                            <div class="col-8">
+                                <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                                    <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         <div class="container px-0">
             <div class="card border-radius-md">
                 <div class="card-header pb-0">
                     <div class="row">
                         <div class="col-lg-6 col-7">
-                            <h6>Usuarios registradors</h6>
+                            <h6>Tramites registradors</h6>
                             <p class="text-sm mb-0">
                                 <i class="fa fa-users text-info"></i>
-                                <span class="font-weight-bold-ms-1">{{peoples.count}} Registros</span>
+                                <span class="font-weight-bold-ms-1">{{procedures.count}} Registros</span>
                             </p>
                         </div>
                         <div class="col-lg-6 col-5 my-auto text-end">
@@ -78,14 +294,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body px-2 pb-2 d-flex">
-                {% if peoples %}
+                <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
+                {% if procedures %}
                     <ul class="w-100 ps-0">
-                        {% for item in peoples %}
+                        {% for item in procedures %}
                         <li class="list-card">
                             <div class="card card-frame w-100 m-2">
                                 <div class="card-body p-0">
-                                    <a class="dropdown-item border-radius-md" href="{% url 'people.view' key_id=item.dni %}">
+                                    <a class="dropdown-item border-radius-md" href="#">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
                                                 <img src="{{ item.user_photo_path.url }}" class="avatar avatar-sm  me-3 ">
@@ -125,7 +341,8 @@
 {% block javascripts %}
 
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
-<script src="/static/assets/vue/apps/people.script.js"></script>
+
+<script src="/static/assets/vue/includes/table.script.js"></script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
     new Chart(ctx, {

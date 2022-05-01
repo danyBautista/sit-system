@@ -40,6 +40,9 @@ class binding_contracts(models.Model):
     update_at = models.DateTimeField(auto_now=True, null=True)
     delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
+    def __str__(self):
+        return self.code + " - " + str(self.registration_date)
+
 class authorization_documents(models.Model):
     SKILLED = (
         (1, 'Aceptado'),
@@ -51,6 +54,8 @@ class authorization_documents(models.Model):
     file = models.FileField(upload_to='authorizacion_doc', null=True, blank=True)
     status = models.BooleanField()
     commnet = models.TextField(null=True, blank=True)
+    def __str__(self):
+        return self.code
 
 class validation_tools(models.Model):
     years_antiquity = models.IntegerField()

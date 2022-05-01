@@ -95,11 +95,11 @@ class soat(models.Model):
 
     class Meta:
         db_table = 'SOAT'
-        ordering = ['-insurance_company']
+        ordering = ['insurance_company']
         verbose_name_plural = 'SOAT'
 
     def __srt__(self):
-        return self.insurance_company
+        return str(self.policy) + " - " + str(self.certify)
 
 # Create your models here.
 class src(models.Model):

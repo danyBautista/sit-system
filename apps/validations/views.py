@@ -30,7 +30,8 @@ class ListView(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)
-        context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones'}
+        procedures = procedure.objects.all()
+        context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones', 'procedures' : procedures}
         html_template = loader.get_template('validations/index.html')
         return HttpResponse(html_template.render(context, request))
 
@@ -139,11 +140,15 @@ class authorizaitonCreate(CreateAPIView):
 class ValidateCreate(CreateView):
     model = procedure
     form_class = ProcedureForm
+    success_message = 'Doc successfully created!'
+    error_message = 'Error saving the Doc, check fields below.'
     template_name  = 'procedure/create.html'
     def get_success_url(self):
-        return reverse('validate.create', kwargs={
-            'pk': self.object.vehicles.pk,
-        })
+        return reverse('validate.index')
+
+    def form_invalid(self, form):
+        messages.error(self.request, self.error_message)
+        return super().form_invalid(form)
 
 class YearAntiquity(ListAPIView):
     serializer_class = ValidationToolsSerializer

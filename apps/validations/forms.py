@@ -73,17 +73,16 @@ class ProcedureForm(forms.ModelForm):
             'due_date',
             'status',
             'authorization',
-            'years'
+            'years',
+            'substitution'
         ]
         widgets = {
             'proceedings' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off'}),
-            'year_proceeding' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off'}),
-            'check_date' : forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
-            'route' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
-            'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
-            'due_date':forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
+            'year_proceeding' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off', 'placeholder' : 'Año'}),
             'license_plate' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
-            'score' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
+            'check_date' : forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
+            'route' : forms.Select(attrs={'class':'form-control w-80 form-control-sm select-single'}),
+            'score' : forms.Select(attrs={'class':'form-control  form-control-sm'}),
             'property_card' : forms.CheckboxInput(attrs={'class':'form-check-input mb-0'}),
             'seniority_period' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
             'soat' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
@@ -95,12 +94,15 @@ class ProcedureForm(forms.ModelForm):
             'svct' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
             'svct_status' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
             'RRPP_Newsletter' : forms.CheckboxInput(attrs={'class':'form-check-input mb-0'}),
-            'owner' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
-            'contract' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
+            'owner' : forms.SelectMultiple(attrs={'class':'form-control  form-control-sm'}),
+            'contract' : forms.Select(attrs={'class':'form-control w-80 form-control-sm select-single d-flex'}),
             'bonding_contract' : forms.CheckboxInput(attrs={'class':'form-check-input mb-0'}),
             'enabled' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
             'vehicle_authorization' : forms.CheckboxInput(attrs={'class':'form-check-input mb-0'}),
             'check_sistran' : forms.CheckboxInput(attrs={'class':'form-check-input mb-0'}),
-            'authorization' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
-            'years' : forms.Select(attrs={'class': 'form-control  form-control-sm select-single'})
+            'due_date':forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
+            'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'authorization' : forms.Select(attrs={'class':'form-control w-80 form-control-sm select-single'}),
+            'years' : forms.Select(attrs={'class': 'form-control  form-control-sm select-single'}),
+            'substitution' : forms.Select(attrs={'class': 'form-control w-80 form-control-sm select-single'}),
         }
