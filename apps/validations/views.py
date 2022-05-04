@@ -35,6 +35,13 @@ class ListView(HttpResponse):
         html_template = loader.get_template('validations/index.html')
         return HttpResponse(html_template.render(context, request))
 
+class ProcedureSearchAPIView(ListAPIView):
+    queryset = procedure.objects.all()
+    serializer_class = ProcedureSerializer
+    def get_queryset(self):
+        kword = self.request.query_params.get('kword', '')
+        return procedure.objects.filter(proceedings__icontains = kword)
+
 class SearchView(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
@@ -155,3 +162,12 @@ class YearAntiquity(ListAPIView):
 
     def get_queryset(self):
         return validation_tools.objects.filter(status_years = True)
+
+class ProcedureView(HttpResponse):
+    def index(request, pk):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=7)
+        procedures = procedure.objects.get(id = pk)
+        context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Expediente ', 'procedure' : procedures}
+        html_template = loader.get_template('procedure/view.html')
+        return HttpResponse(html_template.render(context, request))

@@ -1,5 +1,3 @@
-
-
 new Vue({
     el: '#table',
     delimiters: ['{$','$}'],
