@@ -14,6 +14,7 @@ urlpatterns = [
     path('people/', include("apps.people.urls")),
     path('administration/', include("apps.administration.urls")),
     path('validations/', include("apps.validations.urls")),
+    path('reports/', include("apps.reports.urls")),
     path('control/', include("apps.control.urls")),
     path('vehicles/', include("apps.vehicles.urls")),
     path('business/', include("apps.business.urls")),

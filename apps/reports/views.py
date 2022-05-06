@@ -9,10 +9,10 @@ from apps.includes.sidebar.models import Sidebar
 # Create your views here.
 
 @login_required(login_url='/login/')
-class RegisterView(HttpResponse):
+class IndexView(HttpResponse):
     def index(request, pk):
         sidebar = Sidebar.objects.all()
-        title = Sidebar.objects.get(id=7)
-        context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Validaciones', 'pk' : pk}
-        html_template = loader.get_template('procedure/create.html')
+        title = Sidebar.objects.get(id=8)
+        context = {'segment': 'reports', 'sidebars': sidebar, 'title': title, 'page':'Reportes'}
+        html_template = loader.get_template('reports/index.html')
         return HttpResponse(html_template.render(context, request))
