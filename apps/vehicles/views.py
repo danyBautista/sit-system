@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.contrib import messages
+from django.views.generic import UpdateView
+from django.urls import reverse_lazy
 
 from apps.includes.sidebar.models import Sidebar
 from apps.vehicles.models import vehicles, types
@@ -68,3 +70,25 @@ class TypeVehicleList(ListAPIView):
     def get_queryset(self):
         kword = self.request.query_params.get('kword', '')
         return types.objects.filter(name__icontains = kword)
+
+class Information(HttpResponse):
+    def index(request, pk):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=5)
+        v = vehicles.objects.get(plate=pk)
+        context = {'segment': 'vehicles', 'sidebars': sidebar, 'title': title, 'page':'Vehiculos', 'vehicle' : v}
+        html_template = loader.get_template('vehicles/information.html')
+        return HttpResponse(html_template.render(context, request))
+
+class UpdateVehicle(UpdateView):
+    model = vehicles
+    template_name = 'vehicles/update.html'
+    form_class = VehicleForm
+    success_url = reverse_lazy('vehicles.index')
+    def get_context_data(self, **kwargs):
+        context = super(UpdateVehicle, self).get_context_data(**kwargs)
+        context['segment'] = 'vehicles'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=5)
+        context['page'] = 'Actualizar vehiculo'
+        return context

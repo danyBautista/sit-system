@@ -1,18 +1,15 @@
-from django import template
-from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
 from django.template import loader
-from django.contrib import messages
+from django.shortcuts import render
 
 from apps.includes.sidebar.models import Sidebar
-# Create your views here.
 
-@login_required(login_url='/login/')
-class IndexView(HttpResponse):
-    def index(request, pk):
+# Create your views here.
+class HomeIndex(HttpResponse):
+    def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=8)
-        context = {'segment': 'reports', 'sidebars': sidebar, 'title': title, 'page':'Reportes'}
+
+        context = {'segment': 'report', 'sidebars': sidebar, 'title': title, 'page':'Reportes'}
         html_template = loader.get_template('reports/index.html')
         return HttpResponse(html_template.render(context, request))

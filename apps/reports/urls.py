@@ -4,8 +4,9 @@ Copyright (c) 2019 - present GlastHeim.pe
 """
 
 from django.urls import path
-from apps.reports import views
+
+from apps.reports.views import HomeIndex
 
 urlpatterns = [
-    path('', views.IndexView, name='report.index')
+    path('', HomeIndex.index, name='report.index')
 ]

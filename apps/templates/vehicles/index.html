@@ -124,11 +124,11 @@
             <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
             {% if vehicles %}
                 <ul class="w-100 ps-0" v-if="!list_view">
-                    {% for items in vehicles %}
+                    {% for item in vehicles %}
                     <li class="list-card">
                         <div class="card card-frame w-100 m-2">
                             <div class="card-body p-0">
-                                <a class="dropdown-item border-radius-md" href="#">
+                                <a class="dropdown-item border-radius-md" href="{% url 'vehicles.information' pk=item.plate %}">
                                     <div class="d-flex py-1">
                                         <div class="my-auto">
                                             <img src="#" class="avatar avatar-sm  me-3 ">
@@ -153,7 +153,7 @@
                     <li class="list-card" v-for="item in list_user" :key="item.dni">
                         <div class="card card-frame w-100 m-2">
                             <div class="card-body p-0">
-                                <a class="dropdown-item border-radius-md" href="#" @click="redirec_user(item.dni)">
+                                <a class="dropdown-item border-radius-md" href="#" @click="redirec_user(item.plate)">
                                     <div class="d-flex py-1">
                                         <div class="my-auto">
                                             <img src="#" class="avatar avatar-sm  me-3 ">
@@ -199,10 +199,10 @@
                         {% for item in vehicles %}
                         <tr>
                             <td>
-                                <a href="">
+                                <a href="{% url 'vehicles.update' pk=item.plate %}">
                                     <div class="d-flex px-2 py-1">
                                         <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg" class="avatar avatar-sm me-3">
+                                            <img src="/static/assets/img/bus.png" class="avatar avatar-sm me-3">
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="mb-0 text-xs">{{item.plate}}</h6>
@@ -253,14 +253,14 @@
                     <tbody v-if="!search_content">
                         <tr v-for="item in list_user" :key="item.dni">
                             <td>
-                                <a href="#"  @click="redirec_user(item.dni)">
+                                <a href="#"  @click="redirec_user(item.plate)">
                                     <div class="d-flex px-2 py-1">
                                         <div>
-                                            <img src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/team-2.jpg" class="avatar avatar-sm me-3">
+                                            <img src="/static/assets/img/bus.png" class="avatar avatar-sm me-3">
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-xs">{$item.name$} {$item.first_name$} {$item.last_name$}</h6>
-                                            <p class="text-xs text-secondary mb-0">{$ item.email $}</p>
+                                            <h6 class="mb-0 text-xs">{$item.plate$}</h6>
+                                            <p class="text-xs text-secondary mb-0">{$ item.mark $} {$ item.model $}</p>
                                         </div>
                                     </div>
                                 </a>
