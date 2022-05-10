@@ -53,13 +53,13 @@ class VehicleForm(forms.ModelForm):
             'height' : forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
             'broad' : forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
             'service_door' : forms.TextInput(attrs={'class':'form-control form-control-sm', 'type' : 'number'}),
-            'type' :  forms.Select(attrs={'class':'form-control w-60'}),#AutocompleteSelect(                            vehicles._meta.get_field('type').remote_field,                            admin.site,                            attrs={'class':'form-control form-control-sm w-50'}                        ),
+            'type' :  forms.Select(attrs={'class':'form-control w-90 select-single', 'style': 'width: 90%'}),
             'category' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'comment' : forms.Textarea(attrs={'class':'form-control', 'rows' : '3'}),
-            'business' : forms.Select(attrs={'class':'form-control w-80'}),
+            'business' : forms.Select(attrs={'class':'form-control w-80  select-single', 'style': 'width: 90%'}),
             'terms' : forms.Textarea(attrs={'class':'form-control', 'rows' : '3'}),
             'status' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
-            'owners' : forms.CheckboxSelectMultiple(attrs={'class':'form-check-input'})
+            'owners' : forms.SelectMultiple(attrs={'class':'form-control select-single'})
         }
 
 class TypeVehicleForm():

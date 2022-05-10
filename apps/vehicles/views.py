@@ -85,10 +85,15 @@ class UpdateVehicle(UpdateView):
     template_name = 'vehicles/update.html'
     form_class = VehicleForm
     success_url = reverse_lazy('vehicles.index')
+
     def get_context_data(self, **kwargs):
         context = super(UpdateVehicle, self).get_context_data(**kwargs)
         context['segment'] = 'vehicles'
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=5)
         context['page'] = 'Actualizar vehiculo'
+        context['pk'] = self.kwargs['pk']
         return context
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))

@@ -31,4 +31,4 @@ class people(models.Model):
         verbose_name_plural = 'Usuarios'
 
     def __str__(self):
-        return self.name
+        return self.name  + " " + self.first_name  + " " + self.last_name
