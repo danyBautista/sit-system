@@ -14,7 +14,8 @@ new Vue({
     methods: {
         SearchUserByDNI : function(Search){
             var self = this
-            axios.get('../../people/api/search/dni/?kword=' + Search)
+            var url = document.getElementById('url_search_dni').innerHTML
+            axios.get(url + '/people/api/search/dni/?kword=' + Search)
             .then(function(response){
                 self.ListUser = response.data
             })
