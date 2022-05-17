@@ -62,3 +62,10 @@ ul li.list-card{list-style: none; display: flex;}
 .hm-100{
     height: calc(100vh - 16px) !important;
 }
+.crop-text
+{
+    width: 200px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

@@ -1,13 +1,17 @@
 import re
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.template import loader
+from django.contrib import messages
+from django.views.generic import CreateView
+from django.urls import reverse_lazy
+
 from apps.includes.sidebar.models import Sidebar
 from apps.business.forms import BusinessForm
 from apps.business.models import business
-from django.contrib import messages
+
 
 from .serializers import BusinessSerializers
 # Create your views here.
@@ -17,57 +21,33 @@ class ListView(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=4)
-        context = {'segment': 'business', 'sidebars': sidebar, 'title': title, 'page':'Empresas'}
+        bs = business.objects.all()
+
+        context = {'segment': 'business', 'sidebars': sidebar, 'title': title, 'page':'Empresas', 'business': bs}
         html_template = loader.get_template('business/index.html')
         return HttpResponse(html_template.render(context, request))
 
-class BusinessCreate(HttpResponse):
-    def index(request):
-        sidebar = Sidebar.objects.all()
-        title = Sidebar.objects.get(id=4)
+class BusinessCreate(CreateView):
+    model = business
+    template_name = 'business/create.html'
+    form_class = BusinessForm
+    success_url = reverse_lazy('business.index')
 
-        if request.method == "POST":
-            form = BusinessForm(request.POST, request.FILES)
-            if form.is_valid():
-                ruc= form.cleaned_data.get('ruc')
-                business_name= form.cleaned_data.get('business_name')
-                address= form.cleaned_data.get('address')
-                phone= form.cleaned_data.get('phone')
-                webpage= form.cleaned_data.get('webpage')
-                registration_date= form.cleaned_data.get('registration_date')
-                opening_date= form.cleaned_data.get('opening_date')
-                logo_small_path= form.cleaned_data.get('logo_small_path')
-                logo_large_path= form.cleaned_data.get('logo_large_path')
-                business_description= form.cleaned_data.get('business_description')
-                geographic_location= form.cleaned_data.get('geographic_location')
-                economic_activitie= form.cleaned_data.get('economic_activitie')
-                status= form.cleaned_data.get('status')
-                obj = business.objects.create(
-                    ruc = ruc,
-                    business_name = business_name,
-                    address = address,
-                    phone = phone,
-                    webpage = webpage,
-                    registration_date = registration_date,
-                    opening_date = opening_date,
-                    logo_small_path = logo_small_path,
-                    logo_large_path = logo_large_path,
-                    business_description = business_description,
-                    geographic_location = geographic_location,
-                    economic_activitie = economic_activitie,
-                    status = status
-                )
-                obj.save()
-            else:
-                messages.error(request, form)
-            return redirect('business.index')
-        else:
-            form = BusinessForm()
-
-        context = {'segment': 'business', 'sidebars': sidebar, 'title': title, 'page':'Empresas', 'form' : form}
-        html_template = loader.get_template('business/create.html')
-        return HttpResponse(html_template.render(context, request))
+    def get_context_data(self, **kwargs):
+        context = super(BusinessCreate, self).get_context_data(**kwargs)
+        context['segment'] = 'business'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=4)
+        context['page'] = 'Actualizar vehiculo'
+        return context
 
 """ services start here """
 class businessAPICreate(CreateAPIView):
     serializer_class = BusinessSerializers
+
+class businessAPIList(ListAPIView):
+    serializer_class = BusinessSerializers
+
+    def get_queryset(self):
+        kword = self.request.query_params.get('kword', '')
+        return business.objects.filter(name__icontains = kword)
