@@ -44,17 +44,17 @@ class BusinessForm(forms.ModelForm):
         }
 
         widgets = {
-            'ruc' : forms.TextInput(attrs={'class':'form-control', 'placeholder': 'RUC'}),
-            'business_name' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Razon social'}),
-            'address' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Direccion'}),
-            'phone' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Telefono'}),
-            'webpage' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Pagina Web'}),
-            'registration_date' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Fecha de registro', 'type':'date'}),
-            'opening_date': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Fecha de apertura', 'type':'date'}),
+            'ruc' : forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type':'number'}),
+            'business_name' : forms.TextInput(attrs={'class':'form-control text-uppercase form-control-lg'}),
+            'address' : forms.TextInput(attrs={'class':'form-control text-uppercase form-control-sm'}),
+            'phone' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'webpage' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'registration_date' : forms.TextInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
+            'opening_date': forms.TextInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),
             'logo_small_path': forms.FileInput(attrs={'class':'form-control', 'placeholder':'Logo pequeño'}),
             'logo_large_path': forms.FileInput(attrs={'class':'form-control', 'placeholder':'Logo grande'}),
-            'geographic_location': forms.Select(attrs={'class':'form-control', 'placeholder':'Localizacion geografica'}),
-            'economic_activitie': forms.CheckboxSelectMultiple(attrs={'class':'form-check-input', 'placeholder':'actividad econocica'}),
-            'status': forms.CheckboxInput(attrs={'class':'form-check-input', 'placeholder':'estado'}),
-            'business_description': forms.Textarea(attrs={'class':'form-control', 'rows':4, 'placeholder': 'Descripcion'})
+            'geographic_location': forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'economic_activitie': forms.SelectMultiple(attrs={'class':'form-control select-single'}),
+            'status': forms.CheckboxInput(attrs={'class':'form-check-input mt-2', 'placeholder':'estado'}),
+            'business_description': forms.Textarea(attrs={'class':'form-control text-uppercase', 'rows':4})
         }

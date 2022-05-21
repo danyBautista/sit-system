@@ -7,7 +7,8 @@ from django.urls import path, re_path
 from apps.certify import views
 
 urlpatterns = [
-    path('', views.CertifyView, name='certify.index'),
+    path('', views.CertifyView.index, name='certify.index'),
+    path('list/<str:type>', views.CertifyList.index, name='certify.list'),
     path('create/soat', views.createAPI_SOAT.as_view(), name='certify.create.soat'),
     path('create/citv', views.createAPI_CITV.as_view(), name='certify.create.citv'),
     path('create/src', views.createAPI_SRC.as_view(), name='certify.create.src'),

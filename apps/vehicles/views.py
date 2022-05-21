@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.contrib import messages
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, ListView
 from django.urls import reverse_lazy
 
 from apps.includes.sidebar.models import Sidebar
@@ -33,6 +33,21 @@ class VehiclesViews(HttpResponse):
         context = {'segment': 'vehicles', 'sidebars': sidebar, 'title': title, 'page':'Vehiculos', 'vehicles': units}
         html_template = loader.get_template('vehicles/index.html')
         return HttpResponse(html_template.render(context, request))
+
+class VehiclesList(ListView):
+    model = vehicles
+    template_name  = 'vehicles/index.html'
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super(VehiclesList, self).get_context_data(**kwargs)
+        context['segment'] = 'vehicles'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=5)
+        context['vehicles_count'] = vehicles.objects.all()
+        context['page'] = 'Vehiculos'
+
+        return context
 
 @login_required(login_url='/login/')
 class VehiclesCreate(HttpResponse):

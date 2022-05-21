@@ -8,8 +8,9 @@ from apps.people import views
 
 urlpatterns = [
     path('', views.index, name='people.index'),
+    path('create/', views.PeopleCreate.as_view(), name='people.createView'),
+    path('update/<str:pk>', views.PeopleUpdate.as_view(), name='people.updateView'),
     path('view/<key_id>/', views.view, name='people.view'),
-
     path('api/search/', views.PeopleListAPIView.as_view(), name='people.search'),
     path('api/search/dni/', views.PeopleSearchDNI.as_view(), name='people.search'),
     path('api/create/', views.PeopleCreateAPI.as_view(), name='people.create'),

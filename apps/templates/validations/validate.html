@@ -111,7 +111,22 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {% if unit.plate %}
                                         <a href="{% url 'procedure.register' pk=unit.plate %}" class="btn bg-gradient-warning btn-lg w-100 text-uppercase {{disable}}"> Continuar con el tramite</a>
+                                        {% else %}
+                                        <div class="alert alert-warning" role="alert">
+                                            <span class="alert-icon align-middle">
+                                                <span class="material-icons text-md">
+                                                warning
+                                                </span>
+                                            </span>
+                                            <span class="alert-text"><strong>Cuidado!</strong> El vehiculo no esta observado desea continuar? </span>
+                                        </div>
+                                        <div class="text-center">
+                                            <a href="{% url 'procedure.register' pk=pk %}" class="btn bg-gradient-danger btn-lg w-40 text-uppercase">si </a>
+                                            <a href="{% url 'vehicles.update' pk=pk %}" class="btn bg-gradient-success btn-lg w-40 text-uppercase">Corregir </a>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                     <div class="card-footer bg-warning text-white" v-if="footer">
                                         hola mundo

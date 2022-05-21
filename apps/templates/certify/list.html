@@ -9,29 +9,14 @@
     <div class="container-fluid py-4 ps-1">
         <div class="page-header min-height-300 border-radius-md mb-4" id="app">
             <span class="mask bg-transparent opacity-9">
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <span class="alert-icon align-middle">
-                                <span class="material-icons text-md">
-                                    warning
-                                </span>
-                            </span>
-                            <span class="alert-text"><strong>Cuidado!</strong>{{message}}</span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
                 <div class="row align-items-center mt-5">
                     <div class="col-md-5 ps-5">
-                        <p class="text-xs mb-0">Modulo</p>
+                        <p class="text-xs mb-0">Modulo {{title.name}} </p>
                         <h4 class="text-xxl font-weight-normal mb-1 text-capitalize">
-                            <span class="display-4">{{title.name}}</span>
+                            <span class="display-4">{{page}}</span>
                         </h4>
                         <h6 class="text-md font-weight-normal mb-1">
-                            <span>{{title.description}}</span>
+                            <span>{{title.description}} {{page}}</span>
                         </h6>
                         <a href="{% url 'business.create' %}" class="btn bg-gradient-info">
                             <i class="material-icons opacity-10">add</i>
@@ -57,8 +42,20 @@
                         <div class="col-lg-6 col-7">
                             <h6>{{page}} registrados</h6>
                             <p class="text-sm mb-0">
-                                <i class="fa fa-users text-info"></i>
-                                <span class="font-weight-bold-ms-1">{{business.count}} Registros</span>
+                                {% if page == 'CITV'%}
+                                    <i class="material-icons opacity-10" style="font-size: 14px;">no_crash</i>
+                                {% else %}
+                                    {% if page == 'SOAT'%}
+                                        <i class="material-icons opacity-10" style="font-size: 14px;">security</i>
+                                    {% else%}
+                                        {% if page == 'SRC'%}
+                                            <i class="material-icons opacity-10" style="font-size: 14px;">admin_panel_settings</i>
+                                        {% else %}
+                                            <i class="material-icons opacity-10" style="font-size: 14px;">assured_workload</i>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                                <span class="font-weight-bold-ms-1 mt-n1">{{list.count}} Registros</span>
                             </p>
                         </div>
                         <div class="col-lg-6 col-5 my-auto text-end">
@@ -136,24 +133,24 @@
                     </div>
                 </div>
                 <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
-                {% if business %}
+                {% if list %}
                     <ul class="w-100 ps-0" v-if="!list_view">
-                        {% for item in business %}
+                        {% for item in list %}
                         <li class="list-card">
                             <div class="card card-frame w-100 m-2">
                                 <div class="card-body p-0">
-                                    <a class="dropdown-item border-radius-md" href="{% url 'business.update' pk=item.ruc %}">
+                                    <a class="dropdown-item border-radius-md" href="#">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
                                                 <img src="/static/assets/img/size-of-company.png" class="avatar avatar-sm  me-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="text-sm font-weight-normal mb-1 crop-text">
-                                                    <span class="font-weight-bold">{{item.business_name}}</span>
+                                                    <span class="font-weight-bold">{{item.id}}</span>
                                                 </h6>
                                                 <p class="text-xs text-secondary mb-0 crop-text">
                                                     <i class="fa fa-certificate me-1"></i>
-                                                    {{item.ruc}}
+                                                    {{item.date_expiry|date:"d/m/Y"}}
                                                 </p>
                                             </div>
                                         </div>
@@ -198,41 +195,49 @@
                 {% endif %}
                 </div>
                 <div class="card-body px-2 pb-2" v-if="icon_content">
-                    {% if business %}
+                    {% if list %}
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Empresa</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Direccion</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Contactos</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Codigo</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de registro</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fecha de vencimiento</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
                         <tbody v-if="!list_view">
-                            {% for item in business %}
+                            {% for item in list %}
                             <tr>
                                 <td>
-                                    <a href="{% url 'business.update' pk=item.ruc %}">
+                                    <a href="#">
                                         <div class="d-flex px-2 py-1">
                                             <div>
-                                                <img src="/static/assets/img/size-of-company.png" class="avatar avatar-sm me-3">
+                                                {% if page == 'CITV'%}
+                                                    <i class="material-icons opacity-10 text-dark">no_crash</i>
+                                                {% else %}
+                                                    {% if page == 'SOAT'%}
+                                                        <i class="material-icons opacity-10 text-danger">security</i>
+                                                    {% else%}
+                                                        {% if page == 'SRC'%}
+                                                            <i class="material-icons opacity-10 text-info">admin_panel_settings</i>
+                                                        {% else %}
+                                                            <i class="material-icons opacity-10 text-warning">assured_workload</i>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs">{{item.business_name}}</h6>
-                                                <p class="text-xs text-secondary mb-0">{{ item.ruc }}</p>
+                                                <h6 class="mb-0 text-xs">{{item.id}}</h6>
                                             </div>
                                         </div>
                                     </a>
                                 </td>
                                 <td>
-                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.address}}</p>
+                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.registration_date}}</p>
                                 </td>
-                                <td class="align-middle text-left">
-                                    <span class="text-secondary text-xs font-weight-normal">
-                                        <strong>Telefono :</strong>{{item.phone}} - <br>
-                                        <strong>Pagina web : </strong>{{item.webpage}}
-                                    </span>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.date_expiry}}</p>
                                 </td>
                                 <td class="align-middle text-center text-sm">
                                     {% if item.status == True %}

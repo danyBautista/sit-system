@@ -30,7 +30,7 @@ new Vue({
         redirec_user: function(param)
         {
             var redir = document.getElementById("route_view").value;
-            window.location.href = redir + param +'/'
+            window.location.href = redir + param
         }
     },
 });

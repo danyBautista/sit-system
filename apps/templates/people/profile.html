@@ -44,17 +44,10 @@
                         </div>
                     </div>
                     <div class="col-auto text-center mb-4">
-                        {% if people.user %}
-                            <button type="button" class="btn btn-warning" @click="viewForms(true, 1, 'Desvincular del sistema')">desvincular al sistema</button>
-                            <p class="mb-0 font-weight-normal text-sm mx-5">
-                                Actualmente el no estas vinculado al sistema
-                            </p>
-                        {% else %}
-                            <button type="button" class="btn btn-info">Vincular al sistema</button>
-                            <p class="mb-0 font-weight-normal text-sm mx-5">
-                                Usted. Ya esta vinculado, desea salid del sistema
-                            </p>
-                        {% endif %}
+                        <a href="{% url 'people.updateView' pk=people.dni%}" class="btn btn-info">Editar usuario</a>
+                        <p class="mb-0 font-weight-normal text-sm mx-5">
+                            Usted. tiene permiso para editar este usuario
+                        </p>
                     </div>
                     <div class="col-auto w-100 px-6 d-flex text-center mb-4">
                         <div class="card card-frame w-50 m-2">

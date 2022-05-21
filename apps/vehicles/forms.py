@@ -59,7 +59,7 @@ class VehicleForm(forms.ModelForm):
             'business' : forms.Select(attrs={'class':'form-control w-80  select-single', 'style': 'width: 90%'}),
             'terms' : forms.Textarea(attrs={'class':'form-control', 'rows' : '3'}),
             'status' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
-            'owners' : forms.SelectMultiple(attrs={'class':'form-control select-single'})
+            'owners' : forms.SelectMultiple(attrs={'class':'form-control select-single', 'style': 'width: 90%'})
         }
 
 class TypeVehicleForm():

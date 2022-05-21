@@ -3,7 +3,7 @@
 {% block title %} Dashboard {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}<link href="/static/assets/css/select2.min.css" rel="stylesheet">{% endblock stylesheets %}
 
 {% block content %}
 
@@ -75,7 +75,7 @@
                                                 <div class="input-group input-group-static">
                                                     <label class="ms-0">Tipo de vehiculo</label>
                                                     {{form.type}}
-                                                    <button class="btn bg-gradient-success mb-0 px-3" type="button" id="type-modal" data-bs-toggle="modal" data-bs-target="#type-vehicle">
+                                                    <button class="btn btn-sm bg-gradient-success mb-0 px-3" type="button" id="type-modal" data-bs-toggle="modal" data-bs-target="#type-vehicle">
                                                         <span class="material-icons">
                                                             add
                                                         </span>
@@ -98,7 +98,7 @@
                                                 <div class="input-group input-group-static my-3">
                                                     <label class="ms-0">Empresa Propietario</label>
                                                     {{form.business}}
-                                                    <button class="btn bg-gradient-success mb-0 px-3" type="button" id="btn-business" data-bs-toggle="modal" data-bs-target="#business">
+                                                    <button class="btn btn-sm bg-gradient-success mb-0 px-3" type="button" id="btn-business" data-bs-toggle="modal" data-bs-target="#business">
                                                         <span class="material-icons">
                                                             add
                                                         </span>
@@ -109,19 +109,14 @@
                                                         </span>
                                                     </button>-->
                                                 </div>
-                                                <div class="dropdown">
-                                                    <div class="input-group input-group-sm input-group-outline my-3 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <label class="form-label">Buscar propietario por DNI</label>
-                                                        <input type="number" autocomplete="off" v-model="Search" class="form-control form-control-sm">
-                                                    </div>
-                                                    <ul class="dropdown-menu w-100 px-2 py-3" aria-labelledby="dropdownMenuButton">
-                                                        <li v-for="user in ListUser" :key="user.dni" @click="AddUserByDNI(user)">
-                                                            <a class="dropdown-item border-radius-md" href="javascript:;"><small>{$ user.dni $}</small> - {$ user.name $} {$ user.first_name $} {$ user.last_name $}</a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item border-radius-md text-info"  id="btn-people" data-bs-toggle="modal" data-bs-target="#people" href="javascript:;">Agragar nuevo usuario</a>
-                                                        </li>
-                                                    </ul>
+                                                <div class="input-group input-group-static mb-4">
+                                                    <label for="exampleFormControlSelect1" class="ms-0">Buscar propietario por DNI</label>
+                                                    {{form.owners}}
+                                                    <button class="btn btn-sm bg-gradient-success mb-0 px-3" type="button"  id="btn-people" data-bs-toggle="modal" data-bs-target="#people">
+                                                        <span class="material-icons">
+                                                            add
+                                                        </span>
+                                                    </button>
                                                 </div>
                                                 <div class="overflow-auto overflow-y-auto w-lg-auto">
                                                     <span v-for="select in SelectUser" class="chk-result badge bg-gradient-secondary py-1 mx-1">
@@ -486,6 +481,13 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="/static/assets/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select-single').select2();
+    });
+</script>
 <script src="/static/assets/vue/apps/vehicles/type.vehicles.script.js"></script>
 <script src="/static/assets/vue/apps/vehicles/vehicles.script.js"></script>
 <script src="/static/assets/vue/apps/business/business.script.js"></script>

@@ -101,7 +101,8 @@ class ValidateVehicle(HttpResponse):
                         'citv' : msg_citv,
                         'segc' : msg_seg,
                         'forms' : forms,
-                        'disable' : disable
+                        'disable' : disable,
+                        'pk' : pk
                     }
         html_template = loader.get_template('validations/validate.html')
         return HttpResponse(html_template.render(context, request))

@@ -22,8 +22,43 @@ class CertifyView(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=6)
-        context = {'segment': 'certify', 'sidebars': sidebar, 'title': title, 'page':'Certificados'}
+        _citv = citv.objects.all()
+        _soat = soat.objects.all()
+        _src = src.objects.all()
+        _svct = svct.objects.all()
+        context = {
+                    'segment': 'certify', 
+                    'sidebars': sidebar,
+                    'title': title,
+                    'page':'Certificados',
+                    'CITV' : _citv,
+                    'SOAT' : _soat,
+                    'SRC' : _src,
+                    'SVCT' : _svct
+                }
         html_template = loader.get_template('certify/index.html')
+        return HttpResponse(html_template.render(context, request))
+
+class CertifyList(HttpResponse):
+    def index(request, type):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=6)
+        if type == 'CITV':
+            list = citv.objects.all()
+        elif type == 'SOAT':
+            list = soat.objects.all()
+        elif type == 'SRC':
+            list = src.objects.all()
+        else:
+            list = svct.objects.all()
+        context = {
+                    'segment': 'certify',
+                    'sidebars': sidebar,
+                    'title': title,
+                    'page': type,
+                    'list' : list
+                }
+        html_template = loader.get_template('certify/list.html')
         return HttpResponse(html_template.render(context, request))
 
 class ValidateLegal(HttpResponse):

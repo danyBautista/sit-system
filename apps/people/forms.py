@@ -44,19 +44,19 @@ class PeopleForm(forms.ModelForm):
             'profile_information': 'Informacion de perfil'
         }
         widgets = {
-            'dni' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'DNI'}),
-            'name': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre Completo'}),
-            'first_name': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Apellido Paterno'}),
-            'last_name': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Apellido materno'}),
-            'birth_date': forms.TextInput(attrs={'class':'form-control', 'placeholder': 'Fecha de nacimiento', 'type':'date'}),
-            'address': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Direccion'}),
-            'phone': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Telefono'}),
-            'email': forms.TextInput(attrs={'class':'form-control','placeholder':'Correo Electronico'}),
+            'dni' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'name': forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            'first_name': forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            'last_name': forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            'birth_date': forms.TextInput(attrs={'class':'form-control', 'type':'date'}),
+            'address': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'phone': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'email': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'user_photo_path': forms.FileInput(attrs={'class':'form-control'}),
-            'sex' : forms.Select(attrs={'class':'form-control'}),
-            'user' : forms.Select(attrs={'class':'form-control', 'placeholder':'Usuario de sistema'}),
-            'geographic_location': forms.Select(attrs={'class':'form-control','placeholder':'UbiGeo'}),
-            'marial_status': forms.Select(attrs={'class':'form-control','placeholder':'Estado civil'}),
+            'sex' : forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'user' : forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'geographic_location': forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'marial_status': forms.Select(attrs={'class':'form-control form-control-sm'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
-            'profile_information': forms.Textarea(attrs={'class':'form-control', 'placeholder': 'Informacion de perfil'})
+            'profile_information': forms.Textarea(attrs={'class':'form-control'})
         }

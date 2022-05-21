@@ -1,0 +1,123 @@
+
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid py-4 ps-1">
+    <div class="container px-0" id="table">
+        <div class="card border-radius-md">
+            <div class="card-header pb-0">
+                <div class="row">
+                    <div class="col-lg-6 col-7">
+                        <h6>{{page}} registrados</h6>
+                        <p class="text-sm mb-0">
+                            <i class="material-icons opacity-10" style="font-size: 14px;">format_list_bulleted</i>
+                            <span class="font-weight-bold-ms-1 mt-n1">{{sidebar_list.count}} Registros</span>
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-5 my-auto text-end">
+                        <nav class="navbar shadow-none border-radius-md navbar-expand-lg navbar-light bg-light p-0">
+                            <div class="container-fluid px-0">
+                                <button class="navbar-toggler ms-md-auto pe-md-3 nav-link text-body p-0" id="table-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                                    <div class="sidenav-toggler-inner">
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                        <i class="sidenav-toggler-line"></i>
+                                    </div>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarScroll">
+                                    <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-tabel" id="icon-process">
+                                        <li class="nav-item">
+                                            <a class="nav-link disabled" aria-current="page" href="#">
+                                                <span class="material-icons">
+                                                    chevron_left
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link disabled" href="#">
+                                                <span class="material-icons">
+                                                    chevron_right
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">
+                                                <span class="material-icons">
+                                                    add
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body px-2 pb-2">
+                {% if sidebar_list %}
+                <table class="table align-items-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Menu</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Segmento</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Grupo</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Descripcion</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
+                            <th class="text-secondary opacity-7"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sidebar in sidebar_list %}
+                        <tr>
+                            <td>
+                                <a href="#">
+                                    <div class="d-flex px-2 py-1">
+                                        <div>
+                                            <i class="material-icons opacity-10 text-dark mx-3">{{sidebar.icon}}</i>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="mb-0 text-xs">{{sidebar.name}}</h6>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0 crop-text">{{sidebar.segment}}</p>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0 crop-text">{{sidebar.group}}</p>
+                            </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0 crop-text">{{sidebar.description}}</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                {% if sidebar.status == True %}
+                                    <span class="badge badge-sm badge-success">Habilitado</span>
+                                {% else %}
+                                    <span class="badge badge-sm badge-secondary">Deshabilitado</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="row mt-5 justify-content-md-center w-100">
+                    <div class="col-8">
+                        <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                            <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

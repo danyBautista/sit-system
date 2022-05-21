@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.contrib import messages
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 
 from apps.includes.sidebar.models import Sidebar
@@ -32,13 +32,39 @@ class BusinessCreate(CreateView):
     template_name = 'business/create.html'
     form_class = BusinessForm
     success_url = reverse_lazy('business.index')
+    success_message = 'Doc successfully created!'
+    error_message = "Error saving the Doc, check fields below."
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, self.error_message)
+        return super().form_invalid(form)
 
     def get_context_data(self, **kwargs):
         context = super(BusinessCreate, self).get_context_data(**kwargs)
         context['segment'] = 'business'
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=4)
-        context['page'] = 'Actualizar vehiculo'
+        context['page'] = 'Crear empresa'
+
+        return context
+
+class BusinessUpdate(UpdateView):
+    model = business
+    template_name = 'business/update.html'
+    form_class = BusinessForm
+    success_url = reverse_lazy('business.index')
+
+    def get_context_data(self, **kwargs):
+        context = super(BusinessUpdate, self).get_context_data(**kwargs)
+        context['segment'] = 'business'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=4)
+        context['page'] = 'Actualizar empresar'
+        context['pk'] = self.kwargs['pk']
         return context
 
 """ services start here """

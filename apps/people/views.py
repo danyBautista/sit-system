@@ -13,6 +13,8 @@ from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views.generic import UpdateView, ListView, CreateView
+from django.urls import reverse_lazy
 
 from apps.people.models import people
 from apps.includes.sidebar.models import Sidebar
@@ -71,6 +73,35 @@ def index(request):
     context = {'segment': 'people', 'sidebars': sidebar, 'peoples': peoples, 'title': title, 'forms':form, 'page':'/usuarios'}
     html_template = loader.get_template('people/index.html')
     return HttpResponse(html_template.render(context, request))
+
+class PeopleCreate(CreateView):
+    model = people
+    template_name  = 'people/create.html'
+    form_class = PeopleForm
+    success_url = reverse_lazy('people.index')
+
+    def get_context_data(self, **kwargs):
+        context = super(PeopleCreate, self).get_context_data(**kwargs)
+        context['segment'] = 'people'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=3)
+        context['page'] = 'Crear Propietario'
+        return context
+
+class PeopleUpdate(UpdateView):
+    model = people
+    template_name  = 'people/update.html'
+    form_class = PeopleForm
+    success_url = reverse_lazy('people.index')
+
+    def get_context_data(self, **kwargs):
+        context = super(PeopleUpdate, self).get_context_data(**kwargs)
+        context['segment'] = 'people'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=3)
+        context['page'] = 'Actualizar Propietario'
+        context['pk'] = self.kwargs['pk']
+        return context
 
 def view(request, key_id):
     user = people.objects.get(dni=key_id)
