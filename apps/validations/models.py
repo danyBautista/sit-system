@@ -12,7 +12,7 @@ class routes(models.Model):
         ('C1', 'C1'),('C2','C2'),('C3','C3'),('C4','C4'),('C5','C5'),('C6','C6'),('C7','C7'),
         ('C8','C8'),('C9','C9'),('C10','C10'),('C11','C11'),
     )
-    route = models.CharField(max_length=6)
+    route = models.CharField(max_length=45)
     concession = models.CharField(max_length=10, choices=CONCESSIONS)
     short_name = models.CharField(max_length=50, null=True)
     road = models.TextField(null=True)

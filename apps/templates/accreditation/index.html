@@ -207,9 +207,8 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Numero</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Empresa</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Requerimientos</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ins. Mecanica</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">seguro</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Targeta</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Inspecciones</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tarjeta</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
@@ -238,7 +237,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.permit_number}}</p>
+                                    <p class="text-xs font-weight-bold mb-0 w-1">{{item.permit_number}}</p>
                                 </td>
                                 <td>
                                     <p class="text-xs font-weight-bold mb-0 crop-text">{{item.bussines.business_name}}</p>
@@ -249,12 +248,21 @@
                                         <strong>Tecnico : </strong>{{item.technical_requirements}}
                                     </span>
                                 </td>
+                                <td class="align-middle text-left">
+                                    <span class="text-secondary text-xs font-weight-normal">
+                                        <strong>Mecanica :</strong>{{item.mechanical_inspection}} - <br>
+                                        <strong>seguro : </strong>{{item.insurance}}
+                                    </span>
+                                </td>
                                 <td class="align-middle text-center text-sm">
-                                    {% if item.status == True %}
+                                    {% if item.accreditation_card == True %}
                                         <span class="badge badge-sm badge-success">Si</span>
                                     {% else %}
                                         <span class="badge badge-sm badge-warning">NO</span>
                                     {% endif %}
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 w-1">{{item.insurance}}</p>
                                 </td>
                                 <td class="align-middle">
                                     <div class="dropdown float-lg-end pe-4">
@@ -331,6 +339,41 @@
                     {% endif %}
                 </div>
             </div>
+            {% if is_paginated %}
+        <div class="card card-body border-radius-md mt-2">
+            <div class="card-header pb-0">
+                <ul class="pagination pagination-info">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">
+                                <span class="material-icons">
+                                    keyboard_arrow_left
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        <li class="page-item  {% if page_obj.number == i %} active {% endif %}">
+                            <a class="page-link" href="?page={{i}}">{{i}}</a>
+                        </li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">
+                                <span class="material-icons">
+                                    keyboard_arrow_right
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
         </div>
     </div>
 {% endblock content %}

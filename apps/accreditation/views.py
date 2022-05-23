@@ -11,7 +11,7 @@ from apps.includes.sidebar.models import Sidebar
 class accreditationView(ListView):
     model = accreditation
     template_name  = 'accreditation/index.html'
-    paginate_by: 50
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super(accreditationView, self).get_context_data(**kwargs)
