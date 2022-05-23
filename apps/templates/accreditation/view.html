@@ -1,0 +1,327 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid pt-3 py-4 ps-1" id="profile">
+    <div class="row ms-0">
+        <div class="col-md-4 px-0">
+            <div class="card card-body mx-0 mx-md-0 border-radius-md">
+                <a href="{% url 'accreditation.index' %}" class="btn btn-icon  h-10 w-10 mt-n3 ms-n3 p-2">
+                    <div class="btn-inner--icon">
+                        <span class="material-icons">
+                            arrow_back
+                        </span>
+                    </div>
+                </a>
+                <div class="row justify-content-md-center gx-4 mb-2">
+                    <div class="col-auto text-auto">
+                        <div class="avatar avatar-xxl position-relative mt-3">
+                            {% if accreditation.status == 'ACREDITADO' %}
+                                <img src="/static/assets/img/accreditation_check.png" class="w-100 border-radius-lg shadow-sm">
+                            {% else %}
+                                {% if accreditation.status == 'PENDIENTE'%}
+                                    <img src="/static/assets/img/accreditation_warning.png" class="w-100 border-radius-lg shadow-sm">
+                                {% else %}
+                                <img src="/static/assets/img/accreditation_less.png" class="w-100 border-radius-lg shadow-sm">
+                                {% endif %}
+                            {%endif%}
+                        </div>
+                    </div>
+                    <div class="col-auto w-100 text-center my-4">
+                        <div class="h-100">
+                            <a href="#">
+                                <h5 class="mb-1 display-6 fs-3">
+                                    {{accreditation.plate}} {{accreditation.year_of_production}}
+                                </h5>
+                            </a>
+                            <p class="mb-0 font-weight-normal text-sm">
+                                {% if accreditation.permit_number != 0 %}
+                                    Numero de permiso: {{ accreditation.permit_number}}
+                                {% else %}
+                                    No tiene numero de permiso
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-auto text-center mb-4">
+                        <a href="{% url 'accreditation.update' pk=accreditation.id %}" class="btn btn-info">Editar Acreditacion</a>
+                        <p class="mb-0 font-weight-normal text-sm mx-5">
+                            {{ accreditation.remark}}
+                        </p>
+                    </div>
+                    <div class="col-auto w-100 px-6 d-flex text-center mb-4">
+                        <div class="card card-frame w-50 m-2">
+                            <div class="card-body p-0">
+                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <i class="fa fa-star me-1" aria-hidden="true"></i>
+                                                <span class="font-weight-bold">{{accreditation.typology}}</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                Tiplogia
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card card-frame w-50 m-2">
+                            <div class="card-body p-0">
+                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <span class="font-weight-bold">{{accreditation.route}}</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                Ruta
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% if accreditation.bussines == null %}
+                        <div class="col-auto mt-4">
+                            <div class="avatar avatar-md position-relative">
+                                <img src="/static/assets/img/size-of-company.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                            </div>
+                        </div>
+                        <div class="col-auto my-auto" @click="viewForms(true, 2, 'Vincular a una empresa')">
+                            <div class="h-100">
+                                <h5 class="mt-4 mb-0 fs-5">
+                                    Sin empresa vinculada
+                                </h5>
+                                <p class="mb-0 font-weight-normal fs-6 text-sm">
+                                    CEO / Co-Founder
+                                </p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-auto mt-4">
+                            <div class="avatar avatar-md position-relative">
+                                <img src="/static/assets/img/size-of-company.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                            </div>
+                        </div>
+                        <div class="col-auto my-auto">
+                            <div class="h-100">
+                                <h5 class="mt-4 mb-0 fs-5">
+                                    {{accreditation.bussines.business_name}}
+                                </h5>
+                                <p class="mb-0 font-weight-normal fs-6 text-sm">
+                                    {{accreditation.bussines.ruc}}
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 ps-2 px-0">
+            <div class="card card-body h-100 mx-0 mx-md-0 border-radius-md" v-if="!form">
+                <div class="row gx-4 mb-2">
+                    <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                        <div class="nav-wrapper position-relative end-0">
+                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative">home</i>
+                                        <span class="ms-1">Informacion</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                                        <i class="material-icons text-lg position-relative">email</i>
+                                        <span class="ms-1">Messages</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                                        <i class="material-icons text-lg position-relative">settings</i>
+                                        <span class="ms-1">Settings</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 col-md-6 col-xl-6 position-relative">
+                        <div class="col-12">
+                            <div class="card card-plain h-100">
+                                <div class="card-header pb-0 p-3">
+                                    <div class="row">
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <h6 class="mb-0">Informacion general</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <ul class="list-group">
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 4, 'Correo electronico')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-70">REQUISITOS LEGALES:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{accreditation.legal_requirements }}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 5, 'telefono')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-70">REQUISITOS TÉCNICOS:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{accreditation.technical_requirements}}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 6, 'Direccion')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-70">INSPECCIÓN MECÁNICA:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{accreditation.mechanical_inspection}}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 7, 'Ubicacion geografica')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-70">SEGUROS:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{accreditation.insurance}}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 10, 'Fecha de nacimiento')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-30">TARJETA DE ACREDITACIÓN:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        {% if accreditation.accreditation_card == true %}
+                                                            <h6 class="text-sm text-success font-weight-normal mb-1">
+                                                                <i class="fa fa-circle-check"></i>
+                                                            </h6>
+                                                        {% else %}
+                                                            <h6 class="text-sm text-warning font-weight-normal mb-1">
+                                                                <i class="fa fa-circle-exclamation"></i>
+                                                            </h6>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 pb-0">
+                                            <strong class="text-dark text-sm">Social:</strong> &nbsp;
+                                            <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                            <i class="fab fa-facebook fa-lg"></i>
+                                            </a>
+                                            <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                            <i class="fab fa-twitter fa-lg"></i>
+                                            </a>
+                                            <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                            <i class="fab fa-instagram fa-lg"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-6 mt-md-0 mt-4 position-relative">
+                        <div class="card-header pb-0 p-3">
+                            <div class="row">
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <h6 class="mb-0">Informacion adicional</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 8, 'estado civil')">
+                                        <div class="d-flex py-1">
+                                            <strong class="text-dark w-30">Creado el:</strong>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="ms-2">{{ accreditation.created_at }}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 9, 'sexo')">
+                                        <div class="d-flex py-1">
+                                            <strong class="text-dark w-30">actualizado el:</strong>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="ms-2">{{ accreditation.updated_at }}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 11, 'estado')">
+                                        <div class="d-flex py-1">
+                                            <strong class="text-dark w-30">Estado:</strong>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                    <span class="ms-2">{{ accreditation.status }}</span>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-header pb-0 p-3">
+                            <div class="row">
+                                <div class="col-md-8 d-flex align-items-center">
+                                    <h6 class="mb-0">Propietarios</h6>
+                                </div>
+                            </div>
+                            <div class="card-body p-3">
+                                {% for avatar in accreditation.plate.owners.all %}
+                                    <a href="" class="btn btn-dark">
+                                        <span>{{avatar.name}} {{avatar.first_name}} {{avatar.first_name}}</span>
+                                        <span class="badge badge-info">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </a>
+                                {% endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+{% endblock javascripts %}

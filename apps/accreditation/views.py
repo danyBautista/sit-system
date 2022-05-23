@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from django.template import loader
 from django.shortcuts import render
 from django.views.generic import UpdateView, ListView, CreateView
 from django.urls import reverse_lazy
@@ -6,15 +8,19 @@ from django.contrib import messages
 from apps.accreditation.forms import accreditationsForm
 from apps.accreditation.models import accreditation
 from apps.includes.sidebar.models import Sidebar
+from apps.vehicles.models import vehicles
 # Create your views here.
 
-class accreditationView(ListView):
+class accreditationIndex(ListView):
     model = accreditation
     template_name  = 'accreditation/index.html'
     paginate_by = 50
 
+    def get_queryset(self):
+        return accreditation.objects.order_by('plate').filter(delete_at__isnull=True)
+
     def get_context_data(self, **kwargs):
-        context = super(accreditationView, self).get_context_data(**kwargs)
+        context = super(accreditationIndex, self).get_context_data(**kwargs)
         context['segment'] = 'accreditation'
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=10)
@@ -45,3 +51,31 @@ class accreditationCreate(CreateView):
         context['page'] = 'Crear Acreditacion'
 
         return context
+
+class accreditationView(HttpResponse):
+    def index(request, pk):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=10)
+        ac = accreditation.objects.get(id=pk)
+
+        context = {'segment': 'business', 'sidebars': sidebar, 'title': title, 'page':'Empresas', 'accreditation': ac}
+        html_template = loader.get_template('accreditation/view.html')
+        return HttpResponse(html_template.render(context, request))
+
+class accreditationUpdate(UpdateView):
+    model = accreditation
+    template_name = 'accreditation/update.html'
+    form_class = accreditationsForm
+    success_url = reverse_lazy('accreditation.index')
+
+    def get_context_data(self, **kwargs):
+        context = super(accreditationUpdate, self).get_context_data(**kwargs)
+        context['segment'] = 'accreditation'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=10)
+        context['page'] = 'Actualizar acreditacion'
+        context['pk'] = self.kwargs['pk']
+        return context
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
