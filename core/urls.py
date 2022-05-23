@@ -11,6 +11,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('certificate/', include("apps.certify.urls")),
+    path('accreditation/', include("apps.accreditation.urls")),
     path('tools/', include("apps.includes.sidebar.urls")),
     path('people/', include("apps.people.urls")),
     path('administration/', include("apps.administration.urls")),

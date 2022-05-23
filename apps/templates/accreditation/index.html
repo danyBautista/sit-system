@@ -24,6 +24,7 @@
                         </div>
                     {% endfor %}
                 {% endif %}
+                {{success_message}}
                 <div class="row align-items-center mt-5">
                     <div class="col-md-5 ps-5">
                         <p class="text-xs mb-0">Modulo</p>
@@ -33,7 +34,7 @@
                         <h6 class="text-md font-weight-normal mb-1">
                             <span>{{title.description}}</span>
                         </h6>
-                        <a href="{% url 'business.create' %}" class="btn bg-gradient-info">
+                        <a href="{% url 'accreditation.create' %}" class="btn bg-gradient-info">
                             <i class="material-icons opacity-10">add</i>
                             Registrar nuevo
                         </a>
@@ -198,47 +199,61 @@
                 {% endif %}
                 </div>
                 <div class="card-body px-2 pb-2" v-if="icon_content">
-                    {% if business %}
+                    {% if accreditation_list %}
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Empresa</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Direccion</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Contactos</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Acreditaion</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Numero</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Empresa</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Requerimientos</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ins. Mecanica</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">seguro</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Targeta</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
                         <tbody v-if="!list_view">
-                            {% for item in business %}
+                            {% for item in accreditation_list %}
                             <tr>
                                 <td>
-                                    <a href="{% url 'business.update' pk=item.ruc %}">
+                                    <a href="#">
                                         <div class="d-flex px-2 py-1">
                                             <div>
-                                                <img src="/static/assets/img/size-of-company.png" class="avatar avatar-sm me-3">
+                                                {% if item.status == 'ACREDITADO' %}
+                                                    <img src="/static/assets/img/accreditation_check.png" class="avatar avatar-sm me-3">
+                                                {% else %}
+                                                    {% if item.status == 'PENDIENTE'%}
+                                                        <img src="/static/assets/img/accreditation_warning.png" class="avatar avatar-sm me-3">
+                                                    {% else %}
+                                                    <img src="/static/assets/img/accreditation_less.png" class="avatar avatar-sm me-3">
+                                                    {% endif %}
+                                                {%endif%}
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs crop-text">{{item.business_name}}</h6>
-                                                <p class="text-xs text-secondary mb-0">{{ item.ruc }}</p>
+                                                <h6 class="mb-0 text-xs">{{item.plate}} - {{item.year_of_production}}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{ item.route }}</p>
                                             </div>
                                         </div>
                                     </a>
                                 </td>
                                 <td>
-                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.address}}</p>
+                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.permit_number}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.bussines.business_name}}</p>
                                 </td>
                                 <td class="align-middle text-left">
                                     <span class="text-secondary text-xs font-weight-normal">
-                                        <strong>Telefono :</strong>{{item.phone}} - <br>
-                                        <strong>Pagina web : </strong>{{item.webpage}}
+                                        <strong>Legal :</strong>{{item.legal_requirements}} - <br>
+                                        <strong>Tecnico : </strong>{{item.technical_requirements}}
                                     </span>
                                 </td>
                                 <td class="align-middle text-center text-sm">
                                     {% if item.status == True %}
-                                        <span class="badge badge-sm badge-success">Habilitado</span>
+                                        <span class="badge badge-sm badge-success">Si</span>
                                     {% else %}
-                                        <span class="badge badge-sm badge-secondary">Deshabilitado</span>
+                                        <span class="badge badge-sm badge-warning">NO</span>
                                     {% endif %}
                                 </td>
                                 <td class="align-middle">

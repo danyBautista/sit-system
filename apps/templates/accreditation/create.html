@@ -1,0 +1,152 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<link href="/static/assets/css/select2.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="container-fluid p-1">
+        <div class="bg-light max-height-vh-90">
+            <div class="position-sticky z-index-sticky top-0 me-3 scrollspy-example" data-bs-spy="scroll" data-bs-offset="0">
+                {{error_message}}
+                <form action="{% url 'accreditation.create' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <nav class="navbar shadow-lg rounded navbar-expand-lg z-index-3 position-fixed w-form pt-4 blur-gradient-primary start-0 end-0 mx-0 bg-light">
+                        <div class="container-fluid ps-2 pe-0">
+                            <a href="{% url 'business.index' %}" class="btn btn-link px-1 me-3" @click="$emit('close')">
+                                <i class="material-icons opacity-10">close</i>
+                            </a>
+                            <div class="navbar-brand font-weight-bolder ms-lg-0 ms-3 brand-form">
+                                Nuevo registro
+                            </div>
+                            <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon mt-2">
+                                    <span class="navbar-toggler-bar bar1"></span>
+                                    <span class="navbar-toggler-bar bar2"></span>
+                                    <span class="navbar-toggler-bar bar3"></span>
+                                </span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navigation">
+                                <ul class="navbar-nav mx-auto">
+                                    <li class="nav-item">
+                                    </li>
+                                </ul>
+                                <ul class="navbar-nav d-lg-block d-none">
+                                    <li class="nav-item">
+                                        <button class="btn me-1 bg-gradient-info" type="submit">
+                                            <i class="material-icons opacity-10">check</i>
+                                            Guardar registro
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="container-fluid">
+                        <div class="row my-3">
+                            <div class="col-md-4">
+                                <div class="card h-100">
+                                    <div class="card-header pb-0">
+                                        <h6>Datos del  principales</h6>
+                                    </div>
+                                    <div class="card-body p-3 pt-0">
+                                        <div class="input-group input-group-lg input-group-outline mb-4">
+                                            <label class="form-label">Numerp permitido</label>
+                                            {{form.permit_number}}
+                                        </div>
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Placa vehicular</label>
+                                            {{form.plate}}
+                                        </div>
+                                        <div class="input-group input-group-sm input-group-outline mb-4">
+                                            <label class="form-label">Año de produccion</label>
+                                            {{form.year_of_production}}
+                                        </div>
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Ruta</label>
+                                            {{form.route}}
+                                        </div>
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Tipologia</label>
+                                            {{form.typology}}
+                                        </div>
+                                        <div class="form-check">
+                                            {{form.accreditation_card}}
+                                            <label class="custom-control-label" for="customCheck1">Targeta de acreditacion</label>
+                                        </div>
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Estado</label>
+                                            {{form.status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card h-100">
+                                    <div class="card-header pb-0">
+                                        <h6>Datos del  generales</h6>
+                                    </div>
+                                    <div class="card-body p-3 pt-0">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-static mb-4">
+                                                    <label>Requerimientos legales</label>
+                                                    {{form.legal_requirements}}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-static mb-4">
+                                                    <label>Requerimientos Tecnico</label>
+                                                    {{form.technical_requirements}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-static mb-4">
+                                                    <label>Inspeccion mecanica</label>
+                                                    {{form.mechanical_inspection}}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-static mb-4">
+                                                    <label>Seguro</label>
+                                                    {{form.insurance}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="input-group input-group-static mb-4">
+                                            <label>Empresa</label>
+                                            {{form.bussines}}
+                                        </div>
+                                        <div class="input-group input-group-dynamic">
+                                            <label>Observaciones</label>
+                                            {{form.remark}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/plugins/chartjs.min.js"></script>
+<script src="/static/assets/js/plugins/dropzone.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="/static/assets/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select-single').select2();
+    });
+</script>
+{% endblock javascripts %}

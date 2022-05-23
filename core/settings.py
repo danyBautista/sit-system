@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'apps.business',
     'apps.procedure',
     'apps.reports',
+    'apps.accreditation'
 ]
 
 MIDDLEWARE = [

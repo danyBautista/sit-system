@@ -8,7 +8,7 @@
 {% block content %}
 <div class="container-fluid p-1">
     <div class="container position-sticky z-index-sticky top-0 me-5 py-3 scrollspy-example" data-bs-spy="scroll" data-bs-offset="0">
-        <form action="{% url 'people.createView' %}" method="POST" enctype="multipart/form-data">
+        <form action="{% url 'people.updateView' pk=pk %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row">
                 <div class="col-12">
