@@ -1,11 +1,12 @@
 import re
 from rest_framework.generics import CreateAPIView, ListAPIView
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+import datetime
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.contrib import messages
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 
 from apps.includes.sidebar.models import Sidebar
@@ -17,7 +18,7 @@ from .serializers import BusinessSerializers
 # Create your views here.
 
 @login_required(login_url='/login/')
-class ListView(HttpResponse):
+class IndexView(HttpResponse):
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=4)
@@ -58,6 +59,10 @@ class BusinessUpdate(UpdateView):
     form_class = BusinessForm
     success_url = reverse_lazy('business.index')
 
+    def save(self,*args, **kwargs):
+        self.small_name = self.small_name.upper()
+        return super(business, self).save(*args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(BusinessUpdate, self).get_context_data(**kwargs)
         context['segment'] = 'business'
@@ -65,6 +70,45 @@ class BusinessUpdate(UpdateView):
         context['title'] = Sidebar.objects.get(id=4)
         context['page'] = 'Actualizar empresar'
         context['pk'] = self.kwargs['pk']
+        return context
+
+class BusinessView(HttpResponse):
+    def index(request, pk):
+        sidebar = Sidebar.objects.all()
+        title = Sidebar.objects.get(id=4)
+        bs = business.objects.get(ruc=pk)
+
+        context = {'segment': 'business', 'sidebars': sidebar, 'title': title, 'page':'Empresas', 'business': bs}
+        html_template = loader.get_template('business/view.html')
+        return HttpResponse(html_template.render(context, request))
+
+class BusinessDeleteSoft(DeleteView):
+    model = business
+
+    def post(self, request, pk, *args, **kwargs):
+        data = {}
+        try:
+            object = business.objects.get(ruc = pk)
+            object.delete_at = datetime.datetime.now()
+            object.save()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+class BusinessIndex(ListView):
+    model = business
+    template_name  = 'business/index.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        return business.objects.order_by('ruc').filter(delete_at__isnull=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(BusinessIndex, self).get_context_data(**kwargs)
+        context['segment'] = 'Business'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=4)
+        context['page'] = 'Listar empresas'
         return context
 
 """ services start here """

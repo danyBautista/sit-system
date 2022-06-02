@@ -374,7 +374,7 @@
                     {% endif %}
                 </div>
                 <div class="card-body px-2 pb-2" v-if="icon_content">
-                    {% if peoples %}
+                    {% if people_list %}
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
@@ -386,7 +386,7 @@
                             </tr>
                         </thead>
                         <tbody v-if="!list_view">
-                            {% for item in peoples %}
+                            {% for item in people_list %}
                             <tr>
                                 <td>
                                     <a href="{% url 'people.view' key_id=item.dni %}">
@@ -423,11 +423,15 @@
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute" aria-labelledby="{{item.dni}}">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Editar</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Eliminar</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Ver</a></li>
-                                            <li><hr class="horizontal light mt-0 mb-2"></li>
-                                            <li><a class="dropdown-item border-radius-md bg-gradient-danger" href="javascript:;">Borrar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="{% url 'people.updateView' pk=item.dni %}"><i class="fa fa-edit me-3"></i> Editar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="{% url 'people.view' key_id=item.dni %}"><i class="fa fa-eye me-3"></i>Ver</a></li>
+                                            <li><a class="dropdown-item border-radius-md text-danger" href="#" id="delete"
+                                                data-get-id="{{item.dni}}"
+                                                data-get-name="{{item.name}} {{item.first_name}} {{item.last_name}}"
+                                                data-get-update="{{item.updated_at}}"
+                                                data-get-image="{{item.user_photo_path}}"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"><i class="fa fa-trash me-3"></i>Eliminar</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -468,11 +472,9 @@
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Editar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="#">Editar</a></li>
                                             <li><a class="dropdown-item border-radius-md" href="javascript:;">Eliminar</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Ver</a></li>
-                                            <li><hr class="horizontal light mt-0 mb-2"></li>
-                                            <li><a class="dropdown-item border-radius-md bg-gradient-danger" href="javascript:;">Borrar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="#">Ver</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -490,16 +492,101 @@
                     {% endif %}
                 </div>
             </div>
+            {% if is_paginated %}
+                <div class="card card-body border-radius-md mt-2">
+                    <div class="card-header pb-0">
+                        <ul class="pagination pagination-info">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <span class="material-icons">
+                                            keyboard_arrow_left
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                                <li class="page-item  {% if page_obj.number == i %} active {% endif %}">
+                                    <a class="page-link" href="?page={{i}}">{{i}}</a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <span class="material-icons">
+                                            keyboard_arrow_right
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
+    <!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form action="delete/" id="deleteForm" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header py-1 pt-2">
+                    <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Eliminar registro</h5>
+                    <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times text-danger"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-sm d-flex">
+                        <span class="material-icons h2">
+                            account_circle
+                        </span>
+                        <i class="fa fa-times text-danger position-absolute h5 m-3 ms-4"></i>
+                        <div class="mt-2 ms-2">
+                            ¿estas seguro que desea eliminar este registro?
+                        </div>
+                    </div>
+                    <div class="text-sm px-5">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="card card-header card-body p-0 my-2">
+                                    <a class="d-block blur-shadow-image">
+                                        <img id="id_image" src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="d-block">
+                                    <strong id="ID_code"></strong>
+                                    <span id="id_name"></span>
+                                </div>
+                                <small>Fecha de modificación: <span id="id_update_at"></span></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-sm bg-gradient-danger  w-lg-25 m-0" id="delete_reg">Si</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
 <script src="/static/assets/vue/apps/people/people.script.js"></script>
 <script src="/static/assets/vue/includes/table.script.js"></script>
+<script src="/static/assets/vue/includes/delete.script.js"></script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
     new Chart(ctx, {

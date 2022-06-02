@@ -58,7 +58,7 @@
                             <h6>{{page}} registrados</h6>
                             <p class="text-sm mb-0">
                                 <i class="fa fa-users text-info"></i>
-                                <span class="font-weight-bold-ms-1">{{business.count}} Registros</span>
+                                <span class="font-weight-bold-ms-1">{{business_list.count}} Registros</span>
                             </p>
                         </div>
                         <div class="col-lg-6 col-5 my-auto text-end">
@@ -136,20 +136,20 @@
                     </div>
                 </div>
                 <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
-                {% if business %}
+                {% if business_list %}
                     <ul class="w-100 ps-0" v-if="!list_view">
-                        {% for item in business %}
+                        {% for item in business_list %}
                         <li class="list-card">
                             <div class="card card-frame w-100 m-2">
                                 <div class="card-body p-0">
-                                    <a class="dropdown-item border-radius-md" href="{% url 'business.update' pk=item.ruc %}">
+                                    <a class="dropdown-item border-radius-md" href="{% url 'business.view' pk=item.ruc %}">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
                                                 <img src="/static/assets/img/size-of-company.png" class="avatar avatar-sm  me-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="text-sm font-weight-normal mb-1 crop-text">
-                                                    <span class="font-weight-bold">{{item.business_name}}</span>
+                                                    <span class="font-weight-bold">{{item.small_name}}</span>
                                                 </h6>
                                                 <p class="text-xs text-secondary mb-0 crop-text">
                                                     <i class="fa fa-certificate me-1"></i>
@@ -198,7 +198,7 @@
                 {% endif %}
                 </div>
                 <div class="card-body px-2 pb-2" v-if="icon_content">
-                    {% if business %}
+                    {% if business_list %}
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
@@ -210,16 +210,16 @@
                             </tr>
                         </thead>
                         <tbody v-if="!list_view">
-                            {% for item in business %}
+                            {% for item in business_list %}
                             <tr>
                                 <td>
-                                    <a href="{% url 'business.update' pk=item.ruc %}">
+                                    <a href="{% url 'business.view' pk=item.ruc %}">
                                         <div class="d-flex px-2 py-1">
                                             <div>
                                                 <img src="/static/assets/img/size-of-company.png" class="avatar avatar-sm me-3">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-xs crop-text">{{item.business_name}}</h6>
+                                                <h6 class="mb-0 text-xs crop-text">{{item.small_name}}</h6>
                                                 <p class="text-xs text-secondary mb-0">{{ item.ruc }}</p>
                                             </div>
                                         </div>
@@ -248,12 +248,16 @@
                                                 more_vert
                                             </span>
                                         </button>
-                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute" aria-labelledby="{{item.dni}}">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Editar</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Eliminar</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Ver</a></li>
-                                            <li><hr class="horizontal light mt-0 mb-2"></li>
-                                            <li><a class="dropdown-item border-radius-md bg-gradient-danger" href="javascript:;">Borrar</a></li>
+                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute" aria-labelledby="{{item.ruc}}">
+                                            <li><a class="dropdown-item border-radius-md" href="{% url 'business.update' pk=item.ruc %}"><i class="fa fa-edit me-3"></i> Editar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="{% url 'business.view' pk=item.ruc %}"><i class="fa fa-eye me-3"></i>Ver</a></li>
+                                            <li><a class="dropdown-item border-radius-md text-danger" href="#" id="delete"
+                                                data-get-id="{{item.ruc}}"
+                                                data-get-name="{{item.business_name}}"
+                                                data-get-update="{{item.updated_at}}"
+                                                data-get-image="{{item.logo_snall_path}}"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"><i class="fa fa-trash me-3"></i>Eliminar</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -318,14 +322,63 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="delete/" id="deleteForm" method="post">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header py-1 pt-2">
+                        <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Eliminar registro</h5>
+                        <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-times text-danger"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-sm d-flex">
+                            <span class="material-icons h2">
+                                business_center
+                            </span>
+                            <i class="fa fa-times text-danger position-absolute h5 m-3 ms-4"></i>
+                            <div class="mt-2 ms-2">
+                                ¿estas seguro que desea eliminar este registro?
+                            </div>
+                        </div>
+                        <div class="text-sm px-5">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="card card-header card-body p-0 my-2">
+                                        <a class="d-block blur-shadow-image">
+                                            <img id="id_image" src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="d-block">
+                                        <strong id="ID_code"></strong>
+                                        <span id="id_name"></span>
+                                    </div>
+                                    <small>Fecha de modificación: <span id="id_update_at"></span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-sm bg-gradient-danger  w-lg-25 m-0" id="delete_reg">Si</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
 <script src="/static/assets/vue/includes/forms.script.js"></script>
 <script src="/static/assets/vue/includes/table.script.js"></script>
+<script src="/static/assets/vue/includes/delete.script.js"></script>
 <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
     new Chart(ctx, {

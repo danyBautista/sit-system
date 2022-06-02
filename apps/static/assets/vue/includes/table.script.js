@@ -55,3 +55,4 @@ new Vue({
         search.classList.add('d-none');
     },false)
 })();
+

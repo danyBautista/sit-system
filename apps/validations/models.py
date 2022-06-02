@@ -5,6 +5,7 @@ from datetime import datetime, date, timedelta
 from apps.people.models import people
 from apps.vehicles.models import vehicles
 from apps.certify.models import soat, citv, src, svct
+
 # Create your models here.
 
 class routes(models.Model):
@@ -13,7 +14,7 @@ class routes(models.Model):
         ('C8','C8'),('C9','C9'),('C10','C10'),('C11','C11'),
     )
     route = models.CharField(max_length=45)
-    concession = models.CharField(max_length=10, choices=CONCESSIONS)
+    concession = models.CharField(max_length=10, choices=CONCESSIONS, blank=True, null=True)
     short_name = models.CharField(max_length=50, null=True)
     road = models.TextField(null=True)
     status = models.BooleanField()

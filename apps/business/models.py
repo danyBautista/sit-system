@@ -5,7 +5,8 @@ from apps.control.models import geographic_location
 
 class business(models.Model):
     ruc = models.CharField(max_length=11, primary_key=True, unique=True)
-    business_name = models.CharField(max_length=150, blank=True)
+    business_name = models.CharField(max_length=250, blank=True)
+    small_name = models.CharField(max_length=100, blank=True, null=True)
     address = models.CharField(max_length=150, blank=True)
     phone = models.CharField(max_length=150, blank=True)
     webpage = models.CharField(max_length=150, blank=True)

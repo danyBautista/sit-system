@@ -304,7 +304,7 @@
                             </div>
                             <div class="card-body p-3">
                                 {% for avatar in accreditation.plate.owners.all %}
-                                    <a href="" class="btn btn-dark">
+                                    <a href="{% url 'people.view' key_id=avatar.dni %}" class="btn btn-dark">
                                         <span>{{avatar.name}} {{avatar.first_name}} {{avatar.first_name}}</span>
                                         <span class="badge badge-info">
                                             <i class="fa fa-user"></i>

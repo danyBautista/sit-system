@@ -1,0 +1,281 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid pt-3 py-4 ps-1" id="profile">
+    <div class="row ms-0">
+        <div class="col-md-4 px-0">
+            <div class="card card-body mx-0 mx-md-0 border-radius-md">
+                <a href="{% url 'business.index' %}" class="btn btn-icon  h-10 w-10 mt-n3 ms-n3 p-2">
+                    <div class="btn-inner--icon">
+                        <span class="material-icons">
+                            arrow_back
+                        </span>
+                    </div>
+                </a>
+                <div class="row justify-content-md-center gx-4 mb-2">
+                    <div class="col-auto text-auto">
+                        <div class="avatar avatar-xxl position-relative mt-3">
+                            <img src="/static/assets/img/bruce-mars.jpg" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                        </div>
+                    </div>
+                    <div class="col-auto w-100 text-center my-4">
+                        <div class="h-100">
+                            <a href="#" @click="viewForms(true, 0, 'Nombre de usuario', {{people.dni}})">
+                                <h5 class="mb-1 display-6 fs-3">
+                                    {{business.small_name}}
+                                </h5>
+                            </a>
+                            <p class="mb-0 font-weight-normal text-sm">
+                                {{business.ruc}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-auto text-center mb-4">
+                        <a href="{% url 'business.update' pk=business.ruc%}" class="btn btn-info">Editar usuario</a>
+                        <p class="mb-0 font-weight-normal text-sm mx-5">
+                            Usted. tiene permiso para editar esta empresa
+                        </p>
+                    </div>
+                    <div class="col-auto w-100 px-6 d-flex text-center mb-4">
+                        <div class="card card-frame w-50 m-2">
+                            <div class="card-body p-0">
+                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <i class="fa fa-star me-1" aria-hidden="true"></i>
+                                                <span class="font-weight-bold">4.5</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                promedio
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card card-frame w-50 m-2">
+                            <div class="card-body p-0">
+                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <span class="font-weight-bold">9</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                Calificacion
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="col-auto mt-4">
+                            <div class="avatar avatar-md position-relative">
+                                <img src="/static/assets/img/size-of-company.png" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                            </div>
+                        </div>
+                        <div class="col-auto my-auto">
+                            <div class="h-100">
+                                <h5 class="mt-4 mb-0 fs-5">
+                                    {{business.business_name}}
+                                </h5>
+                                <p class="mb-0 font-weight-normal fs-6 text-sm">
+                                    CEO / Co-Founder
+                                </p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 ps-2 px-0">
+            <div class="card card-body h-100 mx-0 mx-md-0 border-radius-md" v-if="!form">
+                <div class="row gx-4 mb-2">
+                    <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                        <div class="nav-wrapper position-relative end-0">
+                            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" data-bs-target="#home"  aria-controls="home" role="tab" aria-selected="true">
+                                        <i class="material-icons text-lg position-relative">home</i>
+                                        <span class="ms-1 text-sm">Informacion</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" data-bs-target="#email"  aria-controls="mail"  role="tab" aria-selected="false">
+                                        <i class="material-icons text-lg position-relative">history</i>
+                                        <span class="text-sm">Historial</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" data-bs-target="#settings"  aria-controls="settings"  role="tab" aria-selected="false">
+                                        <i class="material-icons text-lg position-relative">settings</i>
+                                        <span class="ms-1 text-sm">Configuracion</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="tabsContent">
+                    <div class="tab-pane fade show active"id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6 col-xl-6 position-relative">
+                                <div class="col-12">
+                                    <div class="card card-plain h-100">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="row">
+                                                <div class="col-md-8 d-flex align-items-center">
+                                                    <h6 class="mb-0">Informacion del perfil</h6>
+                                                </div>
+                                                <div class="col-md-4 text-end">
+                                                    <a href="javascript:;"  @click="viewForms(true, 3, 'informacion de perfil')">
+                                                        <i class="fas fa-user-edit text-secondary text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-3">
+                                            <p class="text-sm">
+                                                {{business.business_description }}
+                                            </p>
+                                            <ul class="list-group">
+                                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 4, 'Correo electronico')">
+                                                        <div class="d-flex py-1">
+                                                            <strong class="text-dark w-30">pagina web:</strong>
+                                                            <div class="d-flex flex-column justify-content-center">
+                                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                                    <span class="ms-2">{{business.webpage }}</span>
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 5, 'telefono')">
+                                                        <div class="d-flex py-1">
+                                                            <strong class="text-dark w-30">telefono:</strong>
+                                                            <div class="d-flex flex-column justify-content-center">
+                                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                                    <span class="ms-2">{{business.phone}}</span>
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 6, 'Direccion')">
+                                                        <div class="d-flex py-1">
+                                                            <strong class="text-dark w-30">Direccion:</strong>
+                                                            <div class="d-flex flex-column justify-content-center">
+                                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                                    <span class="ms-2">{{business.address}}</span>
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                                    <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 7, 'Ubicacion geografica')">
+                                                        <div class="d-flex py-1">
+                                                            <strong class="text-dark w-30">Ubigeo:</strong>
+                                                            <div class="d-flex flex-column justify-content-center">
+                                                                <h6 class="text-sm font-weight-normal mb-1">
+                                                                    <span class="ms-2">{{business.geographic_location_id}}</span>
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item border-0 ps-0 pb-0">
+                                                    <strong class="text-dark text-sm">Social:</strong> &nbsp;
+                                                    <a class="btn btn-facebook btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                                    <i class="fab fa-facebook fa-lg"></i>
+                                                    </a>
+                                                    <a class="btn btn-twitter btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                                    <i class="fab fa-twitter fa-lg"></i>
+                                                    </a>
+                                                    <a class="btn btn-instagram btn-simple mb-0 ps-1 pe-2 py-0" href="javascript:;">
+                                                    <i class="fab fa-instagram fa-lg"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-6 mt-md-0 mt-4 position-relative">
+                                <div class="card-header pb-0 p-3">
+                                    <div class="row">
+                                        <div class="col-md-8 d-flex align-items-center">
+                                            <h6 class="mb-0">Informacion adicional</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-3">
+                                    <ul class="list-group">
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 8, 'estado civil')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-30">registro:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{ business.registration_date }}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 9, 'sexo')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-30">apertura:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{ business.opening_date }}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item border-0 ps-0 pt-0 text-sm">
+                                            <a class="dropdown-item border-radius-md" href="javascript:;"  @click="viewForms(true, 11, 'estado')">
+                                                <div class="d-flex py-1">
+                                                    <strong class="text-dark w-30">Estado:</strong>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="text-sm font-weight-normal mb-1">
+                                                            <span class="ms-2">{{ business.status }}</span>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="tab-pane fade" id="email" role="tabpanel" aria-labelledby="profile-tab">email</div>
+                    <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="contact-tab">configuracion</div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="/static/assets/js/plugins/chartjs.min.js"></script>
+<script src="/static/assets/vue/apps/people/profile.script.js"></script>
+
+{% endblock javascripts %}

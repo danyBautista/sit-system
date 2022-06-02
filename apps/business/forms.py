@@ -14,6 +14,7 @@ class BusinessForm(forms.ModelForm):
         fields = [
             'ruc',
             'business_name',
+            'small_name',
             'address',
             'phone',
             'webpage',
@@ -47,6 +48,7 @@ class BusinessForm(forms.ModelForm):
             'ruc' : forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type':'number'}),
             'business_name' : forms.TextInput(attrs={'class':'form-control text-uppercase form-control-lg'}),
             'address' : forms.TextInput(attrs={'class':'form-control text-uppercase form-control-sm'}),
+            'small_name' : forms.TextInput(attrs={'class':'form-control text-uppercase form-control-sm'}),
             'phone' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'webpage' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'registration_date' : forms.TextInput(attrs={'class':'form-control form-control-sm', 'type':'date'}),

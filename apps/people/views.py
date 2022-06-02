@@ -2,18 +2,21 @@
 """
 Copyright (c) 2019 - present GlastHeim.pe
 """
-from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView, GenericAPIView
+from rest_framework.mixins import UpdateModelMixin
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
 
 from django import template
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+import datetime
 from django.template import loader
 from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.views.generic import UpdateView, ListView, CreateView
+from django.views.generic import UpdateView, ListView, CreateView, DeleteView
 from django.urls import reverse_lazy
 
 from apps.people.models import people
@@ -24,7 +27,6 @@ from .serializers import PeopleSerializer
 
 @login_required(login_url="/login/")
 def index(request):
-
     peoples = people.objects.all()
     sidebar = Sidebar.objects.all()
     title = Sidebar.objects.get(id="3")
@@ -73,6 +75,22 @@ def index(request):
     context = {'segment': 'people', 'sidebars': sidebar, 'peoples': peoples, 'title': title, 'forms':form, 'page':'/usuarios'}
     html_template = loader.get_template('people/index.html')
     return HttpResponse(html_template.render(context, request))
+
+class PeopleIndex(ListView):
+    model = people
+    template_name  = 'people/index.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        return people.objects.order_by('dni').filter(delete_at__isnull=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(PeopleIndex, self).get_context_data(**kwargs)
+        context['segment'] = 'people'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=3)
+        context['page'] = 'Crear Usuario'
+        return context
 
 class PeopleCreate(CreateView):
     model = people
@@ -156,3 +174,16 @@ class PeopleUpdateAPIView(UpdateAPIView):
 
 class PeopleCreateAPI(CreateAPIView):
     serializer_class = PeopleSerializer
+
+class PeopleDeleteSoft(DeleteView):
+    model = people
+
+    def post(self, request, pk, *args, **kwargs):
+        data = {}
+        try:
+            object = people.objects.get(dni = pk)
+            object.delete_at = datetime.datetime.now()
+            object.save()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
