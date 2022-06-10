@@ -7,5 +7,5 @@ from django.urls import path, re_path
 from apps.administration import views
 
 urlpatterns = [
-    path('', views.index, name='admin.index'),
+    path('', views.AdminIndex.index, name='admin.index'),
 ]
