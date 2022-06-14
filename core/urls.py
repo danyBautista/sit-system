@@ -8,7 +8,6 @@ from django.urls import path, include  # add this
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('certificate/', include("apps.certify.urls")),
     path('accreditation/', include("apps.accreditation.urls")),
@@ -22,8 +21,8 @@ urlpatterns = [
     path('business/', include("apps.business.urls")),
     path('modules/', include("apps.modules.urls")),
     path('admin/', admin.site.urls),          # Django admin route
-    path("", include("apps.authentication.urls")), # Auth routes - login / register
-    path("", include("apps.home.urls"))            # UI Kits Html files
+    path("login/", include("core.login.urls")), # Auth routes - login / register
+    path("tablero/", include("apps.home.urls"))            # UI Kits Html files
 ]
-if settings.DEBUG == True:
+if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

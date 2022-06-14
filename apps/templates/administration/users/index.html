@@ -1,0 +1,465 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{title.name}} {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="container-fluid py-4 ps-1">
+        <div class="page-header min-height-300 border-radius-md mb-4" id="app">
+            <span class="mask bg-transparent opacity-9">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="alert-icon align-middle">
+                                <span class="material-icons text-md">
+                                    warning
+                                </span>
+                            </span>
+                            <span class="alert-text"><strong>Cuidado!</strong>{{message}}</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="row align-items-center mt-5">
+                    <div class="col-md-5 ps-5">
+                        <p class="text-xs mb-0">Modulo</p>
+                        <h4 class="text-xxl font-weight-normal mb-1 text-capitalize">
+                            <span class="display-4">Usuarios de sistema</span>
+                        </h4>
+                        <h6 class="text-md font-weight-normal mb-1">
+                            <span>{{title.description}}</span>
+                        </h6>
+                        <a href="{% url 'admin.user.create' %}" class="btn bg-gradient-info">
+                            <i class="material-icons opacity-10">add</i>
+                            Registrar nuevo
+                        </a>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="bg-transparent border-radius-lg py-3 pe-1">
+                            <div class="chart">
+                                <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+        </div>
+        <input type="hidden" name="route_search" id="route_search" value="{% url 'admin.user.api.search' %}?kword=">
+        <input type="hidden" name="route_view" id="route_view" value="/business/update/">
+        <div class="container px-0" id="table">
+            <div class="card border-radius-md">
+                <div class="card-header pb-0">
+                    <div class="row">
+                        <div class="col-lg-6 col-7">
+                            <h6>{{page}} registrados</h6>
+                            <p class="text-sm mb-0">
+                                <i class="fa fa-users text-info"></i>
+                                <span class="font-weight-bold-ms-1">{{business_list.count}} Registros</span>
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-5 my-auto text-end">
+                            <nav class="navbar shadow-none border-radius-md navbar-expand-lg navbar-light bg-light p-0">
+                                <div class="container-fluid px-0">
+                                    <button class="navbar-toggler ms-md-auto pe-md-3 nav-link text-body p-0" id="table-navbar" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                                        <div class="sidenav-toggler-inner">
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                            <i class="sidenav-toggler-line"></i>
+                                        </div>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarScroll">
+                                        <ul class="navbar-nav ms-md-auto pe-md-3 end-100 my-2 my-lg-0 navbar-tabel" id="icon-process">
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" aria-current="page" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_left
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link disabled" href="#">
+                                                    <span class="material-icons">
+                                                        chevron_right
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="#">
+                                                    <span class="material-icons">
+                                                        history
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-pills nav-fill z-index-1 p-1" role="tablist" id="icon-views">
+                                            <li class="nav-item">
+                                                <a  @click="icon_content = true" class="nav-link mb-0 px-2 py-1 active" data-bs-toggle="tab" href="#profile-tabs-simple" role="tab" aria-controls="profile" aria-selected="true" href="#">
+                                                    <span class="material-icons">
+                                                        format_list_bulleted
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a @click="icon_content = false" class="nav-link mb-0 px-2 py-1" href="#" data-bs-toggle="tab" href="#dashboard-tabs-simple" role="tab" aria-controls="dashboard" aria-selected="false">
+                                                    <span class="material-icons">
+                                                        apps
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <span class="nav-item">
+                                            <a class="nav-link" href="#" id="btn-search">
+                                                <span class="material-icons">
+                                                    search
+                                                </span>
+                                            </a>
+                                        </span>
+                                        <form class="d-flex d-none w-100" id="form-search">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Buscar {{title.name}}</label>
+                                                <input v-model="kword" type="text" class="form-control">
+                                                <button class="btn bg-gradient-secondary mb-0 px-3" type="submit" id="submit-search">
+                                                    <span class="material-icons">
+                                                        close
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body px-2 pb-2 d-flex" v-if="!icon_content">
+                {% if user_list %}
+                    <ul class="w-100 ps-0" v-if="!list_view">
+                        {% for item in user_list %}
+                        <li class="list-card">
+                            <div class="card card-frame w-100 m-2">
+                                <div class="card-body p-0">
+                                    <a class="dropdown-item border-radius-md" href="#">
+                                        <div class="d-flex py-1">
+                                            <div class="my-auto">
+                                                <img src="{{item.get_photo_path}}" class="avatar avatar-sm  me-3 ">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1 crop-text">
+                                                    <span class="font-weight-bold">{{item.first_name}}{{item.last_name}}</span>
+                                                </h6>
+                                                <p class="text-xs text-secondary mb-0 crop-text">
+                                                    <i class="fa fa-certificate me-1"></i>
+                                                    {{item.username}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <ul class="w-100 ps-0" v-if="!search_content">
+                        <li class="list-card" v-for="item in list_user" :key="item.ruc">
+                            <div class="card card-frame w-100 m-2">
+                                <div class="card-body p-0">
+                                    <a class="dropdown-item border-radius-md" href="#" @click="redirec_user(item.ruc)">
+                                        <div class="d-flex py-1">
+                                            <div class="my-auto">
+                                                <img src="#" class="avatar avatar-sm  me-3 ">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="text-sm font-weight-normal mb-1 crop-text">
+                                                    <span class="font-weight-bold">{$item.first_name$} {$item.last_name$}</span>
+                                                </h6>
+                                                <p class="text-xs text-secondary mb-0 crop-text">
+                                                    <i class="fa fa-envelope me-1"></i>
+                                                    {$item.username$}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                {% else %}
+                    <div class="row mt-5 justify-content-md-center w-100">
+                        <div class="col-8">
+                            <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                                <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                </div>
+                <div class="card-body px-2 pb-2" v-if="icon_content">
+                    {% if user_list %}
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre Complento</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuario</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Correo</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ultima sesion</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody v-if="!list_view">
+                            {% for item in user_list %}
+                            <tr>
+                                <td>
+                                    <a href="#">
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="{{item.get_photo_path}}" class="avatar avatar-sm me-3">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-xs crop-text">{{item.first_name}}{{item.last_name}}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{ item.dni }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.username}}</p>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.email}}</p>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.last_login}}</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    {% if item.is_active == True %}
+                                        <span class="badge badge-sm badge-success">Habilitado</span>
+                                    {% else %}
+                                        <span class="badge badge-sm badge-secondary">Deshabilitado</span>
+                                    {% endif %}
+                                </td>
+                                <td class="align-middle">
+                                    <div class="dropdown float-lg-end pe-4">
+                                        <button class="btn btn-link text-secondary mb-0 cursor-pointer" id="{{item.dni}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class="material-icons">
+                                                more_vert
+                                            </span>
+                                        </button>
+                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute" aria-labelledby="{{item.ruc}}">
+                                            <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-edit me-3"></i> Editar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-eye me-3"></i>Ver</a></li>
+                                            {% if item.is_superuser != True %}
+                                            <li><a class="dropdown-item border-radius-md text-danger" href="#" id="delete"
+                                                data-get-id="{{item.dni}}"
+                                                data-get-name="{{item.business_name}}"
+                                                data-get-update="{{item.updated_at}}"
+                                                data-get-image="{{item.logo_snall_path}}"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#deleteModal"><i class="fa fa-trash me-3"></i>Eliminar</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tbody v-if="!search_content">
+                            <tr v-for="item in list_user" :key="item.dni">
+                                <td>
+                                    <a href="#"  @click="redirec_user(item.plate)">
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="/static/assets/img/bus.png" class="avatar avatar-sm me-3">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-xs">{$item.first_name$}</h6>
+                                                <p class="text-xs text-secondary mb-0">{$ item.mark $} {$ item.model $}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-bold mb-0">Manager</p>
+                                    <p class="text-xs text-secondary mb-0">Organization</p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                    <span class="badge badge-sm badge-success" v-if="item.status">Online</span>
+                                    <span class="badge badge-sm badge-secondary" v-if="!item.status">Offline</span>
+                                </td>
+                                <td class="align-middle text-center">
+                                    <span class="text-secondary text-xs font-weight-normal">{$item.birth_date$}</span>
+                                </td>
+                                <td class="align-middle">
+                                    <div class="dropdown float-lg-end pe-4">
+                                        <button class="btn btn-link text-secondary mb-0 cursor-pointer" :id="item.dni" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span class="material-icons">
+                                                more_vert
+                                            </span>
+                                        </button>
+                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute">
+                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Editar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Eliminar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Ver</a></li>
+                                            <li><hr class="horizontal light mt-0 mb-2"></li>
+                                            <li><a class="dropdown-item border-radius-md bg-gradient-danger" href="javascript:;">Borrar</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    {% else %}
+                        <div class="row mt-5 justify-content-md-center w-100">
+                            <div class="col-8">
+                                <div class="alert text-center alert-info alert-dismissible fade show" role="alert">
+                                    <span class="alert-text"><strong>Informe!</strong>No existe ningung registro</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="delete/" id="deleteForm" method="post">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header py-1 pt-2">
+                        <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Eliminar registro</h5>
+                        <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-times text-danger"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-sm d-flex">
+                            <span class="material-icons h2">
+                                business_center
+                            </span>
+                            <i class="fa fa-times text-danger position-absolute h5 m-3 ms-4"></i>
+                            <div class="mt-2 ms-2">
+                                ¿estas seguro que desea eliminar este registro?
+                            </div>
+                        </div>
+                        <div class="text-sm px-5">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="card card-header card-body p-0 my-2">
+                                        <a class="d-block blur-shadow-image">
+                                            <img id="id_image" src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="d-block">
+                                        <strong id="ID_code"></strong>
+                                        <span id="id_name"></span>
+                                    </div>
+                                    <small>Fecha de modificación: <span id="id_update_at"></span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-sm bg-gradient-danger  w-lg-25 m-0" id="delete_reg">Si</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="/static/assets/js/plugins/chartjs.min.js"></script>
+<script src="/static/assets/vue/includes/forms.script.js"></script>
+<script src="/static/assets/vue/includes/table.script.js"></script>
+<script src="/static/assets/vue/includes/delete.script.js"></script>
+<script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["M", "T", "W", "T", "F", "S", "S"],
+            datasets: [{
+                label: "usuarios",
+                tension: 0.4,
+                borderWidth: 0,
+                borderRadius: 4,
+                borderSkipped: false,
+                backgroundColor: "rgba(0, 0, 0, .8)",
+                data: [50, 20, 10, 22, 50, 10, 40],
+                maxBarThickness: 6
+            }, ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+            y: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(0, 0, 0, .2)'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 500,
+                    beginAtZero: true,
+                    padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    color: "#000"
+                },
+            },
+            x: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(0, 0, 0, .2)'
+                },
+                ticks: {
+                    display: true,
+                    color: '#000',
+                    padding: 10,
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+</script>
+{% endblock javascripts %}

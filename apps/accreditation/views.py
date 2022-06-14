@@ -4,6 +4,8 @@ from django.shortcuts import render
 from django.views.generic import UpdateView, ListView, CreateView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from apps.accreditation.forms import accreditationsForm
 from apps.accreditation.models import accreditation
@@ -11,7 +13,8 @@ from apps.includes.sidebar.models import Sidebar
 from apps.vehicles.models import vehicles
 # Create your views here.
 
-class accreditationIndex(ListView):
+class accreditationIndex(LoginRequiredMixin, ListView):
+    login_url = '/login/'
     model = accreditation
     template_name  = 'accreditation/index.html'
     paginate_by = 50
@@ -27,7 +30,8 @@ class accreditationIndex(ListView):
         context['page'] = 'Crear Propietario'
         return context
 
-class accreditationCreate(CreateView):
+class accreditationCreate(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     model = accreditation
     template_name = 'accreditation/create.html'
     form_class = accreditationsForm
@@ -53,6 +57,7 @@ class accreditationCreate(CreateView):
         return context
 
 class accreditationView(HttpResponse):
+    @login_required(login_url="/login/")
     def index(request, pk):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=10)
@@ -62,7 +67,8 @@ class accreditationView(HttpResponse):
         html_template = loader.get_template('accreditation/view.html')
         return HttpResponse(html_template.render(context, request))
 
-class accreditationUpdate(UpdateView):
+class accreditationUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
     model = accreditation
     template_name = 'accreditation/update.html'
     form_class = accreditationsForm

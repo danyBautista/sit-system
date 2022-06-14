@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
 from apps.control.models import geographic_location, marial_status, sex
 from apps.business.models import business
+from core.settings import MEDIA_URL, STATIC_URL
 
 # Create your models here.
 class people(models.Model):
@@ -16,7 +16,6 @@ class people(models.Model):
     user_photo_path = models.ImageField(upload_to="people", null=True)
     sex = models.ForeignKey(sex, null=True, blank=True, on_delete=models.CASCADE)
     profile_information = models.TextField(null=True)
-    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     geographic_location = models.ForeignKey(geographic_location, null=True, blank=True, on_delete=models.CASCADE)
     marial_status = models.ForeignKey(marial_status, null=True, blank=True, on_delete=models.CASCADE)
     business_id = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
@@ -32,3 +31,8 @@ class people(models.Model):
 
     def __str__(self):
         return self.name  + " " + self.first_name  + " " + self.last_name
+
+    def get_image(self):
+        if self.user_photo_path:
+            return '{}{}'.format(MEDIA_URL, self.user_photo_path)
+        return '{}{}'.format(STATIC_URL, 'assets/img/empty-300x240.jpg')

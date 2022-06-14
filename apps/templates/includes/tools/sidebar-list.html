@@ -46,7 +46,7 @@
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">
+                                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#CreateModal">
                                                 <span class="material-icons">
                                                     add
                                                 </span>
@@ -118,6 +118,51 @@
                 {% endif %}
             </div>
         </div>
+    </div>
+</div>
+<div class="modal fade" id="CreateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form action="" id="deleteForm" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header py-1 pt-2">
+                    <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Crear nuevo registro</h5>
+                    <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times text-danger"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-sm d-flex">
+                        <span class="material-icons text-info h2">
+                            menu
+                        </span>
+                        <i class="fa fa-plus text-success position-absolute h5 m-3 ms-4"></i>
+                        <div class="mt-2 ms-2">
+                            Se creara un nuevo nuevo menu, ¿desea continuar?.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-group input-group-lg input-group-outline my-2">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                            <label class="form-label">Nombre</label>
+                            {{form.name}}
+                        </div>
+                        <div class="input-group input-group-sm input-group-outline my-2">
+                            <label class="form-label">Ruta</label>
+                            {{form.route}}
+                        </div>
+                        <div class="input-group input-group-sm input-group-outline my-2">
+                            <label class="form-label">Grupo</label>
+                            {{form.group}}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-sm bg-gradient-danger  w-lg-25 m-0" id="delete_reg">Si</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

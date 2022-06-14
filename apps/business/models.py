@@ -1,6 +1,7 @@
 from django.db import models
 from apps.control.models import economic_activities
 from apps.control.models import geographic_location
+from core.settings import MEDIA_URL, STATIC_URL
 # Create your models here.
 
 class business(models.Model):
@@ -12,7 +13,7 @@ class business(models.Model):
     webpage = models.CharField(max_length=150, blank=True)
     registration_date = models.DateTimeField(null=True)
     opening_date = models.DateField(null=True)
-    logo_small_path = models.ImageField(upload_to="bussines", null=True, blank=True)
+    logo_small_path = models.ImageField(upload_to="bussines/%Y/%m/%d", null=True, blank=True)
     logo_large_path = models.ImageField(upload_to="bussines", null=True, blank=True)
     business_description = models.TextField(null=True)
     geographic_location = models.ForeignKey(geographic_location, null=True, blank=True, on_delete=models.CASCADE)
@@ -26,6 +27,11 @@ class business(models.Model):
         db_table = 'business'
         ordering = ['business_name']
         verbose_name_plural = 'Empresas'
+
+    def get_logo_path_s(self):
+        if self.logo_small_path:
+            return '{}{}'.format(MEDIA_URL, self.logo_small_path)
+        return '{}{}'.format(STATIC_URL, 'asstes/img/size-of-company.png')
 
     def __str__(self):
         return self.business_name

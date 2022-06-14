@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 import datetime
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
 from django.contrib import messages
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
@@ -17,8 +18,9 @@ from apps.business.models import business
 from .serializers import BusinessSerializers
 # Create your views here.
 
-@login_required(login_url='/login/')
+
 class IndexView(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=4)
@@ -28,7 +30,8 @@ class IndexView(HttpResponse):
         html_template = loader.get_template('business/index.html')
         return HttpResponse(html_template.render(context, request))
 
-class BusinessCreate(CreateView):
+class BusinessCreate(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     model = business
     template_name = 'business/create.html'
     form_class = BusinessForm
@@ -53,7 +56,8 @@ class BusinessCreate(CreateView):
 
         return context
 
-class BusinessUpdate(UpdateView):
+class BusinessUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
     model = business
     template_name = 'business/update.html'
     form_class = BusinessForm
@@ -73,6 +77,7 @@ class BusinessUpdate(UpdateView):
         return context
 
 class BusinessView(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request, pk):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=4)
@@ -82,7 +87,8 @@ class BusinessView(HttpResponse):
         html_template = loader.get_template('business/view.html')
         return HttpResponse(html_template.render(context, request))
 
-class BusinessDeleteSoft(DeleteView):
+class BusinessDeleteSoft(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
     model = business
 
     def post(self, request, pk, *args, **kwargs):
@@ -95,7 +101,8 @@ class BusinessDeleteSoft(DeleteView):
             data['error'] = str(e)
         return JsonResponse(data)
 
-class BusinessIndex(ListView):
+class BusinessIndex(LoginRequiredMixin, ListView):
+    login_url = '/login/'
     model = business
     template_name  = 'business/index.html'
     paginate_by = 50

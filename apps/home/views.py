@@ -17,8 +17,9 @@ from apps.vehicles.models import vehicles
 from apps.people.models import people
 from apps.business.models import business
 
-@login_required(login_url="/login/")
+
 class DashboardHome(HttpResponse):
+    @login_required(login_url="/login/")
     def index(request):
         sidebar = Sidebar.objects.all()
         vh = vehicles.objects.all()
@@ -79,7 +80,6 @@ class DashboardHome(HttpResponse):
 
         html_template = loader.get_template('home/index.html')
         return HttpResponse(html_template.render(context, request))
-
 
 @login_required(login_url="/login/")
 def pages(request):

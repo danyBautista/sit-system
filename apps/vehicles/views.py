@@ -8,6 +8,7 @@ from rest_framework import status
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
 from django.contrib import messages
 from django.views.generic import UpdateView, ListView
@@ -23,9 +24,10 @@ from .serializers import (
 
 # Create your views here.
 
-@login_required(login_url='/login/')
+
 # Create your views here.
 class VehiclesViews(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=5)
@@ -34,7 +36,8 @@ class VehiclesViews(HttpResponse):
         html_template = loader.get_template('vehicles/index.html')
         return HttpResponse(html_template.render(context, request))
 
-class VehiclesList(ListView):
+class VehiclesList(LoginRequiredMixin, ListView):
+    login_url='/login/'
     model = vehicles
     template_name  = 'vehicles/index.html'
     paginate_by = 50
@@ -49,8 +52,9 @@ class VehiclesList(ListView):
 
         return context
 
-@login_required(login_url='/login/')
+
 class VehiclesCreate(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=5)
@@ -87,6 +91,7 @@ class TypeVehicleList(ListAPIView):
         return types.objects.filter(name__icontains = kword)
 
 class Information(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request, pk):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=5)
@@ -95,7 +100,8 @@ class Information(HttpResponse):
         html_template = loader.get_template('vehicles/information.html')
         return HttpResponse(html_template.render(context, request))
 
-class UpdateVehicle(UpdateView):
+class UpdateVehicle(LoginRequiredMixin, UpdateView):
+    login_url='/login/'
     model = vehicles
     template_name = 'vehicles/update.html'
     form_class = VehicleForm

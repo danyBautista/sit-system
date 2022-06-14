@@ -6,10 +6,19 @@ class SidebarForm(forms.ModelForm):
     class Meta:
         model = Sidebar
 
-        fields = ['__all__']
+        fields = [
+            'name',
+            'route',
+            'description',
+            'icon',
+            'group',
+            'segment',
+            'status',
+            'sub_menu'
+        ]
 
         widgets = {
-            'name' : forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            'name' : forms.TextInput(attrs={'class':'form-control form-control-lg', 'attr': 'autocomplete=off'}),
             'route' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'description' : forms.Textarea(attrs={'class':'form-control'}),
             'icon' : forms.TextInput(attrs={'class':'form-control form-control-sm'}),

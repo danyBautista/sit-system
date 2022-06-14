@@ -3,6 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views.generic import CreateView
 from django.urls import reverse, reverse_lazy
@@ -15,10 +16,11 @@ from .serializers import SOATSerializer, CITVSerializer, SRCSerializer, SVCTSeri
 from apps.certify import serializers
 # Create your views here.
 
-@login_required(login_url='/login/')
+
 
 # Create your views here.
 class CertifyView(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=6)
@@ -40,6 +42,7 @@ class CertifyView(HttpResponse):
         return HttpResponse(html_template.render(context, request))
 
 class CertifyList(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request, type):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=6)
@@ -62,6 +65,7 @@ class CertifyList(HttpResponse):
         return HttpResponse(html_template.render(context, request))
 
 class ValidateLegal(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=6)
@@ -71,6 +75,7 @@ class ValidateLegal(HttpResponse):
         return HttpResponse(html_template.render(context, request))
 
 class CreateSOAT(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         if request.method == "POST":
             form = SOATForm(request.POST, request.FILES)
@@ -117,7 +122,8 @@ class API_ValidateLegalSVCT(ListAPIView):
         queryset = svct.objects.all().select_related('vehicles')
         return queryset.filter(status = True)
 
-class createAPI_SOAT(CreateView):
+class createAPI_SOAT(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     model = soat
     form_class = SOATForm
     #success_url = reverse_lazy('validate.val')
@@ -126,7 +132,8 @@ class createAPI_SOAT(CreateView):
             'pk': self.object.vehicles.pk,
         })
 
-class createAPI_CITV(CreateView):
+class createAPI_CITV(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     model = citv
     form_class = CITVForm
     #success_url = reverse_lazy('validate.val')
@@ -135,7 +142,8 @@ class createAPI_CITV(CreateView):
             'pk': self.object.vehicle.pk
         })
 
-class createAPI_SRC(CreateView):
+class createAPI_SRC(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     model = src
     form_class = SRCForm
 
@@ -144,7 +152,8 @@ class createAPI_SRC(CreateView):
             'pk': self.object.vehicles.pk,
         })
 
-class createAPI_SVCT(CreateView):
+class createAPI_SVCT(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     model = svct
     form_class = SVCTForm
 

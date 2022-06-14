@@ -4,6 +4,6 @@ from .models import people
 
 class peopleAdmin(admin.ModelAdmin):
     search_fields = ('dni', 'name', 'first_name', 'last_name')
-    list_display = ['dni', 'name', 'first_name', 'last_name']
+    list_display = ['dni', 'name', 'first_name', 'last_name', 'user_photo_path']
 
 admin.site.register(people, peopleAdmin)

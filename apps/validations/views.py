@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
 from apps.includes.sidebar.models import Sidebar
 from django.contrib import messages
@@ -24,9 +25,10 @@ from apps.validations.forms import RoutesForm, ProcedureForm, SubstitutionForm
 from .serializers import RouteSerializer, BindingContractsSerializer, AuthorizationDocumentSerializer, ValidationToolsSerializer, ProcedureSerializer
 # Create your views here.
 
-@login_required(login_url='/login/')
+
 # Create your views here.
 class ListView(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)
@@ -43,6 +45,7 @@ class ProcedureSearchAPIView(ListAPIView):
         return procedure.objects.filter(proceedings__icontains = kword)
 
 class SearchView(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)
@@ -51,6 +54,7 @@ class SearchView(HttpResponse):
         return HttpResponse(html_template.render(context, request))
 
 class ValidateVehicle(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request, pk):
         print(pk)
         msg_soat = dict
@@ -108,9 +112,10 @@ class ValidateVehicle(HttpResponse):
         return HttpResponse(html_template.render(context, request))
 
 
-@login_required(login_url='/login/')
+
 # Create your views here.
 class SelectView(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)
@@ -119,9 +124,10 @@ class SelectView(HttpResponse):
         return HttpResponse(html_template.render(context, request))
 
 
-@login_required(login_url='/login/')
+
 # Create your views here.
 class ProcedureRegister(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request, pk):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)
@@ -145,7 +151,8 @@ class ContractCreate(CreateAPIView):
 class authorizaitonCreate(CreateAPIView):
     serializer_class = AuthorizationDocumentSerializer
 
-class ValidateCreate(CreateView):
+class ValidateCreate(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     model = procedure
     form_class = ProcedureForm
     success_message = 'Doc successfully created!'
@@ -165,6 +172,7 @@ class YearAntiquity(ListAPIView):
         return validation_tools.objects.filter(status_years = True)
 
 class ProcedureView(HttpResponse):
+    @login_required(login_url='/login/')
     def index(request, pk):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=7)

@@ -13,70 +13,19 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import datetime
 from django.template import loader
 from django.shortcuts import render, redirect, get_list_or_404
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import UpdateView, ListView, CreateView, DeleteView
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.people.models import people
 from apps.includes.sidebar.models import Sidebar
 from apps.people.forms import PeopleForm
 from .serializers import PeopleSerializer
 # Create your views here.
 
-@login_required(login_url="/login/")
-def index(request):
-    peoples = people.objects.all()
-    sidebar = Sidebar.objects.all()
-    title = Sidebar.objects.get(id="3")
-    if request.method == "POST":
-        form = PeopleForm(request.POST, request.FILES)
-        if form.is_valid():
-            dni = form.cleaned_data.get("dni")
-            name = form.cleaned_data.get("name")
-            first_name = form.cleaned_data.get("first_name")
-            last_name = form.cleaned_data.get("last_name")
-            birth_date = form.cleaned_data.get("birth_date")
-            address = form.cleaned_data.get("address")
-            phone = form.cleaned_data.get("phone")
-            email = form.cleaned_data.get("email")
-            user_photo_path = form.cleaned_data.get("user_photo_path")
-            sex = form.cleaned_data.get("sex")
-            user = form.cleaned_data.get("user")
-            geographic_location = form.cleaned_data.get("geographic_location")
-            marial_status = form.cleaned_data.get("marial_status")
-            status = form.cleaned_data.get("status")
-            profile_information = form.cleaned_data.get("profile_information")
-            obj = people.objects.create(
-                                    dni = dni,
-                                    name = name,
-                                    first_name = first_name,
-                                    last_name = last_name,
-                                    birth_date = birth_date,
-                                    address = address,
-                                    phone = phone,
-                                    email = email,
-                                    user_photo_path = user_photo_path,
-                                    sex = sex,
-                                    user = user,
-                                    geographic_location = geographic_location,
-                                    profile_information = profile_information,
-                                    marial_status = marial_status,
-                                    status = status
-                                )
-            obj.save()
-        else:
-            messages.error(request, form)
-        return redirect('people.index')
-    else:
-        form = PeopleForm()
-
-    context = {'segment': 'people', 'sidebars': sidebar, 'peoples': peoples, 'title': title, 'forms':form, 'page':'/usuarios'}
-    html_template = loader.get_template('people/index.html')
-    return HttpResponse(html_template.render(context, request))
-
-class PeopleIndex(ListView):
+class PeopleIndex(LoginRequiredMixin, ListView):
+    login_url = '/login/'
     model = people
     template_name  = 'people/index.html'
     paginate_by = 50
@@ -92,7 +41,7 @@ class PeopleIndex(ListView):
         context['page'] = 'Crear Usuario'
         return context
 
-class PeopleCreate(CreateView):
+class PeopleCreate(LoginRequiredMixin, CreateView):
     model = people
     template_name  = 'people/create.html'
     form_class = PeopleForm
@@ -106,7 +55,7 @@ class PeopleCreate(CreateView):
         context['page'] = 'Crear Propietario'
         return context
 
-class PeopleUpdate(UpdateView):
+class PeopleUpdate(LoginRequiredMixin, UpdateView):
     model = people
     template_name  = 'people/update.html'
     form_class = PeopleForm
@@ -175,7 +124,7 @@ class PeopleUpdateAPIView(UpdateAPIView):
 class PeopleCreateAPI(CreateAPIView):
     serializer_class = PeopleSerializer
 
-class PeopleDeleteSoft(DeleteView):
+class PeopleDeleteSoft(LoginRequiredMixin, DeleteView):
     model = people
 
     def post(self, request, pk, *args, **kwargs):
