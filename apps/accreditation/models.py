@@ -61,7 +61,7 @@ class accreditation(models.Model):
     bussines = models.ForeignKey(business, null=True, blank=True, on_delete=models.CASCADE)
     status = models.CharField(max_length=15, choices=STATUS)
     type = models.ForeignKey(accreditation_type, null=True, blank=True, on_delete=models.CASCADE)
-    enabled = models.BooleanField()
+    enabled = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     delete_at = models.DateTimeField(null=True, blank=True)

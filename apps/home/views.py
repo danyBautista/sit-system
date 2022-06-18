@@ -29,14 +29,14 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             add = []
             try:
                 type = accreditation_type.objects.all().filter(status = True)
-
+                accr = accreditation.objects.all()
                 for n in type:
                     series = n.name
                     for m in range(0, 10):
                         acc = accreditation.objects.all().filter(route__concession = concession[m], type=n.id).count()
 
                         print(add.append(acc))
-                    content = {'name' : series, 'data' : [acc]}
+                        content = {'name' : series, 'data' : [acc]}
                     data.append(content)
             except:
                 pass
