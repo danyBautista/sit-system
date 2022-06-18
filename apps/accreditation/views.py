@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from rest_framework.generics import CreateAPIView, ListAPIView
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import render
 from django.views.generic import UpdateView, ListView, CreateView
@@ -6,11 +7,13 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 
-from apps.accreditation.forms import accreditationsForm
-from apps.accreditation.models import accreditation
+from apps.accreditation.forms import accreditationsForm, typeForm
+from apps.accreditation.models import accreditation, accreditation_type
 from apps.includes.sidebar.models import Sidebar
 from apps.vehicles.models import vehicles
+from .serializers import serialiazerType
 # Create your views here.
 
 class accreditationIndex(LoginRequiredMixin, ListView):
@@ -53,7 +56,8 @@ class accreditationCreate(LoginRequiredMixin, CreateView):
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=10)
         context['page'] = 'Crear Acreditacion'
-
+        context['action'] = 'add'
+        context['type'] = typeForm
         return context
 
 class accreditationView(HttpResponse):
@@ -85,3 +89,26 @@ class accreditationUpdate(LoginRequiredMixin, UpdateView):
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+
+class TypeCreate(CreateView):
+    model = accreditation_type
+    form_class = typeForm
+    success_url = reverse_lazy('accreditation.create')
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                if form.is_valid():
+                    instance = form.save()
+                    data['success'] = serializers.serialize('json', [ instance, ])
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'no ha ingresado a ninguna opcion'
+            #data = accreditation_type.post(id=request.POST['id']).toJson().toJSON()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)

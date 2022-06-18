@@ -2,15 +2,17 @@
 """
 Copyright (c) 2019 - present GlastHeim.pe
 """
+from core.user.forms import UserForm
 from rest_framework.generics import CreateAPIView, ListAPIView
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import render
 from django.views.generic import UpdateView, ListView, CreateView, DeleteView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 from apps.includes.sidebar.models import Sidebar
 from core.user.models import User
@@ -44,13 +46,32 @@ class UserCreate(LoginRequiredMixin, CreateView):
     login_url = '/login/'
     model = User
     template_name = 'administration/users/create.html'
+    form_class = UserForm
+    success_url = reverse_lazy('administration/user/')
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                data = form.save()
+            else:
+                data['error'] = 'No ha ingresado a ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super(UserCreate, self).get_context_data(**kwargs)
         context['segment'] = 'administration'
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=2)
-        context['page'] = 'Listar empresas'
+        context['page'] = 'Crear usuario de sistema'
         return context
 
 class UserApiList(ListAPIView):

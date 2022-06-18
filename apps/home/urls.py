@@ -9,7 +9,7 @@ from apps.home import views
 urlpatterns = [
 
     # The home page
-    path('', views.DashboardHome.index, name='home'),
+    path('', views.DashboardView.as_view(), name='home'),
 
     # Matches any html file
     re_path(r'^.*\.*', views.pages, name='pages'),

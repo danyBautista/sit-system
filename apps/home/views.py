@@ -9,17 +9,63 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from apps.includes.sidebar.models import Sidebar
 from apps.validations.models import routes
-from apps.accreditation.models import accreditation
+from apps.accreditation.models import accreditation, accreditation_type
 from apps.vehicles.models import vehicles
 from apps.people.models import people
 from apps.business.models import business
 
+class DashboardView(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    template_name = 'home/index.html'
+
+    def get_graph_accreditation_concesion(self):
+            data = []
+            concession = ['C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11']
+            add = []
+            try:
+                type = accreditation_type.objects.all().filter(status = True)
+
+                for n in type:
+                    series = n.name
+                    for m in range(0, 10):
+                        acc = accreditation.objects.all().filter(route__concession = concession[m], type=n.id).count()
+
+                        print(add.append(acc))
+                    content = {'name' : series, 'data' : [acc]}
+                    data.append(content)
+            except:
+                pass
+
+            return data
+
+    def get_cards_data(self):
+        data = []
+        vehicle = vehicles.objects.all()
+        data.append(vehicle)
+        return data
+
+    def get_context_data(self, **kwargs):
+        context = super(DashboardView, self).get_context_data(**kwargs)
+        context['segment'] = 'index'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=1)
+        context['page'] = 'Crear Acreditacion'
+        context['action'] = 'add'
+        context['vehicle'] = vehicles.objects.all()
+        context['people'] = people.objects.all()
+        context['business'] = business.objects.all()
+        context['accreditation'] = routes.objects.all().order_by('concession').distinct('concession').filter(concession__isnull = False)
+        context['graph_accreditation_with_consesion'] = self.get_graph_accreditation_concesion()
+        return context
 
 class DashboardHome(HttpResponse):
     @login_required(login_url="/login/")
+
     def index(request):
         sidebar = Sidebar.objects.all()
         vh = vehicles.objects.all()
@@ -28,7 +74,8 @@ class DashboardHome(HttpResponse):
 
         consession = routes.objects.all().order_by('concession').distinct('concession').filter(concession__isnull = False)
         route = routes.objects.filter(concession='C2')
-        approved = accreditation.objects.all().filter(status = 'ACREDITADO')
+        type = accreditation_type.objects.all().filter(status = True)
+        accred = accreditation.objects.all()
         pending = accreditation.objects.all().filter(status = 'PENDIENTE')
         retired = accreditation.objects.all().filter(status = 'RETIRADO')
         DataChar = {
@@ -67,15 +114,17 @@ class DashboardHome(HttpResponse):
                     'segment': 'index',
                     'sidebars': sidebar,
                     'pk' : 1,
+                    'graph_accreditation_with_consesion' : self,
                     'concession' : 'C2',
                     'concessions' : consession,
-                    'approved': approved,
+                    'accreditation': accred,
                     'pending' : pending,
                     'retired' : retired,
                     'vehicles' : vh,
                     'people' : pe,
                     'business' : bu,
-                    'data' : DataChar
+                    'data' : DataChar,
+                    'type' : type
                 }
 
         html_template = loader.get_template('home/index.html')

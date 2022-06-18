@@ -54,8 +54,17 @@
                                     </div>
                                     <div class="card-body p-3 pt-0">
                                         <div class="input-group input-group-lg input-group-outline mb-4">
-                                            <label class="form-label">Numerp permitido</label>
+                                            <label class="form-label">Numero permitido</label>
                                             {{form.permit_number}}
+                                        </div>
+                                        <div class="input-group input-group-static mb-4">
+                                            <label class="ms-0">Tipo de acreditacion</label>
+                                            {{form.type}}
+                                            <button class="btn btn-sm bg-gradient-success mb-0 px-3" type="button" id="type-modal" data-bs-toggle="modal" data-bs-target="#type-accreditation">
+                                                <span class="material-icons">
+                                                    add
+                                                </span>
+                                            </button>
                                         </div>
                                         <div class="input-group input-group-static mb-4">
                                             <label>Placa vehicular</label>
@@ -72,14 +81,6 @@
                                         <div class="input-group input-group-static mb-4">
                                             <label>Tipologia</label>
                                             {{form.typology}}
-                                        </div>
-                                        <div class="form-check">
-                                            {{form.accreditation_card}}
-                                            <label class="custom-control-label" for="customCheck1">Targeta de acreditacion</label>
-                                        </div>
-                                        <div class="input-group input-group-static mb-4">
-                                            <label>Estado</label>
-                                            {{form.status}}
                                         </div>
                                     </div>
                                 </div>
@@ -126,6 +127,14 @@
                                             <label>Observaciones</label>
                                             {{form.remark}}
                                         </div>
+                                        <div class="form-check">
+                                            {{form.accreditation_card}}
+                                            <label class="custom-control-label" for="customCheck1">Targeta de acreditacion</label>
+                                        </div>
+                                        <div class="form-check">
+                                            {{form.enabled}}
+                                            <label class="custom-control-label" for="customCheck1">Estado</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +144,77 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="type-accreditation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="" method="post" id="formtype" class="w-100">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="{{action}}">
+                <div class="modal-content blur-dark">
+                    <div class="modal-body p-0">
+                        <div class="card card-plain">
+                            <div class="modal-header py-1 pt-2">
+                                <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Registrar nuevo estado</h5>
+                                <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                                    <i class="fa fa-times text-danger"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-sm d-flex">
+                                    <span class="material-icons h2">
+                                        checklist
+                                    </span>
+                                    <i class="fa fa-plus text-success position-absolute h5 m-3 ms-4"></i>
+                                    <div class="mt-2 ms-2">
+                                        Se agregara nuevo registro.
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="m-3">
+                                        <span class="material-icons">
+                                            fact_check
+                                        </span>
+                                    </div>
+                                    <div class="input-group input-group-lg input-group-outline mb-4">
+                                        <label class="form-label">Nombre</label>
+                                        {{type.name}}
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="mx-3 my-1">
+                                        <span class="material-icons">
+                                            description
+                                        </span>
+                                    </div>
+                                    <div class="input-group input-group-sm input-group-outline mb-2">
+                                        <label class="form-label">Descripcion</label>
+                                        {{type.description}}
+                                    </div>
+                                </div>
+                                <div class="row ms-5 mt-4">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label class="ms-0">Color</label>
+                                            {{type.color}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check form-switch">
+                                            {{type.status}}
+                                            <label class="form-check-label" for="flexSwitchCheckDefault">Habilitado</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pt-0">
+                        <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-sm bg-gradient-danger  w-lg-25 m-0" id="delete_reg">Si</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
@@ -142,11 +222,45 @@
 
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
 <script src="/static/assets/js/plugins/dropzone.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 <script src="/static/assets/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
         $('.select-single').select2();
+        $('#formtype').on('submit', function(e){
+            e.preventDefault();
+            var CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+            let headers = {
+                "X-CSRFToken": CSRF_TOKEN,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            };
+            var parameters = $(this).serializeArray();
+            $.ajax({
+                url : "{% url 'accreditation.type_create' %}",
+                type: 'POST',
+                data: parameters,
+                dataType: 'json'
+            }).
+            done(function(data){
+                if(!data.hasOwnProperty('error')){
+                    return false;
+                }
+                else{
+                    var instance = JSON.parse(data["success"]);
+                    console.log(data)
+                    $('#id_type').append($("<option>", {
+                        value : val['id'],
+                        text: val['name']
+                    }))
+                }
+            }).
+            fail(function(jqXNR, textStatus, errorThrown){
+                alert(textStatus + ': ' + errorThrown);
+            }).
+            always(function(data){});
+        })
     });
 </script>
 {% endblock javascripts %}
