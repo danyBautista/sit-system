@@ -1,0 +1,118 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid py-4 ps-1">
+    <div class="row mb-4">
+        <div class="col-lg-12 col-md-12 mb-md-0 mb-4">
+            <div class="card">
+                <div class="card-header pb-0">
+                    <div class="row">
+                        <div class="col-lg-6 col-7">
+                            <h6>Reporte de {{table_title}}</h6>
+                            <p class="text-sm mb-0">
+                                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                                <span class="font-weight-bold ms-1">{{accreditation.count}} registros</span> total
+                            </p>
+                        </div>
+                        <div class="col-lg-6 col-5 my-auto text-end">
+                            <div class="dropdown float-lg-end pe-4">
+                                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-ellipsis-v text-secondary"></i>
+                                </a>
+                                    <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                                        <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-certificate me-3"></i> Nueva consulta</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-file-excel me-3"></i> Exportar a excel</a></li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive">
+                        <table class="table table-flush" id="datatable-basic">
+                            <thead class="thead-light bg-info">
+                                <tr>
+                                    <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">
+                                        Nro
+                                    </th>
+                                    <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                        UN
+                                    </th>
+                                    <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                        Placa
+                                    </th>
+                                    <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                        ruta
+                                    </th>
+                                    <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                        Marca y modelo
+                                    </th>
+                                    <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                        Año de fabricacion
+                                    </th>
+                                    <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                        Longitud<br><small>(mts)</small>
+                                    </th>
+                                    <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                        Ancho<br><small>(mts)</small>
+                                    </th>
+                                    <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">
+                                        Altura<br><small>(mts)</small>
+                                    </th>
+                                    <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">
+                                        Puertas<br><small>de servicio</small>
+                                    </th>
+                                    <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">
+                                        Tipo<br><small>Energia</small>
+                                    </th>
+                                    <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">
+                                        Tipologia
+                                    </th>
+                                    <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">
+                                        Observaciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in accreditation %}
+                                <tr>
+                                    <td class="text-sm font-weight-normal">{{forloop.counter}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.route.concession}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.route.route}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate.mark}} - {{item.plate.model}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate.year_of_production}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate.longitude}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate.broad}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate.height}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate.service_door}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.plate.category}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.typology.name}}</td>
+                                    <td class="text-sm font-weight-normal">{{item.remark}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script src="/static/assets/js/plugins/datatables.js"></script>
+    <script type="text/javascript">
+        const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic",
+            {
+                searchable: false,
+                fixedHeight: true
+            }
+        );
+    </script>
+{% endblock%}

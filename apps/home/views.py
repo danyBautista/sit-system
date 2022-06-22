@@ -18,6 +18,7 @@ from apps.accreditation.models import accreditation, accreditation_type
 from apps.vehicles.models import vehicles
 from apps.people.models import people
 from apps.business.models import business
+from apps.validations.models import procedure
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
@@ -28,15 +29,22 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             concession = ['C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11']
             add = []
             try:
-                type = accreditation_type.objects.all().filter(status = True)
-                accr = accreditation.objects.all()
-                for n in type:
-                    series = n.name
-                    for m in range(0, 10):
-                        acc = accreditation.objects.all().filter(route__concession = concession[m], type=n.id).count()
+                types = accreditation_type.objects.all().filter(status = True)
 
-                        print(add.append(acc))
-                        content = {'name' : series, 'data' : [acc]}
+                for n in types:
+                    series = n.name
+                    c2 = accreditation.objects.all().filter(route__concession = 'C2', type = n.id).count()
+                    c3 = accreditation.objects.all().filter(route__concession = 'C3', type = n.id).count()
+                    c4 = accreditation.objects.all().filter(route__concession = 'C4', type = n.id).count()
+                    c5 = accreditation.objects.all().filter(route__concession = 'C5', type = n.id).count()
+                    c6 = accreditation.objects.all().filter(route__concession = 'C6', type = n.id).count()
+                    c7 = accreditation.objects.all().filter(route__concession = 'C7', type = n.id).count()
+                    c8 = accreditation.objects.all().filter(route__concession = 'C8', type = n.id).count()
+                    c9 = accreditation.objects.all().filter(route__concession = 'C9', type = n.id).count()
+                    c10 = accreditation.objects.all().filter(route__concession = 'C10', type = n.id).count()
+                    c11 = accreditation.objects.all().filter(route__concession = 'C11', type = n.id).count()
+
+                    content = {'name' : series, 'data': [c2, c3, c4, c5, c6, c7, c8, c9, c10, c11]}
                     data.append(content)
             except:
                 pass
@@ -49,6 +57,23 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         data.append(vehicle)
         return data
 
+    def get_accredite_percent(self):
+        data = []
+        accredite_type = accreditation_type.objects.all().filter(status = True)
+        for item in accredite_type:
+            content = {
+                'name': item.name,
+                'icon' : item.icon,
+                'color' : item.color,
+                'count': accreditation.objects.all().filter(type = item.id).count,
+                'link' : '/reports/accreditation/'
+            }
+            data.append(content)
+        acredite = accreditation.objects.all().filter(type = 1).count
+        total_ac = accreditation.objects.all().count
+        #percent = acredite * 100 / total_ac
+        return (data)
+
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
         context['segment'] = 'index'
@@ -59,7 +84,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['vehicle'] = vehicles.objects.all()
         context['people'] = people.objects.all()
         context['business'] = business.objects.all()
-        context['accreditation'] = routes.objects.all().order_by('concession').distinct('concession').filter(concession__isnull = False)
+        context['validation'] = procedure.objects.all()
+        context['accreditation'] = self.get_accredite_percent()
         context['graph_accreditation_with_consesion'] = self.get_graph_accreditation_concesion()
         return context
 
