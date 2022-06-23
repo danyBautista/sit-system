@@ -1,6 +1,59 @@
 <script src="/static/assets/js/core/popper.min.js"></script>
-  <script src="/static/assets/js/core/bootstrap.min.js"></script>
-  <script src="/static/assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="/static/assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="/static/assets/vue/vue.js"></script>
-  <script src="/static/assets/vue/axios.min.js"></script>
+<script src="/static/assets/js/core/bootstrap.min.js"></script>
+<script src="/static/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/static/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/static/assets/vue/vue.js"></script>
+<script src="/static/assets/vue/axios.min.js"></script>
+<script>
+// register modal component
+Vue.component("modal", {
+  template: "#modal-template"
+});
+  // start app
+new Vue({
+    el: "#query",
+    delimiters: ['{$','$}'],
+    data: {
+      key_register: '',
+      user : '{{request.user.id}}',
+      date_query: '',
+      status_query : '',
+    },
+    methods: {
+      searchVehicle : function(key){
+        var self = this;
+          axios.get("/tablero/query/api/select/" + key)
+          .then(function(response){
+            var CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+            let headers = {
+                "X-CSRFToken": CSRF_TOKEN,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            };
+            data_create= {
+              'key_register': response.data[0].plate,
+              'user' : '{{request.user.id}}',
+              'status_query' : true,
+            }
+            axios({
+                method: 'POST',
+                url: "{% url 'home.query.create' %}",
+                headers: headers,
+                data: data_create
+              })
+              .then( function(response){
+                console.log(response.data['key_register'])
+                window.location.href = "/tablero/query/" + response.data['key_register']
+              })
+              .catch(function(error){
+                console.log(error)
+              })
+          })
+          .catch(function(error){
+              console.log(error)
+          })
+      }
+    }
+})
+</script>

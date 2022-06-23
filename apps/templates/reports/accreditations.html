@@ -25,7 +25,8 @@
                                     <i class="fa fa-ellipsis-v text-secondary"></i>
                                 </a>
                                     <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                                        <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-certificate me-3"></i> Nueva consulta</a></li>
+                                        <li><a class="dropdown-item border-radius-md" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#ReportModal"><i class="fa fa-certificate me-3"></i> Nueva consulta</a></li>
                                         <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-file-excel me-3"></i> Exportar a excel</a></li>
                                     </ul>
                             </div>
@@ -102,6 +103,39 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="modal fade" id="ReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form action="delete/" id="deleteForm" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header py-1 pt-2">
+                    <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Eliminar registro</h5>
+                    <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times text-danger"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-sm d-flex">
+                        <span class="material-icons h2">
+                            report
+                        </span>
+                        <i class="fa fa-certificate text-success position-absolute h5 m-3 ms-4"></i>
+                        <div class="mt-2 ms-2">
+                            Generar nuevo reporte
+                        </div>
+                    </div>
+                    <div class="text-sm px-5">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-sm bg-gradient-danger  w-lg-25 m-0" id="delete_reg">Si</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

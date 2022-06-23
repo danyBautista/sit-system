@@ -22,7 +22,8 @@ urlpatterns = [
     path('modules/', include("apps.modules.urls")),
     path('admin/', admin.site.urls),          # Django admin route
     path("login/", include("core.login.urls")), # Auth routes - login / register
-    path("tablero/", include("apps.home.urls"))            # UI Kits Html files
+    path("tablero/", include("apps.home.urls")),            # UI Kits Html files
+    path("", include("apps.web.urls"))            # UI Kits Html files
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

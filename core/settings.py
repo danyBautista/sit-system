@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'apps.procedure',
     'apps.reports',
     'apps.accreditation',
-    'widget_tweaks'
+    'widget_tweaks',
+    'apps.web'
 ]
 
 MIDDLEWARE = [

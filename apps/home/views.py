@@ -2,15 +2,16 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-
+from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView, GenericAPIView
 from dataclasses import dataclass
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-from django.urls import reverse
-from django.views.generic import TemplateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, JsonResponse
 
 from apps.includes.sidebar.models import Sidebar
 from apps.validations.models import routes
@@ -19,6 +20,10 @@ from apps.vehicles.models import vehicles
 from apps.people.models import people
 from apps.business.models import business
 from apps.validations.models import procedure
+from apps.home.models import Consulting
+from apps.home.forms import ConsultingForm
+from apps.vehicles.serializers import VehiclesSerializer
+from .serializers import ConsultingSerializer
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
@@ -180,3 +185,30 @@ def pages(request):
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+
+class TemplatePage(TemplateView):
+    template_name = 'home/web.html'
+
+class ConsultingAPIView(ListAPIView):
+    serializer_class = VehiclesSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['key']
+        return vehicles.objects.filter(plate=pk)
+
+class ConsultingAPICreate(CreateAPIView):
+        serializer_class = ConsultingSerializer
+
+class ConsultingView(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    template_name = 'home/query.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ConsultingView, self).get_context_data(**kwargs)
+        context['segment'] = 'index'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=1)
+        context['vehicle'] = vehicles.objects.get(plate = self.kwargs['key'])
+        context['accreditation'] = accreditation.objects.get(plate = self.kwargs['key'])
+        context['page'] = 'Crear Acreditacion'
+        return context
