@@ -2,6 +2,7 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+from wsgiref import validate
 from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView, GenericAPIView
 from dataclasses import dataclass
 from django import template
@@ -202,6 +203,33 @@ class ConsultingAPICreate(CreateAPIView):
 class ConsultingView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
     template_name = 'home/query.html'
+    def get_percent_accreditation(self):
+        percent = 0
+        accre = accreditation.objects.get(plate = self.kwargs['key'])
+        if(accre.legal_requirements == 'CUMPLE'):
+            percent = percent + 20
+        if(accre.technical_requirements == 'CUMPLE'):
+            percent = percent + 20
+        if(accre.technical_requirements == 'CUMPLE'):
+            percent = percent + 20
+        if(accre.insurance == 'CUMPLE'):
+            percent = percent + 20
+        if(accre.accreditation_card == True):
+            percent = percent + 20
+        return percent
+
+    def get_percent_validation(self):
+        percent = 0
+        #vali = procedure.objects.get(license_plate = self.kwargs['key']).first()
+
+        return percent
+
+    def get_validation(self):
+        try:
+            content = procedure.objects.get(license_plate = self.kwargs['key'])
+        except procedure.DoesNotExist:
+            content = None
+        return content
 
     def get_context_data(self, **kwargs):
         context = super(ConsultingView, self).get_context_data(**kwargs)
@@ -210,5 +238,8 @@ class ConsultingView(LoginRequiredMixin, TemplateView):
         context['title'] = Sidebar.objects.get(id=1)
         context['vehicle'] = vehicles.objects.get(plate = self.kwargs['key'])
         context['accreditation'] = accreditation.objects.get(plate = self.kwargs['key'])
+        context['percent_accreditation'] = self.get_percent_accreditation()
+        context['validation'] = self.get_validation()
+        context['percent_validaiton'] = self.get_percent_validation()
         context['page'] = 'Crear Acreditacion'
         return context

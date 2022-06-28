@@ -78,48 +78,106 @@
     </div>
     <div class="row">
         <div class="col-lg-6 col-12">
+            {% now "Y-m-d" as todays_date %}
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-12 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 py-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-success shadow text-center border-radius-xl position-absolute">
-                                <i class="material-icons text-white opacity-10">
-                                    gavel
-                                </i>
+                <div class="col-lg-6 col-md-6 col-12 mb-3">
+                    {% if validation.soat_status == 'VIGENTE' %}
+                        <div class="card">
+                            <div class="card-header p-3 py-2">
+                                <div class="icon icon-lg icon-shape bg-gradient-success shadow text-center border-radius-xl position-absolute">
+                                    <i class="material-icons text-white opacity-10">
+                                        gavel
+                                    </i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Validacion legal</p>
+                                    <h4 class="mb-0">{{validation.soat.policy}}</h4>
+                                </div>
                             </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Validacion legal</p>
-                                <h4 class="mb-0">152</h4>
+                            <hr class="dark horizontal my-1">
+                            <div class="card-footer {{validation.soat.get_label_expired}} p-3">
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.soat.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than lask week</p>
+                    {% else %}
+                        <div class="card opacity-5">
+                            <div class="card-header p-3 py-2">
+                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
+                                    <i class="material-icons text-white opacity-10">
+                                        gavel
+                                    </i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Validacion legal</p>
+                                    <h4 class="mb-0">
+                                        <div class="timeline-item float-end w-60">
+                                            <div class="animated-background">&nbsp;</div>
+                                        </div>
+                                    </h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-1">
+                            <div class="card-footer p-0">
+                                <p class="m-2">
+                                    <div class="timeline-item w-80 ms-2">
+                                        <div class="animated-background">&nbsp;</div>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
-                <div class="col-lg-6 col-md-6 col-12 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 py-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-info shadow text-center border-radius-xl position-absolute">
-                                <i class="material-icons text-white opacity-10 text-lg-start">
-                                build_circle
-                                </i>
+                <div class="col-lg-6 col-md-6 col-12 mb-3">
+                    {% if validation.citv_status == 'VIGENTE' %}
+                        <div class="card">
+                            <div class="card-header p-3 py-2">
+                                <div class="icon icon-lg icon-shape bg-gradient-info shadow text-center border-radius-xl position-absolute">
+                                    <i class="material-icons text-white opacity-10">
+                                        build_circle
+                                    </i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Validacion tecnica</p>
+                                    <h4 class="mb-0">{{validation.citv.id}}</h4>
+                                </div>
                             </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Validacion tecnica</p>
-                                <h4 class="mb-0">357</h4>
+                            <hr class="dark horizontal my-1">
+                            <div class="card-footer {{validation.citv.get_label_expired}} p-3">
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.citv.expiration_date|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+124% </span>than lask week</p>
+                    {% else %}
+                        <div class="card opacity-5">
+                            <div class="card-header p-3 py-2">
+                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
+                                    <i class="material-icons text-white opacity-10">
+                                        build_circle
+                                    </i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Validacion Tecnica</p>
+                                    <h4 class="mb-0">
+                                        <div class="timeline-item float-end w-60">
+                                            <div class="animated-background">&nbsp;</div>
+                                        </div>
+                                    </h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-1">
+                            <div class="card-footer p-0">
+                                <p class="m-2">
+                                    <div class="timeline-item w-80 ms-2">
+                                        <div class="animated-background">&nbsp;</div>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-lg-6 col-md-6 col-12">
+                    {% if validation.src_status == 'VIGENTE' %}
                     <div class="card">
                         <div class="card-header p-3 py-2">
                             <div class="icon icon-lg icon-shape bg-gradient-warning shadow text-center border-radius-xl position-absolute">
@@ -129,92 +187,173 @@
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize">Seguros SRC</p>
-                                <h4 class="mb-0">2,300</h4>
+                                <h4 class="mb-0">{{validation.src.name}}</h4>
                             </div>
                         </div>
                         <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+15% </span>than lask week</p>
+                        <div class="card-footer {{validation.src.get_label_expired}} p-3">
+                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.src.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
                         </div>
                     </div>
+                    {% else %}
+                        <div class="card opacity-5">
+                            <div class="card-header p-3 py-2">
+                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
+                                    <i class="material-icons text-white opacity-10">
+                                        admin_panel_settings
+                                    </i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">Seguros SRC</p>
+                                    <h4 class="mb-0">
+                                        <div class="timeline-item float-end w-60">
+                                            <div class="animated-background">&nbsp;</div>
+                                        </div>
+                                    </h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-1">
+                            <div class="card-footer p-0">
+                                <p class="m-2">
+                                    <div class="timeline-item w-80 ms-2">
+                                        <div class="animated-background">&nbsp;</div>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
-                    <div class="card">
-                        <div class="card-header p-3 py-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-danger shadow text-center border-radius-xl position-absolute">
-                                <i class="material-icons text-white opacity-10">
-                                    health_and_safety
-                                </i>
+                    {% if validation.svct_status == 'VIGENTE' %}
+                        <div class="card">
+                            <div class="card-header p-3 py-2">
+                                <div class="icon icon-lg icon-shape bg-gradient-danger shadow text-center border-radius-xl position-absolute">
+                                    <i class="material-icons text-white opacity-10">
+                                        health_and_safety
+                                    </i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">seguros SVCT</p>
+                                    <h4 class="mb-0">{{validation.svct.name}}</h4>
+                                </div>
                             </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">seguros SVCT</p>
-                                <h4 class="mb-0">940</h4>
+                            <hr class="dark horizontal my-0">
+                            <div class="card-footer {{validation.src.get_label_expired}} p-3">
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.svct.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+90% </span>than lask week</p>
+                    {% else %}
+                        <div class="card opacity-5">
+                            <div class="card-header p-3 py-2">
+                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
+                                    <i class="material-icons text-white opacity-10">
+                                        health_and_safety
+                                    </i>
+                                </div>
+                                <div class="text-end pt-1">
+                                    <p class="text-sm mb-0 text-capitalize">seguros SVCT</p>
+                                    <h4 class="mb-0">
+                                        <div class="timeline-item float-end w-60">
+                                            <div class="animated-background">&nbsp;</div>
+                                        </div>
+                                    </h4>
+                                </div>
+                            </div>
+                            <hr class="dark horizontal my-1">
+                            <div class="card-footer p-0">
+                                <p class="m-2">
+                                    <div class="timeline-item w-80 ms-2">
+                                        <div class="animated-background">&nbsp;</div>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="col-lg-6 col-12 mt-4 mt-lg-0">
             <div class="card h-100">
                 <div class="card-header pb-0 p-3">
-                    <h6 class="mb-0">Reviews</h6>
+                    <h6 class="mb-0">Estado del vehiculo</h6>
                 </div>
                 <div class="card-body pb-0 p-3">
                     <ul class="list-group">
+                        <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                            <div class="d-flex w-100">
+                                <div class="m-2">
+                                    {% if validation.enabled == 'ACEPTADO' %}
+                                        <i class="material-icons text-success opacity-10">
+                                            check_circle
+                                        </i>
+                                    {% else %}
+                                        {% if validation.enabled == 'RECHAZADO' %}
+                                            <i class="material-icons text-danger opacity-10">
+                                                cancel
+                                            </i>
+                                        {% else %}
+                                            {% if validation.enabled == 'OBSERVADO' %}
+                                                <i class="material-icons text-warning opacity-10">
+                                                    error
+                                                </i>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="ms-1 w-100">
+                                    <div class="d-flex mb-2">
+                                        <span class="me-2 text-sm text-capitalize">Validacion - {{accreditation.created_at}}</span>
+                                        <span class="ms-auto text-sm">{{percent_accreditation}}%</span>
+                                    </div>
+                                    <div>
+                                        <div class="progress progress-md">
+                                            <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="{{percent_accreditation}}" aria-valuemin="0" aria-valuemax="100"  style="width: {{percent_accreditation}}%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                         <li class="list-group-item border-0 d-flex align-items-center px-0 mb-0">
-                            <div class="w-100">
-                                <div class="d-flex mb-2">
-                                    <span class="me-2 text-sm text-capitalize">Positive reviews</span>
-                                    <span class="ms-auto text-sm">80%</span>
+                            <div class="d-flex w-100">
+                                <div class="m-2">
+                                    <i class="material-icons text-{{accreditation.type.color}} opacity-10">
+                                        {{accreditation.type.icon}}
+                                    </i>
                                 </div>
-                                <div>
-                                    <div class="progress progress-md">
-                                        <div class="progress-bar bg-gradient-info w-80" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="ms-1 w-100">
+                                    <div class="d-flex mb-2">
+                                        <span class="me-2 text-sm text-capitalize">Acreditacion - {{accreditation.created_at}}</span>
+                                        <span class="ms-auto text-sm">{{percent_accreditation}}%</span>
                                     </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                            <div class="w-100">
-                                <div class="d-flex mb-2">
-                                    <span class="me-2 text-sm text-capitalize">Neutral reviews</span>
-                                    <span class="ms-auto text-sm">17%</span>
-                                </div>
-                                <div>
-                                    <div class="progress progress-md">
-                                        <div class="progress-bar bg-gradient-dark w-10" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
-                            <div class="w-100">
-                                <div class="d-flex mb-2">
-                                    <span class="me-2 text-sm text-capitalize">Negative reviews</span>
-                                    <span class="ms-auto text-sm">3%</span>
-                                </div>
-                                <div>
-                                    <div class="progress progress-md">
-                                        <div class="progress-bar bg-gradient-danger w-5" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div>
+                                        <div class="progress progress-md">
+                                            <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="{{percent_accreditation}}" aria-valuemin="0" aria-valuemax="100"  style="width: {{percent_accreditation}}%;"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
+                <hr class="dark horizontal my-2">
                 <div class="card-footer pt-0 p-3 d-flex align-items-center">
-                    <div class="w-60">
-                        <p class="text-sm mb-0">
-                            More than <b>1,500,000</b> developers used Creative Tim's products and over <b>700,000</b> projects were created.
-                        </p>
-                    </div>
-                    <div class="w-40 text-end">
-                        <a class="btn bg-gradient-dark mb-0" href="javascript:;">View all reviews</a>
+                    <div class="card card-plain w-100">
+                        <div class="card-body d-flex p-0 ">
+                            {% if vehicle.owners.all %}
+                                {% for item in vehicle.owners.all %}
+                                    <div class="col-lg-2 col-md-4 col-sm-4 col-4 text-center">
+                                        <a href="javascript:;" class="avatar avatar-lg rounded-circle border border-primary" data-bs-toggle="modal" data-bs-target="#InfoModal">
+                                            <img alt="Image placeholder" class="p-1" src="{{item.get_image}}">
+                                        </a>
+                                        <p class="mb-0 text-sm">{{item.name}}</p>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-warning w-100" role="alert">
+                                    <strong>Cuidado</strong> Este vehiculo no tiene ningun propietario registrado
+                                </div>
+                            {% endif%}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -304,5 +443,30 @@
         </div>
         </div>
     </footer>
+</div>
+<div class="modal fade" id="InfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header py-1 pt-2">
+                <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Informacion de usuario</h5>
+                <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times text-danger"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="py-3 text-center">
+                    <div class="avatar avatar-xl position-relative">
+                        <img src="/static/assets/img/bruce-mars.jpg" alt="bruce" class="w-100 rounded-circle shadow-sm">
+                    </div>
+                    <h4 class="text-gradient text-danger mt-4">You should read this!</h4>
+                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                </div>
+            </div>
+            <div class="modal-footer border-top-0 pt-0">
+            <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">cerrar</button>
+            <button type="submit" class="btn btn-sm bg-gradient-info  w-lg-25 m-0" id="delete_reg">Editar</button>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

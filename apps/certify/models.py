@@ -1,3 +1,5 @@
+import datetime
+from datetime import datetime, date, timedelta
 from django.db import models
 from apps.business.models import business
 
@@ -36,8 +38,8 @@ class scopes(models.Model):
 
 class citv(models.Model):
     id = models.CharField(primary_key=True, max_length=25)
-    Registration_date =models.DateTimeField()
-    expiration_date = models.DateTimeField()
+    Registration_date =models.DateField()
+    expiration_date = models.DateField()
     inspection_result = models.BooleanField()
     comment = models.TextField()
     Type_of_inspection = models.CharField(max_length=150)
@@ -54,6 +56,16 @@ class citv(models.Model):
         db_table = 'citv'
         ordering = ['Type_of_inspection']
         verbose_name_plural = 'CITV'
+
+    def get_label_expired(self):
+        if date.today() < self.expiration_date - timedelta(days=10):
+            return 'bg-gradient-white'
+        else:
+            if date.today() > self.expiration_date - timedelta(days=10) and date.today() == self.expiration_date:
+                return 'bg-gradient-warning'
+            else:
+                if date.today() > self.expiration_date:
+                    return 'bg-gradient-danger text-white'
 
     def __str__(self):
         return self.Type_of_inspection
@@ -98,14 +110,24 @@ class soat(models.Model):
         ordering = ['insurance_company']
         verbose_name_plural = 'SOAT'
 
+    def get_label_expired(self):
+        if date.today() < self.date_expiry - timedelta(days=10):
+            return 'bg-gradient-white'
+        else:
+            if date.today() > self.date_expiry - timedelta(days=10) and date.today() == self.date_expiry:
+                return 'bg-gradient-warning'
+            else:
+                if date.today() > self.date_expiry:
+                    return 'bg-gradient-danger text-white'
+
     def __srt__(self):
         return str(self.policy) + " - " + str(self.certify)
 
 # Create your models here.
 class src(models.Model):
     name = models.CharField(max_length=150)
-    registration_date = models.DateTimeField()
-    date_expiry = models.DateTimeField()
+    registration_date = models.DateField()
+    date_expiry = models.DateField()
     file = models.FileField(upload_to="src", null=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
@@ -117,6 +139,15 @@ class src(models.Model):
         db_table = 'SRC'
         ordering = ['name']
         verbose_name_plural = 'SRC'
+    def get_label_expired(self):
+        if date.today() < self.date_expiry - timedelta(days=10):
+            return 'bg-gradient-white'
+        else:
+            if date.today() > self.date_expiry - timedelta(days=10) and date.today() == self.date_expiry:
+                return 'bg-gradient-warning'
+            else:
+                if date.today() > self.date_expiry:
+                    return 'bg-gradient-danger text-white'
 
     def __srt__(self):
         return self.name
@@ -124,8 +155,8 @@ class src(models.Model):
 # Create your models here.
 class svct(models.Model):
     name = models.CharField(max_length=150)
-    registration_date = models.DateTimeField()
-    date_expiry = models.DateTimeField()
+    registration_date = models.DateField()
+    date_expiry = models.DateField()
     file = models.FileField(upload_to="svct", null=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
@@ -137,6 +168,16 @@ class svct(models.Model):
         db_table = 'SVCT'
         ordering = ['name']
         verbose_name_plural = 'SVCT'
+
+    def get_label_expired(self):
+        if date.today() < self.date_expiry - timedelta(days=10):
+            return 'bg-gradient-white'
+        else:
+            if date.today() > self.date_expiry - timedelta(days=10) and date.today() == self.date_expiry:
+                return 'bg-gradient-warning'
+            else:
+                if date.today() > self.date_expiry:
+                    return 'bg-gradient-danger text-white'
 
     def __srt__(self):
         return self.name
