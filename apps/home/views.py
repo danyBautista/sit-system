@@ -205,18 +205,22 @@ class ConsultingView(LoginRequiredMixin, TemplateView):
     template_name = 'home/query.html'
     def get_percent_accreditation(self):
         percent = 0
-        accre = accreditation.objects.get(plate = self.kwargs['key'])
-        if(accre.legal_requirements == 'CUMPLE'):
-            percent = percent + 20
-        if(accre.technical_requirements == 'CUMPLE'):
-            percent = percent + 20
-        if(accre.technical_requirements == 'CUMPLE'):
-            percent = percent + 20
-        if(accre.insurance == 'CUMPLE'):
-            percent = percent + 20
-        if(accre.accreditation_card == True):
-            percent = percent + 20
-        return percent
+        try:
+            accre = accreditation.objects.get(plate = self.kwargs['key'])
+            if(accre.legal_requirements == 'CUMPLE'):
+                percent = percent + 20
+            if(accre.technical_requirements == 'CUMPLE'):
+                percent = percent + 20
+            if(accre.technical_requirements == 'CUMPLE'):
+                percent = percent + 20
+            if(accre.insurance == 'CUMPLE'):
+                percent = percent + 20
+            if(accre.accreditation_card == True):
+                percent = percent + 20
+            return percent
+        except accreditation.DoesNotExist:
+            accre = None
+        return accre
 
     def get_percent_validation(self):
         percent = 0
@@ -230,6 +234,12 @@ class ConsultingView(LoginRequiredMixin, TemplateView):
         except procedure.DoesNotExist:
             content = None
         return content
+    def get_accreditation(self):
+        try:
+            accr = accreditation.objects.get(plate = self.kwargs['key'])
+        except accreditation.DoesNotExist:
+            accr = None
+        return accr
 
     def get_context_data(self, **kwargs):
         context = super(ConsultingView, self).get_context_data(**kwargs)
@@ -237,7 +247,7 @@ class ConsultingView(LoginRequiredMixin, TemplateView):
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=1)
         context['vehicle'] = vehicles.objects.get(plate = self.kwargs['key'])
-        context['accreditation'] = accreditation.objects.get(plate = self.kwargs['key'])
+        context['accreditation'] = self.get_accreditation()
         context['percent_accreditation'] = self.get_percent_accreditation()
         context['validation'] = self.get_validation()
         context['percent_validaiton'] = self.get_percent_validation()

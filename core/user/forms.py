@@ -22,7 +22,7 @@ class UserForm(ModelForm):
             'is_staff' : CheckboxInput(attrs={'class' : 'form-check-input'}),
             'is_active' : CheckboxInput(attrs={'class' : 'form-check-input'})
         }
-        exclude = ['groups', 'user_permissions', 'last_login']
+        exclude = ['groups', 'user_permissions', 'last_login', 'is_superuser']
 
     def save(self, commit=True):
         data = {}
