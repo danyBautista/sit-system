@@ -11,12 +11,13 @@ from django.core import serializers
 
 from apps.accreditation.forms import accreditationsForm, typeForm
 from apps.accreditation.models import accreditation, accreditation_type
+from apps.accreditation.mixins import ValidatePermissionRequiredMixin
 from apps.includes.sidebar.models import Sidebar
 from apps.vehicles.models import vehicles
 from .serializers import serialiazerType
 # Create your views here.
 
-class accreditationIndex(LoginRequiredMixin, ListView):
+class accreditationIndex(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
     login_url = '/login/'
     model = accreditation
     template_name  = 'accreditation/index.html'

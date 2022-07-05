@@ -12,7 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse, JsonResponse
 
 from apps.includes.sidebar.models import Sidebar
@@ -24,11 +24,14 @@ from apps.business.models import business
 from apps.validations.models import procedure
 from apps.home.models import Consulting
 from apps.home.forms import ConsultingForm
+from apps.home.mixins import IsSuperuserMixin
+
 from apps.vehicles.serializers import VehiclesSerializer
 from .serializers import ConsultingSerializer
 from core.user.models import User
 
-class DashboardView(LoginRequiredMixin, TemplateView):
+class DashboardView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    permission_required = 'home.view_category'
     login_url = '/login/'
     template_name = 'home/index.html'
 
