@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 from wsgiref import validate
 from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView, GenericAPIView
+from crum import get_current_request
 from dataclasses import dataclass
 from django import template
 from django.contrib.auth.decorators import login_required
@@ -25,10 +26,18 @@ from apps.home.models import Consulting
 from apps.home.forms import ConsultingForm
 from apps.vehicles.serializers import VehiclesSerializer
 from .serializers import ConsultingSerializer
+from core.user.models import User
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
     template_name = 'home/index.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **Kwargs):
+        request.user.get_group_session()
+        return super().get(request, *args, **Kwargs)
 
     def get_graph_accreditation_concesion(self):
             data = []

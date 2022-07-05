@@ -204,7 +204,7 @@
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre Complento</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Usuario</th>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Correo</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Grupos</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ultima sesion</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estado</th>
                                 <th class="text-secondary opacity-7"></th>
@@ -229,8 +229,10 @@
                                 <td>
                                     <p class="text-xs font-weight-bold mb-0 crop-text">{{item.username}}</p>
                                 </td>
-                                <td>
-                                    <p class="text-xs font-weight-bold mb-0 crop-text">{{item.email}}</p>
+                                <td class="align-middle text-center text-sm">
+                                    {% for i in item.groups.all %}
+                                        <span class="badge badge-sm badge-success">{{i.name}}</span>
+                                    {% endfor %}
                                 </td>
                                 <td class="align-middle text-center">
                                     <p class="text-xs font-weight-bold mb-0 crop-text">{{item.last_login}}</p>
@@ -250,7 +252,7 @@
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5 position-absolute" aria-labelledby="{{item.ruc}}">
-                                            <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-edit me-3"></i> Editar</a></li>
+                                            <li><a class="dropdown-item border-radius-md" href="{% url 'admin.user.update' item.id %}"><i class="fa fa-edit me-3"></i> Editar</a></li>
                                             <li><a class="dropdown-item border-radius-md" href="#"><i class="fa fa-eye me-3"></i>Ver</a></li>
                                             {% if item.is_superuser != True %}
                                             <li><a class="dropdown-item border-radius-md text-danger" href="#" id="delete"

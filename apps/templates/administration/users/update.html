@@ -9,9 +9,9 @@
     <div class="container-fluid p-1">
         <div class="bg-light max-height-vh-90">
             <div class="position-sticky z-index-sticky top-0 me-3 scrollspy-example" data-bs-spy="scroll" data-bs-offset="0">
-                <form action="{% url 'admin.user.create' %}" id="id_form" method="POST" enctype="multipart/form-data">
+                <form action="{% url 'admin.user.update' code %}" id="id_form" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="action" value="edit">
                     {% now "Y-m-d H:m:s" as curren_date %}
                     <input type="hidden" name="date_joined" value="{{curren_date}}">
                     <nav class="navbar shadow-lg rounded navbar-expand-lg z-index-3 position-fixed w-form pt-4 blur-gradient-primary start-0 end-0 mx-0 bg-light">
@@ -60,8 +60,8 @@
                                             <div class="col-md-9 col-lg-9">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="input-group input-group-lg input-group-outline my-3">
-                                                            <label class="form-label">Nombre de usuario</label>
+                                                        <div class="input-group input-group-lg input-group-static my-3">
+                                                            <label>Nombre de usuario</label>
                                                             {{form.username}}
                                                             <span class="input-group-text" id="basic-addon2">
                                                                 <i class="material-icons opacity-10 me-3">account_circle</i>
@@ -69,8 +69,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="input-group input-group-lg input-group-outline my-3">
-                                                            <label class="form-label">Contraseña</label>
+                                                        <div class="input-group input-group-lg input-group-static my-3">
+                                                            <label>Contraseña</label>
                                                             {{form.password}}
                                                             <span class="input-group-text" id="basic-addon2">
                                                                 <i class="material-icons opacity-10 me-3">key</i>
@@ -80,32 +80,32 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-7">
-                                                        <div class="input-group input-group-sm input-group-outline my-2">
-                                                            <label class="form-label">Nombre Completo</label>
+                                                        <div class="input-group input-group-sm input-group-static my-2">
+                                                            <label>Nombre Completo</label>
                                                             {{form.first_name}}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="input-group input-group-sm input-group-outline my-2">
-                                                            <label class="form-label">DNI</label>
+                                                        <div class="input-group input-group-sm input-group-static my-2">
+                                                            <label>DNI</label>
                                                             {{form.dni}}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="input-group input-group-sm input-group-outline my2">
-                                                    <label class="form-label">Apellidos</label>
+                                                <div class="input-group input-group-sm input-group-static my2">
+                                                    <label>Apellidos</label>
                                                     {{form.last_name}}
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-7">
-                                                        <div class="input-group input-group-sm input-group-outline my-2">
-                                                            <label class="form-label">Correo electronico</label>
+                                                        <div class="input-group input-group-sm input-group-static my-2">
+                                                            <label>Correo electronico</label>
                                                             {{form.email}}
                                                         </div>
                                                     </div>
                                                     <div class="col-md-5">
-                                                        <div class="input-group input-group-sm input-group-outline my-2">
-                                                            <label class="form-label">Telefono</label>
+                                                        <div class="input-group input-group-sm input-group-static my-2">
+                                                            <label>Telefono</label>
                                                             {{form.phone}}
                                                         </div>
                                                     </div>

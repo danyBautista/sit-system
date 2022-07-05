@@ -20,16 +20,28 @@ class UserForm(ModelForm):
             'address' : TextInput(attrs={'class':'form-control  form-control-sm', 'autocomplete': 'off'}),
             'user_photo_path' : FileInput(attrs={'class':'form-control  form-control-sm'}),
             'is_staff' : CheckboxInput(attrs={'class' : 'form-check-input'}),
-            'is_active' : CheckboxInput(attrs={'class' : 'form-check-input'})
+            'is_active' : CheckboxInput(attrs={'class' : 'form-check-input'}),
+            'groups' : SelectMultiple(attrs={'class': 'form-control select2', 'style': 'width: 90%'})
         }
-        exclude = ['groups', 'user_permissions', 'last_login', 'is_superuser']
+        exclude = ['user_permissions', 'last_login', 'is_superuser']
 
     def save(self, commit=True):
         data = {}
         form = super()
         try:
             if form.is_valid():
-                form.save()
+                pwd = self.cleaned_data['password']
+                u = form.save(commit=False)
+                if u.pk is None:
+                    u.set_password(pwd)
+                else:
+                    user = User.objects.get(pk=u.pk)
+                    if user.password != pwd:
+                        u.set_password(pwd)
+                u.save()
+
+                for g in self.cleaned_data['groups']:
+                    u.groups.add(g)
             else:
                 data['error'] = form.errors
         except Exception as e:

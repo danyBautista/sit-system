@@ -112,3 +112,4 @@ class TypeCreate(CreateView):
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)
+
