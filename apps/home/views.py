@@ -25,7 +25,7 @@ from apps.validations.models import procedure
 from apps.home.models import Consulting
 from apps.home.forms import ConsultingForm
 from apps.home.mixins import IsSuperuserMixin
-
+from apps.certify.models import soat, citv, src, svct
 from apps.vehicles.serializers import VehiclesSerializer
 from .serializers import ConsultingSerializer
 from core.user.models import User
@@ -240,12 +240,24 @@ class ConsultingView(LoginRequiredMixin, TemplateView):
 
         return percent
 
+    def get_certification(self):
+        try:
+            v_soat = soat.objects.all().filter(vehicles = self.kwargs['key'], status = True).first()
+            v_citv = citv.objects.all().filter(vehicle = self.kwargs['key'], status = True).first()
+            v_src = src.objects.all().filter(vehicles = self.kwargs['key'], status = True).first()
+            v_svct = svct.objects.all().filter(vehicles = self.kwargs['key'], status = True).first()
+            certify = {'soat' : v_soat, 'citv' : v_citv, 'src' : v_src, 'svct' : v_svct}
+        except:
+            certify = None
+        return certify
+
     def get_validation(self):
         try:
-            content = procedure.objects.get(license_plate = self.kwargs['key'])
+            accr = procedure.objects.get(license_plate = self.kwargs['key'])
         except procedure.DoesNotExist:
-            content = None
-        return content
+            accr = None
+        return accr
+
     def get_accreditation(self):
         try:
             accr = accreditation.objects.get(plate = self.kwargs['key'])
@@ -261,6 +273,7 @@ class ConsultingView(LoginRequiredMixin, TemplateView):
         context['vehicle'] = vehicles.objects.get(plate = self.kwargs['key'])
         context['accreditation'] = self.get_accreditation()
         context['percent_accreditation'] = self.get_percent_accreditation()
+        context['certify'] = self.get_certification()
         context['validation'] = self.get_validation()
         context['percent_validaiton'] = self.get_percent_validation()
         context['page'] = 'Crear Acreditacion'

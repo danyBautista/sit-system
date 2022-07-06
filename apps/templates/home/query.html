@@ -81,194 +81,132 @@
             {% now "Y-m-d" as todays_date %}
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-12 mb-3">
-                    {% if validation.soat_status == 'VIGENTE' %}
-                        <div class="card">
-                            <div class="card-header p-3 py-2">
-                                <div class="icon icon-lg icon-shape bg-gradient-success shadow text-center border-radius-xl position-absolute">
-                                    <i class="material-icons text-white opacity-10">
-                                        gavel
-                                    </i>
-                                </div>
-                                <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Validacion legal</p>
-                                    <h4 class="mb-0">{{validation.soat.policy}}</h4>
-                                </div>
+                    <div class="card {% if certify.soat %}{%else%} opacity-5 {% endif %}">
+                        <div class="card-header p-3 py-2">
+                            <div class="icon icon-lg icon-shape{% if certify.soat %} bg-gradient-success {%  else %}  bg-gradient-secondary {% endif %}shadow text-center border-radius-xl position-absolute">
+                                <i class="material-icons text-white opacity-10">
+                                    gavel
+                                </i>
                             </div>
-                            <hr class="dark horizontal my-1">
-                            <div class="card-footer {{validation.soat.get_label_expired}} p-3">
-                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.soat.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize">Validacion legal</p>
+                                {% if certify.soat %}
+                                    <h4 class="mb-0">{{certify.soat.policy}}</h4>
+                                {%  else %}
+                                    <div class="timeline-item float-end w-60">
+                                        <div class="animated-background">&nbsp;</div>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
-                    {% else %}
-                        <div class="card opacity-5">
-                            <div class="card-header p-3 py-2">
-                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
-                                    <i class="material-icons text-white opacity-10">
-                                        gavel
-                                    </i>
-                                </div>
-                                <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Validacion legal</p>
-                                    <h4 class="mb-0">
-                                        <div class="timeline-item float-end w-60">
-                                            <div class="animated-background">&nbsp;</div>
-                                        </div>
-                                    </h4>
-                                </div>
-                            </div>
-                            <hr class="dark horizontal my-1">
-                            <div class="card-footer p-0">
-                                <p class="m-2">
+                        <hr class="dark horizontal my-1">
+                        <div class="card-footer {{certify.soat.get_label_expired}} p-3">
+                            <p class="mb-0">
+                                {% if certify.soat %}
+                                    <span class="text-success text-sm font-weight-bolder">{{certify.soat.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i>
+                                {%  else %}
                                     <div class="timeline-item w-80 ms-2">
                                         <div class="animated-background">&nbsp;</div>
                                     </div>
-                                </p>
-                            </div>
+                                {% endif %}
+                            </p>
                         </div>
-                    {% endif %}
+                    </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-12 mb-3">
-                    {% if validation.citv_status == 'VIGENTE' %}
-                        <div class="card">
-                            <div class="card-header p-3 py-2">
-                                <div class="icon icon-lg icon-shape bg-gradient-info shadow text-center border-radius-xl position-absolute">
-                                    <i class="material-icons text-white opacity-10">
-                                        build_circle
-                                    </i>
-                                </div>
-                                <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Validacion tecnica</p>
-                                    <h4 class="mb-0">{{validation.citv.id}}</h4>
-                                </div>
+                    <div class="card {% if certify.citv %}{% else %} opacity-5 {% endif %}">
+                        <div class="card-header p-3 py-2">
+                            <div class="icon icon-lg icon-shape {% if certify.citv %} bg-gradient-info {%  else %}  bg-gradient-secondary {% endif %} shadow text-center border-radius-xl position-absolute">
+                                <i class="material-icons text-white opacity-10">
+                                    build_circle
+                                </i>
                             </div>
-                            <hr class="dark horizontal my-1">
-                            <div class="card-footer {{validation.citv.get_label_expired}} p-3">
-                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.citv.expiration_date|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="card opacity-5">
-                            <div class="card-header p-3 py-2">
-                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
-                                    <i class="material-icons text-white opacity-10">
-                                        build_circle
-                                    </i>
-                                </div>
-                                <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Validacion Tecnica</p>
-                                    <h4 class="mb-0">
-                                        <div class="timeline-item float-end w-60">
-                                            <div class="animated-background">&nbsp;</div>
-                                        </div>
-                                    </h4>
-                                </div>
-                            </div>
-                            <hr class="dark horizontal my-1">
-                            <div class="card-footer p-0">
-                                <p class="m-2">
-                                    <div class="timeline-item w-80 ms-2">
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize">Validacion tecnica</p>
+                                {% if certify.citv %}
+                                    <h4 class="mb-0">{{certify.citv.id}}</h4>
+                                {%  else %}
+                                    <div class="timeline-item float-end w-60 mt-1">
                                         <div class="animated-background">&nbsp;</div>
                                     </div>
-                                </p>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endif %}
+                        <hr class="dark horizontal my-1">
+                        <div class="card-footer {{certify.citv.get_label_expired}} p-3">
+                            {% if certify.citv %}
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{certify.citv.expiration_date|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
+                            {%  else %}
+                                <div class="timeline-item w-80 ms-2">
+                                    <div class="animated-background">&nbsp;</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row mt-2">
                 <div class="col-lg-6 col-md-6 col-12">
-                    {% if validation.src_status == 'VIGENTE' %}
-                    <div class="card">
+                    <div class="card {% if certify.src %}{% else %} opacity-5 {% endif %}">
                         <div class="card-header p-3 py-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-warning shadow text-center border-radius-xl position-absolute">
+                            <div class="icon icon-lg icon-shape {% if certify.src %} bg-gradient-warning {%  else %}  bg-gradient-secondary {% endif %} shadow text-center border-radius-xl position-absolute">
                                 <i class="material-icons text-white opacity-10">
                                     admin_panel_settings
                                 </i>
                             </div>
                             <div class="text-end pt-1">
                                 <p class="text-sm mb-0 text-capitalize">Seguros SRC</p>
-                                <h4 class="mb-0">{{validation.src.name}}</h4>
+                                {% if certify.src %}
+                                    <h4 class="mb-0">{{certify.src.name}}</h4>
+                                {%  else %}
+                                    <div class="timeline-item float-end w-60 mt-1">
+                                        <div class="animated-background">&nbsp;</div>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
-                        <hr class="dark horizontal my-0">
-                        <div class="card-footer {{validation.src.get_label_expired}} p-3">
-                            <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.src.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
+                        <hr class="dark horizontal my-1">
+                        <div class="card-footer {{certify.src.get_label_expired}} p-3">
+                            {% if certify.src %}
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{certify.src.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
+                            {%  else %}
+                                <div class="timeline-item w-80 ms-2">
+                                    <div class="animated-background">&nbsp;</div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
-                    {% else %}
-                        <div class="card opacity-5">
-                            <div class="card-header p-3 py-2">
-                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
-                                    <i class="material-icons text-white opacity-10">
-                                        admin_panel_settings
-                                    </i>
-                                </div>
-                                <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">Seguros SRC</p>
-                                    <h4 class="mb-0">
-                                        <div class="timeline-item float-end w-60">
-                                            <div class="animated-background">&nbsp;</div>
-                                        </div>
-                                    </h4>
-                                </div>
-                            </div>
-                            <hr class="dark horizontal my-1">
-                            <div class="card-footer p-0">
-                                <p class="m-2">
-                                    <div class="timeline-item w-80 ms-2">
-                                        <div class="animated-background">&nbsp;</div>
-                                    </div>
-                                </p>
-                            </div>
-                        </div>
-                    {% endif %}
                 </div>
                 <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
-                    {% if validation.svct_status == 'VIGENTE' %}
-                        <div class="card">
-                            <div class="card-header p-3 py-2">
-                                <div class="icon icon-lg icon-shape bg-gradient-danger shadow text-center border-radius-xl position-absolute">
-                                    <i class="material-icons text-white opacity-10">
-                                        health_and_safety
-                                    </i>
-                                </div>
-                                <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">seguros SVCT</p>
-                                    <h4 class="mb-0">{{validation.svct.name}}</h4>
-                                </div>
+                    <div class="card {% if certify.svct %}{% else %} opacity-5 {% endif %}">
+                        <div class="card-header p-3 py-2">
+                            <div class="icon icon-lg icon-shape {% if certify.svct %} bg-gradient-danger {%  else %}  bg-gradient-secondary {% endif %} shadow text-center border-radius-xl position-absolute">
+                                <i class="material-icons text-white opacity-10">
+                                    health_and_safety
+                                </i>
                             </div>
-                            <hr class="dark horizontal my-0">
-                            <div class="card-footer {{validation.src.get_label_expired}} p-3">
-                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{validation.svct.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="card opacity-5">
-                            <div class="card-header p-3 py-2">
-                                <div class="icon icon-lg icon-shape opacity-5 bg-gradient-secondary shadow text-center border-radius-xl position-absolute">
-                                    <i class="material-icons text-white opacity-10">
-                                        health_and_safety
-                                    </i>
-                                </div>
-                                <div class="text-end pt-1">
-                                    <p class="text-sm mb-0 text-capitalize">seguros SVCT</p>
-                                    <h4 class="mb-0">
-                                        <div class="timeline-item float-end w-60">
-                                            <div class="animated-background">&nbsp;</div>
-                                        </div>
-                                    </h4>
-                                </div>
-                            </div>
-                            <hr class="dark horizontal my-1">
-                            <div class="card-footer p-0">
-                                <p class="m-2">
-                                    <div class="timeline-item w-80 ms-2">
+                            <div class="text-end pt-1">
+                                <p class="text-sm mb-0 text-capitalize">Seguros SVCT</p>
+                                {% if certify.svct %}
+                                    <h4 class="mb-0">{{certify.svct.name}}</h4>
+                                {%  else %}
+                                    <div class="timeline-item float-end w-60 mt-1">
                                         <div class="animated-background">&nbsp;</div>
                                     </div>
-                                </p>
+                                {% endif %}
                             </div>
                         </div>
-                    {% endif %}
+                        <hr class="dark horizontal my-1">
+                        <div class="card-footer {{certify.svct.get_label_expired}} p-3">
+                            {% if certify.svct %}
+                                <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{certify.svct.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
+                            {%  else %}
+                                <div class="timeline-item w-80 ms-2">
+                                    <div class="animated-background">&nbsp;</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -84,10 +84,15 @@ class ValidateVehicle(HttpResponse):
         else:
             msg_citv = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe CITV', 'data': CITV}
 
-        if SRC and SVCT:
-            msg_seg = {'class': 'bg-gradient-success', 'icon': 'check', 'message': SRC.id, 'data': SRC}
+        if SRC:
+            msg_src = {'class': 'bg-gradient-success', 'icon': 'check', 'message': SRC.id, 'data': SRC}
         else:
-            msg_seg = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe seguros', 'data': SRC}
+            msg_src = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe seguros', 'data': SRC}
+
+        if SVCT:
+            msg_svct = {'class': 'bg-gradient-success', 'icon': 'check', 'message': SVCT.id, 'data': SVCT}
+        else:
+            msg_svct = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe seguros', 'data': SVCT}
 
         if SOAT and CITV and SRC and SVCT:
             disable = ""
@@ -103,7 +108,8 @@ class ValidateVehicle(HttpResponse):
                         'unit': vehicle,
                         'soat' : msg_soat,
                         'citv' : msg_citv,
-                        'segc' : msg_seg,
+                        'src' : msg_src,
+                        'svct' : msg_svct,
                         'forms' : forms,
                         'disable' : disable,
                         'pk' : pk

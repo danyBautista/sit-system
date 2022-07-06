@@ -20,7 +20,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="row my-4">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="card" data-animation="true">
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                         <div class="icon icon-lg icon-shape {{soat.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
@@ -31,7 +31,7 @@
                                                         </a>
                                                         <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/law.png&quot;);"></div>
                                                     </div>
-                                                    <div class="card-body text-center">
+                                                    <div class="card-body text-center px-2">
                                                         <div class="d-flex mt-n6 mx-auto">
                                                             <a class="btn btn-link text-success ms-auto border-0" title="Crear" id="btn-soat" data-bs-toggle="modal" data-bs-target="#soat_form">
                                                                 <i class="material-icons text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom">add</i>
@@ -50,7 +50,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="card" data-animation="true">
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                         <div class="icon icon-lg icon-shape  {{citv.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
@@ -61,7 +61,7 @@
                                                         </a>
                                                         <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/technician.png&quot;);"></div>
                                                     </div>
-                                                    <div class="card-body text-center">
+                                                    <div class="card-body text-center px-2">
                                                         <div class="d-flex mt-n6 mx-auto">
                                                             <a class="btn btn-link text-success ms-auto border-0" id="btn-citv" data-bs-toggle="modal" data-bs-target="#citv_form">
                                                                 <i class="material-icons text-lg">add</i>
@@ -80,20 +80,20 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="card" data-animation="true">
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                                        <div class="icon icon-lg icon-shape {{segc.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                                                            <i class="material-icons opacity-10">{{segc.icon}}</i>
+                                                        <div class="icon icon-lg icon-shape {{src.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                            <i class="material-icons opacity-10">{{src.icon}}</i>
                                                         </div>
                                                         <a class="d-block blur-shadow-image">
-                                                            <img src="/static/assets/img/insurance.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                            <img src="/static/assets/img/umbrella.webp" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                                                         </a>
-                                                        <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/insurance.jpg&quot;);"></div>
+                                                        <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/umbrella.webp;);"></div>
                                                     </div>
                                                     <div class="card-body text-center">
                                                         <div class="d-flex mt-n6 mx-auto">
-                                                            <a class="btn btn-link text-success ms-auto border-0" id="btn-seg" data-bs-toggle="modal" data-bs-target="#seg_form">
+                                                            <a class="btn btn-link text-success ms-auto border-0" id="btn-seg" data-bs-toggle="modal" data-bs-target="#src_form">
                                                                 <i class="material-icons text-lg">add</i>
                                                             </a>
                                                             <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
@@ -101,12 +101,42 @@
                                                             </button>
                                                         </div>
                                                         <h5 class="font-weight-normal mt-3">
-                                                            <a href="javascript:;">Validacion seguro</a>
+                                                            <a href="javascript:;">Seguros SRC</a>
                                                         </h5>
                                                     </div>
                                                     <hr class="dark horizontal my-0">
                                                     <div class="card-footer">
-                                                        <small>{{segc.message}}</small>
+                                                        <small>{{src.message}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="card" data-animation="true">
+                                                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                        <div class="icon icon-lg icon-shape {{svct.class}} shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                                                            <i class="material-icons opacity-10">{{svct.icon}}</i>
+                                                        </div>
+                                                        <a class="d-block blur-shadow-image">
+                                                            <img src="/static/assets/img/insurance.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                                        </a>
+                                                        <div class="colored-shadow" style="background-image: url(&quot;/static/assets/img/insurance.jpg&quot;);"></div>
+                                                    </div>
+                                                    <div class="card-body text-center px-2">
+                                                        <div class="d-flex mt-n6 mx-auto">
+                                                            <a class="btn btn-link text-success ms-auto border-0" id="btn-seg" data-bs-toggle="modal" data-bs-target="#svct_form">
+                                                                <i class="material-icons text-lg">add</i>
+                                                            </a>
+                                                            <button class="btn btn-link text-info me-auto border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">
+                                                                <i class="material-icons text-lg">edit</i>
+                                                            </button>
+                                                        </div>
+                                                        <h5 class="font-weight-normal mt-3">
+                                                            <a href="javascript:;">Seguros SVCT</a>
+                                                        </h5>
+                                                    </div>
+                                                    <hr class="dark horizontal my-0">
+                                                    <div class="card-footer">
+                                                        <small>{{svct.message}}</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -356,124 +386,124 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="seg_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+    <div class="modal fade" id="src_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
                     <div class="card card-plain">
                         <div class="card-body">
-                            <nav>
-                                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Registrar SRC</button>
-                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Registrar SVCT</button>
+                            <form action="{% url 'certify.create.src' %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="vehicles" value="{{unit.plate}}">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Cargar archivo</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="form-control border dropzone" id="dropzone">
+                                                    <div class="fallback">
+                                                        {{forms.SRC_F.file}}
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="vehicle" value="{{unit.plate}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Datos Generales</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="input-group input-group-lg input-group-outline my-2">
+                                                    <label class="form-label">Nombre</label>
+                                                    {{ forms.SRC_F.name}}
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static my-3">
+                                                    <label>Fecha de registro</label>
+                                                    {{forms.SRC_F.registration_date}}
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static my-3">
+                                                    <label>Fecha de caducidad</label>
+                                                    {{forms.SRC_F.date_expiry}}
+                                                </div>
+                                                <div class="form-check form-switch mt-2">
+                                                    {{forms.SRC_F.status}}
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Inspeccion&nbsp;aprobada</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </nav>
-                            <div class="tab-content" id="nav-tabContent">
-                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <form action="{% url 'certify.create.src' %}" method="POST" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="vehicles" value="{{unit.plate}}">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 px-1">
-                                                <div class="card h-100 ms-2">
-                                                    <div class="card-header pb-0">
-                                                        <h6>Cargar archivo</h6>
-                                                    </div>
-                                                    <div class="card-body p-3">
-                                                        <div class="form-control border dropzone" id="dropzone">
-                                                            <div class="fallback">
-                                                                {{forms.SRC_F.file}}
-                                                            </div>
-                                                        </div>
-                                                        <input type="hidden" name="vehicle" value="{{unit.plate}}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 px-1">
-                                                <div class="card h-100 ms-2">
-                                                    <div class="card-header pb-0">
-                                                        <h6>Datos Generales</h6>
-                                                    </div>
-                                                    <div class="card-body p-3">
-                                                        <div class="input-group input-group-lg input-group-outline my-2">
-                                                            <label class="form-label">Nombre</label>
-                                                            {{ forms.SRC_F.name}}
-                                                        </div>
-                                                        <div class="input-group input-group-sm input-group-static my-3">
-                                                            <label>Fecha de registro</label>
-                                                            {{forms.SRC_F.registration_date}}
-                                                        </div>
-                                                        <div class="input-group input-group-sm input-group-static my-3">
-                                                            <label>Fecha de caducidad</label>
-                                                            {{forms.SRC_F.date_expiry}}
-                                                        </div>
-                                                        <div class="form-check form-switch mt-2">
-                                                            {{forms.SRC_F.status}}
-                                                            <label class="form-check-label" for="flexSwitchCheckDefault">Inspeccion&nbsp;aprobada</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer ">
-                                            <button type="button" class="btn btn-link bg-gradient-secondary mb-0" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn bg-gradient-primary mb-0">Registrar</button>
-                                        </div>
-                                    </form>
+                                <div class="modal-footer ">
+                                    <button type="button" class="btn btn-link bg-gradient-secondary mb-0" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn bg-gradient-primary mb-0">Registrar</button>
                                 </div>
-                                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                    <form action="{% url 'certify.create.svct' %}" method="POST" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="vehicles" value="{{unit.plate}}">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 px-1">
-                                                <div class="card h-100 ms-2">
-                                                    <div class="card-header pb-0">
-                                                        <h6>Cargar archivo</h6>
-                                                    </div>
-                                                    <div class="card-body p-3">
-                                                        <div class="form-control border dropzone" id="dropzone">
-                                                            <div class="fallback">
-                                                                {{forms.SVCT_F.file}}
-                                                            </div>
-                                                        </div>
-                                                        <input type="hidden" name="vehicles" value="{{unit.plate}}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="svct_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+        <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content blur-dark">
+                <div class="modal-body p-0">
+                    <div class="card card-plain">
+                        <div class="card-body">
+                            <form action="{% url 'certify.create.svct' %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="vehicles" value="{{unit.plate}}">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Cargar archivo</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="form-control border dropzone" id="dropzone">
+                                                    <div class="fallback">
+                                                        {{forms.SVCT_F.file}}
                                                     </div>
                                                 </div>
+                                                <input type="hidden" name="vehicles" value="{{unit.plate}}">
                                             </div>
-                                            <div class="col-lg-6 col-md-6 px-1">
-                                                <div class="card h-100 ms-2">
-                                                    <div class="card-header pb-0">
-                                                        <h6>Datos Generales</h6>
-                                                    </div>
-                                                    <div class="card-body p-3">
-                                                        <div class="input-group input-group-lg input-group-outline my-2">
-                                                            <label class="form-label">Nombre</label>
-                                                            {{ forms.SVCT_F.name}}
-                                                        </div>
-                                                        <div class="input-group input-group-sm input-group-static my-3">
-                                                            <label>Fecha de registro</label>
-                                                            {{forms.SVCT_F.registration_date}}
-                                                        </div>
-                                                        <div class="input-group input-group-sm input-group-static my-3">
-                                                            <label>Fecha de caducidad</label>
-                                                            {{forms.SVCT_F.date_expiry}}
-                                                        </div>
-                                                        <div class="form-check form-switch mt-2">
-                                                            {{forms.SVCT_F.status}}
-                                                            <label class="form-check-label" for="flexSwitchCheckDefault">Inspeccion&nbsp;aprobada</label>
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 px-1">
+                                        <div class="card h-100 ms-2">
+                                            <div class="card-header pb-0">
+                                                <h6>Datos Generales</h6>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="input-group input-group-lg input-group-outline my-2">
+                                                    <label class="form-label">Nombre</label>
+                                                    {{ forms.SVCT_F.name}}
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static my-3">
+                                                    <label>Fecha de registro</label>
+                                                    {{forms.SVCT_F.registration_date}}
+                                                </div>
+                                                <div class="input-group input-group-sm input-group-static my-3">
+                                                    <label>Fecha de caducidad</label>
+                                                    {{forms.SVCT_F.date_expiry}}
+                                                </div>
+                                                <div class="form-check form-switch mt-2">
+                                                    {{forms.SVCT_F.status}}
+                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Inspeccion&nbsp;aprobada</label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer ">
-                                            <button type="button" class="btn btn-link bg-gradient-secondary mb-0" data-bs-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn bg-gradient-primary mb-0">Registrar</button>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="modal-footer ">
+                                    <button type="button" class="btn btn-link bg-gradient-secondary mb-0" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn bg-gradient-primary mb-0">Registrar</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

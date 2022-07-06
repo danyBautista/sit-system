@@ -58,14 +58,16 @@ class citv(models.Model):
         verbose_name_plural = 'CITV'
 
     def get_label_expired(self):
-        if date.today() < self.expiration_date - timedelta(days=10):
-            return 'bg-gradient-white'
-        else:
-            if date.today() > self.expiration_date - timedelta(days=10) and date.today() == self.expiration_date:
-                return 'bg-gradient-warning'
+        try:
+            if date.today() < self.date_expiry - timedelta(days=10):
+                return 'bg-gradient-white'
             else:
-                if date.today() > self.expiration_date:
+                if date.today() > self.date_expiry:
                     return 'bg-gradient-danger text-white'
+                else:
+                    return 'bg-gradient-warning text-white'
+        except:
+            pass
 
     def __str__(self):
         return self.Type_of_inspection
@@ -111,14 +113,16 @@ class soat(models.Model):
         verbose_name_plural = 'SOAT'
 
     def get_label_expired(self):
-        if date.today() < self.date_expiry - timedelta(days=10):
-            return 'bg-gradient-white'
-        else:
-            if date.today() > self.date_expiry - timedelta(days=10) and date.today() == self.date_expiry:
-                return 'bg-gradient-warning'
+        try:
+            if date.today() < self.date_expiry - timedelta(days=10):
+                return 'bg-gradient-white'
             else:
                 if date.today() > self.date_expiry:
                     return 'bg-gradient-danger text-white'
+                else:
+                    return 'bg-gradient-warning text-white'
+        except:
+            pass
 
     def __srt__(self):
         return str(self.policy) + " - " + str(self.certify)
@@ -140,14 +144,16 @@ class src(models.Model):
         ordering = ['name']
         verbose_name_plural = 'SRC'
     def get_label_expired(self):
-        if date.today() < self.date_expiry - timedelta(days=10):
-            return 'bg-gradient-white'
-        else:
-            if date.today() > self.date_expiry - timedelta(days=10) and date.today() == self.date_expiry:
-                return 'bg-gradient-warning'
+        try:
+            if date.today() < self.date_expiry - timedelta(days=10):
+                return 'bg-gradient-white'
             else:
                 if date.today() > self.date_expiry:
                     return 'bg-gradient-danger text-white'
+                else:
+                    return 'bg-gradient-warning text-white'
+        except:
+            pass
 
     def __srt__(self):
         return self.name
@@ -170,14 +176,16 @@ class svct(models.Model):
         verbose_name_plural = 'SVCT'
 
     def get_label_expired(self):
-        if date.today() < self.date_expiry - timedelta(days=10):
-            return 'bg-gradient-white'
-        else:
-            if date.today() > self.date_expiry - timedelta(days=10) and date.today() == self.date_expiry:
-                return 'bg-gradient-warning'
+        try:
+            if date.today() < self.date_expiry - timedelta(days=10):
+                return 'bg-gradient-white'
             else:
                 if date.today() > self.date_expiry:
                     return 'bg-gradient-danger text-white'
+                else:
+                    return 'bg-gradient-warning text-white'
+        except:
+            pass
 
     def __srt__(self):
         return self.name
