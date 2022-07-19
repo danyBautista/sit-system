@@ -30,7 +30,7 @@ from apps.vehicles.serializers import VehiclesSerializer
 from .serializers import ConsultingSerializer
 from core.user.models import User
 
-class DashboardView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     permission_required = 'home.view_category'
     login_url = '/login/'
     template_name = 'home/index.html'

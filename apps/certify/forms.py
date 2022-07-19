@@ -56,7 +56,7 @@ class SOATForm(forms.ModelForm):
             'insured': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'amount': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
             'file': forms.FileInput(attrs={'class':'form-control'}),
-            'owners': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+            'owners': forms.CheckboxSelectMultiple(),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
         }
 

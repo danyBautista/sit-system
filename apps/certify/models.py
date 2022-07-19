@@ -96,7 +96,7 @@ class soat(models.Model):
     registration_date = models.DateField()
     date_expiry = models.DateField()
     category = models.ForeignKey(categories, null=True, blank=True, on_delete=models.CASCADE)
-    vin_serie = models.CharField(max_length=15)
+    vin_serie = models.CharField(max_length=17)
     insured = models.CharField(max_length=150, blank=True, null=True)
     amount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     file = models.FileField(upload_to="soat", null=True, blank=True)

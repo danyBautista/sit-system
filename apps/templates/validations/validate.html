@@ -169,7 +169,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="soat_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+    <div class="modal fade" id="soat_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" >
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
@@ -273,7 +273,7 @@
                                                     <div class="overflow-auto overflow-y-auto w-lg-auto">
                                                         {% for user in unit.owners.all %}
                                                             <span class="chk-result badge bg-gradient-secondary py-1 mx-1">
-                                                                <input type="checkbox" class="d-none" name="owners" value="{{user.dni}}" id="{{user.dni}}" checked="checked">
+                                                                <input type="checkbox" class="d-none" id="id_owners_{{ forloop.counter0 }}" name="owners" value="{{user.dni}}" checked="checked">
                                                                 <span>{{user.name}} {{user.first_name}} {{user.last_name}}</span>
                                                                 <!--<button type="button" class="btn text-warning bg-transparent btn-sm mb-0 ms-2 p-1">
                                                                     <span class="material-icons">
@@ -299,7 +299,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="citv_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+    <div class="modal fade" id="citv_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
@@ -386,7 +386,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="src_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+    <div class="modal fade" id="src_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" >
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
@@ -448,7 +448,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="svct_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+    <div class="modal fade" id="svct_form" tabindex="-1" role="dialog" aria-labelledby="SOATModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" role="document">
             <div class="modal-content blur-dark">
                 <div class="modal-body p-0">
