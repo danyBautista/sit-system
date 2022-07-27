@@ -19,7 +19,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
-# ALLOWED_HOSTS        = ['34.125.176.103','0.0.0.0:8088', 'localhost:85', '127.0.0.1', 'serverprojects', config('SERVER', default='127.0.0.1')]
+# ALLOWED_HOSTS        = ['47.241.3.55','0.0.0.0:8088', 'localhost:85', '127.0.0.1', 'serverprojects', config('SERVER', default='127.0.0.1')]
 ALLOWED_HOSTS        = ['172.16.54.47', 'localhost:85', '127.0.0.1', 'serverprojects', config('SERVER', default='127.0.0.1')]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://172.16.54.47', 'http://serverprojects', 'https://' + config('SERVER', default='127.0.0.1')]
 
