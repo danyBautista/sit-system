@@ -73,7 +73,12 @@ class ValidateVehicle(HttpResponse):
         SRC = src.objects.filter(vehicles=id_v, status=True).first()
         SVCT = svct.objects.filter(vehicles=id_v, status=True).first()
         CONT = binding_contracts.objects.filter(id=id_c).first()
-        PROC = procedure.objects.all().get(license_plate = id_v)
+        try:
+            ct = procedure.objects.all().get(license_plate = id_v)
+        except procedure.DoesNotExist:
+            ct = None
+
+        PROC = ct
 
 
         form_soat = SOATForm()
