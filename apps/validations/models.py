@@ -34,12 +34,35 @@ class routes(models.Model):
 class binding_contracts(models.Model):
     code = models.CharField(max_length=16)
     registration_date = models.DateField()
-    due_date = models.DateField()
+    due_date = models.DateField(null=True)
     document = models.FileField(upload_to='binding_contratcs', null=True, blank=True)
     status = models.BooleanField()
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
     delete_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+    def get_label_expired(self):
+        try:
+            if date.today() < self.due_date - timedelta(days=10):
+                bg = 'bg-gradient-white'
+                cl = 'text-success'
+                ic = 'verified_user'
+                tl = 'ACEPTADO'
+            else:
+                if date.today() > self.due_date:
+                    bg = 'bg-gradient-danger text-white'
+                    cl = 'text-danger'
+                    ic = 'gpp_bad'
+                    tl = 'RECHAZADO'
+                else:
+                    bg = 'bg-gradient-warning text-white'
+                    cl = 'text-warning'
+                    ic = 'gpp_maybe'
+                    tl = 'OBSERVADO'
+            attr = {'background' : bg, 'color' : cl, 'icon' : ic, 'title' : tl}
+            return attr
+        except:
+            pass
 
     def __str__(self):
         return self.code + " - " + str(self.registration_date)
@@ -72,7 +95,6 @@ class vehicle_substitution(models.Model):
 	vehicle_authorization_document = models.BooleanField()
 	file_authorization = models.FileField(upload_to='substitution', null=True, blank=True)
 
-
 class procedure(models.Model):
     PROFILE = (
         ('ACEPTADO', 'Aceptado'),
@@ -82,7 +104,7 @@ class procedure(models.Model):
     VALIDITY = (
         ('VIGENTE', 'vigente'),
         ('NO VIGENTE', 'No vigente'),
-        ('INDETERMINADO', 'Indeterminado')
+        ('OBSERVADO', 'Observado')
     )
     current_date = datetime.today()
     YEAR_CHOICES = [(r,r) for r in range(2000, datetime.today().year+1)]

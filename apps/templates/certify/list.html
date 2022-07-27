@@ -208,7 +208,7 @@
                         </thead>
                         <tbody v-if="!list_view">
                             {% for item in list %}
-                            <tr>
+                            <tr class="{{item.get_label_expired}}">
                                 <td>
                                     <a href="#">
                                         <div class="d-flex px-2 py-1">

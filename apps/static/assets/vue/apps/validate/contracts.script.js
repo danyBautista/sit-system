@@ -31,7 +31,9 @@ new Vue({
                 method: 'POST',
                 url: '../api/contract/create/',
                 headers: headers,
-                data: fd
+                data: fd,
+                processData: false,
+                contentType: false,
             })
             .then( function(response){
                 $("#contracts").modal('hide');

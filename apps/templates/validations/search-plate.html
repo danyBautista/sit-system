@@ -26,8 +26,8 @@
                                         </div>
                                         <div class="input-group input-group-lg input-group-addon input-group-outline my-4">
                                             <label class="form-label">Buscar placa</label>
-                                            <input type="text" v-model="plate" name="plate" class="form-control" autocomplete="off">
-                                            <button class="btn bg-gradient-secondary mb-0 px-3" type="button" id="submit-search" v-on:keyup.enter="searchPlate()" @click="searchPlate()">
+                                            <input type="text" v-model="plate" name="plate" class="form-control" @keyup.enter="searchPlate()" autocomplete="off">
+                                            <button class="btn bg-gradient-secondary mb-0 px-3" type="button" id="submit-search" @click="searchPlate()">
                                                 <span class="material-icons">
                                                     search
                                                 </span>
@@ -39,8 +39,21 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <div class="card-footer bg-warning text-white" v-if="footer">
+                                    <div id="footer" class="card-footer text-white" :class="[bg]" v-if="footer">
                                         <h6 id="title-mesage text-white">{$message$}</h6>
+                                        <div v-if="vehicle_content">
+                                            <div class="card col-3" v-for="vehicle in vehicles">
+                                                <div class=" card-headercard-body">
+                                                    <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl position-absolute">
+                                                        <span class="material-icons h3 opacity-10 text-white m-auto my-1">directions_bus</span>
+                                                    </div>
+                                                    <div class="text-end pt-1">
+                                                        <p class="text-sm mb-0 text-capitalize">Placa vehicular</p>
+                                                        <h5 class="mb-0">{{vehicle.plate}}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

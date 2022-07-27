@@ -1,11 +1,13 @@
+from apps.validations.models import procedure
 from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, DetailView, TemplateView
 from django.urls import reverse, reverse_lazy
 from django.template import loader
 
@@ -91,12 +93,17 @@ class CreateSOAT(HttpResponse):
 """ services start here """
 class API_ValidateLegalSOAT(ListAPIView):
     serializer_class = SOATSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['vehicles']
 
     def get_queryset(self):
-        queryset = soat.objects.all().select_related('vehicles')
-        return queryset.filter(status = True)
+        SOAT = soat.objects.all()
+        return SOAT
+
+    def get(self, request, *args, **kwargs):
+        id = request.query_params['id']
+        SOAT = soat.objects.get(id = id)
+        serializers = SOATSerializer(SOAT)
+
+        return Response(serializers.data)
 
 class API_ValidateLegalCITV(ListAPIView):
     serializer_class = CITVSerializer
@@ -129,7 +136,7 @@ class createAPI_SOAT(LoginRequiredMixin, CreateView):
     #success_url = reverse_lazy('validate.val')
     def get_success_url(self):
         return reverse('validate.val', kwargs={
-            'pk': self.object.vehicles.pk,
+            'pk': self.object.vehicles.pk + '-' + str(self.kwargs['key']),
         })
 
 class createAPI_CITV(LoginRequiredMixin, CreateView):
@@ -139,7 +146,7 @@ class createAPI_CITV(LoginRequiredMixin, CreateView):
     #success_url = reverse_lazy('validate.val')
     def get_success_url(self):
         return reverse('validate.val', kwargs={
-            'pk': self.object.vehicle.pk
+            'pk': self.object.vehicle.pk + '-' + str(self.kwargs['key'])
         })
 
 class createAPI_SRC(LoginRequiredMixin, CreateView):
@@ -149,7 +156,7 @@ class createAPI_SRC(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('validate.val', kwargs={
-            'pk': self.object.vehicles.pk,
+            'pk': self.object.vehicles.pk + '-' + str(self.kwargs['key']),
         })
 
 class createAPI_SVCT(LoginRequiredMixin, CreateView):
@@ -159,5 +166,16 @@ class createAPI_SVCT(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('validate.val', kwargs={
-            'pk': self.object.vehicles.pk
+            'pk': self.object.vehicles.pk + '-' + str(self.kwargs['key'])
         })
+
+class CertifyQuery(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    template_name = 'None'
+    def get(self, request, *args, **kwargs):
+        data = {}
+        try:
+            data['success'] = 'correcto' + self.kwargs['pk']
+        except Exception as e:
+            data['error'] = 'error ' + str(e)
+        return super().get(request, *args, **kwargs)

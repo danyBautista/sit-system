@@ -100,7 +100,7 @@
                             </div>
                         </div>
                         <hr class="dark horizontal my-1">
-                        <div class="card-footer {{certify.soat.get_label_expired}} p-3">
+                        <div class="card-footer {{certify.soat.get_label_expired.background}} p-3">
                             <p class="mb-0">
                                 {% if certify.soat %}
                                     <span class="text-success text-sm font-weight-bolder">{{certify.soat.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i>
@@ -133,7 +133,7 @@
                             </div>
                         </div>
                         <hr class="dark horizontal my-1">
-                        <div class="card-footer {{certify.citv.get_label_expired}} p-3">
+                        <div class="card-footer {{certify.citv.get_label_expired.background}} p-3">
                             {% if certify.citv %}
                                 <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{certify.citv.expiration_date|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
                             {%  else %}
@@ -166,7 +166,7 @@
                             </div>
                         </div>
                         <hr class="dark horizontal my-1">
-                        <div class="card-footer {{certify.src.get_label_expired}} p-3">
+                        <div class="card-footer {{certify.src.get_label_expired.background}} p-3">
                             {% if certify.src %}
                                 <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{certify.src.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
                             {%  else %}
@@ -197,7 +197,7 @@
                             </div>
                         </div>
                         <hr class="dark horizontal my-1">
-                        <div class="card-footer {{certify.svct.get_label_expired}} p-3">
+                        <div class="card-footer {{certify.svct.get_label_expired.background}} p-3">
                             {% if certify.svct %}
                                 <p class="mb-0"><span class="text-success text-sm font-weight-bolder">{{certify.svct.date_expiry|date:"d M, Y"}} </span><i class="text-xxs">Fecha de vencimineto</i></p>
                             {%  else %}

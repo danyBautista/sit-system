@@ -28,6 +28,7 @@ $(function(){
                     else{
                         var html = '<p class="text-xs">No se ha podido registrar por los siguientes problemas</p>'
                         html +=  '<ul class="list-group list-group-flush">'
+                        console.log(request)
                         $.each(request, function(key, value){
                             html += '<li class="list-group-item"><strong class="text-uppercase">' + key + ': </strong>' + value + '</li>'
                         })

@@ -7,8 +7,11 @@ new Vue({
         search: true,
         validate: false,
         footer: false,
+        vehicle_content: false,
+        vehicles: [],
         plate: '',
-        message: ''
+        message: '',
+        bg : 'bg-warning'
     },
     methods : {
         searchPlate : function(){
@@ -17,12 +20,31 @@ new Vue({
             {
                 axios.get('../../vehicles/api/search/?kword=' + this.plate)
                 .then(function(response){
-                    reslg = Object.keys(response.data).length
-                    console.log(response)
-                    if(reslg == 1)
-                        window.location.href = "../../validations/select/" + self.plate
-                    else
+                    result = Object.keys(response.data).length
+                    if(result == 1){
+                        var data = response.data
+                        axios.get('../api/list/vehicle/?kword=' + data[0]['plate'])
+                        .then(function(response){
+                            var result = Object.keys(response.data).length
+                            if (result != 0){
+                                var data = result.data
+                                if(result > 1){
+                                    self.footer = true;
+                                    self.bg = 'bg-info';
+                                    self.message = 'Vehiculos con validacion encontrados seleccione uno para continuar'
+                                    self.vehicle_content = true;
+                                    self.vehicles = result.data
+                                }
+                                else{
+                                    window.location.href = "../../validations/select/" + self.plate + '-' + data[0]['contract']
+                                }
+                            }else{
+                                window.location.href = "../../validations/select/" + self.plate + '-0'
+                            }
+                        })
+                    }else{
                         window.location.href = "../../vehicles/create/"
+                    }
                 })
                 .catch(function(error){
                     console.log(error)
@@ -33,7 +55,7 @@ new Vue({
                 this.footer = true
             }
         },
-        CreateSOAT : function(){
+        getVehicleProcedure :function(){
 
         }
     }

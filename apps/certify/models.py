@@ -59,13 +59,24 @@ class citv(models.Model):
 
     def get_label_expired(self):
         try:
-            if date.today() < self.date_expiry - timedelta(days=10):
-                return 'bg-gradient-white'
+            if date.today() < self.expiration_date - timedelta(days=10):
+                bg = 'bg-gradient-white'
+                cl = 'text-success'
+                ic = 'verified_user'
+                tl = 'VIGENTE'
             else:
-                if date.today() > self.date_expiry:
-                    return 'bg-gradient-danger text-white'
+                if date.today() > self.expiration_date:
+                    bg = 'bg-gradient-danger text-white'
+                    cl = 'text-danger'
+                    ic = 'gpp_bad'
+                    tl = 'NO VIGENTE'
                 else:
-                    return 'bg-gradient-warning text-white'
+                    bg = 'bg-gradient-warning text-white'
+                    cl = 'text-warning'
+                    ic = 'gpp_maybe'
+                    tl = 'OBSERVADO'
+            attr = {'background' : bg, 'color' : cl, 'icon' : ic, 'title' : tl}
+            return attr
         except:
             pass
 
@@ -115,12 +126,23 @@ class soat(models.Model):
     def get_label_expired(self):
         try:
             if date.today() < self.date_expiry - timedelta(days=10):
-                return 'bg-gradient-white'
+                bg = 'bg-gradient-white'
+                cl = 'text-success'
+                ic = 'verified_user'
+                tl = 'VIGENTE'
             else:
                 if date.today() > self.date_expiry:
-                    return 'bg-gradient-danger text-white'
+                    bg = 'bg-gradient-danger text-white'
+                    cl = 'text-danger'
+                    ic = 'gpp_bad'
+                    tl = 'NO VIGENTE'
                 else:
-                    return 'bg-gradient-warning text-white'
+                    bg = 'bg-gradient-warning text-white'
+                    cl = 'text-warning'
+                    ic = 'gpp_maybe'
+                    tl = 'OBSERVADO'
+            attr = {'background' : bg, 'color' : cl, 'icon' : ic, 'title' : tl}
+            return attr
         except:
             pass
 
@@ -146,12 +168,23 @@ class src(models.Model):
     def get_label_expired(self):
         try:
             if date.today() < self.date_expiry - timedelta(days=10):
-                return 'bg-gradient-white'
+                bg = 'bg-gradient-white'
+                cl = 'text-success'
+                ic = 'verified_user'
+                tl = 'VIGENTE'
             else:
                 if date.today() > self.date_expiry:
-                    return 'bg-gradient-danger text-white'
+                    bg = 'bg-gradient-danger text-white'
+                    cl = 'text-danger'
+                    ic = 'gpp_bad'
+                    tl = 'NO VIGENTE'
                 else:
-                    return 'bg-gradient-warning text-white'
+                    bg = 'bg-gradient-warning text-white'
+                    cl = 'text-warning'
+                    ic = 'gpp_maybe'
+                    tl = 'OBSERVADO'
+            attr = {'background' : bg, 'color' : cl, 'icon' : ic, 'title' : tl}
+            return attr
         except:
             pass
 
@@ -178,12 +211,23 @@ class svct(models.Model):
     def get_label_expired(self):
         try:
             if date.today() < self.date_expiry - timedelta(days=10):
-                return 'bg-gradient-white'
+                bg = 'bg-gradient-white'
+                cl = 'text-success'
+                ic = 'verified_user'
+                tl = 'VIGENTE'
             else:
                 if date.today() > self.date_expiry:
-                    return 'bg-gradient-danger text-white'
+                    bg = 'bg-gradient-danger text-white'
+                    cl = 'text-danger'
+                    ic = 'gpp_bad'
+                    tl = 'NO VIGENTE'
                 else:
-                    return 'bg-gradient-warning text-white'
+                    bg = 'bg-gradient-warning text-white'
+                    cl = 'text-warning'
+                    ic = 'gpp_maybe'
+                    tl = 'OBSERVADO'
+            attr = {'background' : bg, 'color' : cl, 'icon' : ic, 'title' : tl}
+            return attr
         except:
             pass
 

@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.validations.models import procedure, routes, vehicle_substitution
+from apps.validations.models import binding_contracts, procedure, routes, vehicle_substitution, authorization_documents
 
 class RoutesForm(forms.ModelForm):
     class Meta:
@@ -24,6 +24,40 @@ class RoutesForm(forms.ModelForm):
             'concession' : forms.Select(attrs={'class':'form-control  form-control-sm'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
             'limit' : forms.NumberInput(attrs={'class':'form-control form-control-sm', 'v-model' : 'limit'})
+        }
+class binding_contractsForm(forms.ModelForm):
+    class Meta:
+        model = binding_contracts
+        fields = [
+            'code',
+            'registration_date',
+            'due_date',
+            'document',
+            'status',
+        ]
+        widgets = {
+            'code' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off'}),
+            'registration_date': forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off', 'type':'date'}),
+            'due_date': forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off', 'type':'date'}),
+            'document': forms.FileInput(attrs={'class':'form-control'}),
+            'status' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
+        }
+class autauthorization_documents_form(forms.ModelForm):
+    class Meta:
+        model = authorization_documents
+        fields = [
+            'code',
+            'enabled',
+            'file',
+            'status',
+            'commnet',
+        ]
+        widgets = {
+            'code' : forms.TextInput(attrs={'class':'form-control form-control-lg', 'autocomplete': 'off'}),
+            'enabled' : forms.Select(attrs={'class':'form-control form-control-sm'}),
+            'file' : forms.FileInput(attrs={'class':'form-control form-control-sm'}),
+            'status' : forms.CheckboxInput(attrs={'class':'form-check-input'}),
+            'commnet' : forms.Textarea(attrs={'class':'form-control', 'rows' : 5, 'placeholder': 'Comentario'}),
         }
 class SubstitutionForm(forms.ModelForm):
     class Meta:
@@ -78,7 +112,7 @@ class ProcedureForm(forms.ModelForm):
         ]
         widgets = {
             'proceedings' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off'}),
-            'year_proceeding' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off', 'placeholder' : 'Año'}),
+            'year_proceeding' : forms.TextInput(attrs={'class':'form-control  form-control-lg', 'autocomplete': 'off'}),
             'license_plate' : forms.Select(attrs={'class':'form-control  form-control-sm select-single'}),
             'check_date' : forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
             'route' : forms.Select(attrs={'class':'form-control w-80 form-control-sm select-single'}),
@@ -102,7 +136,7 @@ class ProcedureForm(forms.ModelForm):
             'check_sistran' : forms.CheckboxInput(attrs={'class':'form-check-input mb-0'}),
             'due_date':forms.TextInput(attrs={'class':'form-control  form-control-sm', 'type': 'date'}),
             'status': forms.CheckboxInput(attrs={'class':'form-check-input'}),
-            'authorization' : forms.Select(attrs={'class':'form-control w-80 form-control-sm select-single'}),
+            'authorization' : forms.Select(attrs={'class':'form-control form-control-sm w-70 select-single'}),
             'years' : forms.Select(attrs={'class': 'form-control  form-control-sm select-single'}),
-            'substitution' : forms.Select(attrs={'class': 'form-control w-80 form-control-sm select-single'}),
+            'substitution' : forms.Select(attrs={'class': 'form-control w-70 form-control-sm select-single'}),
         }

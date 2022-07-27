@@ -127,7 +127,9 @@ new Vue({
 
                                                                 var authorization = $("#icon-authorization").children('i').html()
                                                                 var comment = $('#comment').children('i').hasClass('text-secondary')
-                                                                if((authorization == 'privacy_tip' && comment == true) || ($('#year_prod').html() >= 2017 ) || $('#id_check_sistran').prop('checked') == true)
+                                                                if((authorization == 'privacy_tip' && comment == true) ||
+                                                                    ($('#year_prod').html() >= 2017 ) ||
+                                                                    $('#id_check_sistran').prop('checked') == true)
                                                                 {
                                                                     self.enbicon = 'fa-check'
                                                                     self.enbcolor= 'text-success'
