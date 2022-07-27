@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid pt-3 py-4 ps-1" id="profile">
+    <div class="row ms-0">
+        <div class="col-md-4 px-0">
+            <div class="card card-body mx-0 mx-md-0 border-radius-md">
+                <a href="{% url 'validate.index' %}" class="btn btn-icon  h-10 w-10 mt-n3 ms-n3 p-2">
+                    <div class="btn-inner--icon">
+                        <span class="material-icons">
+                            arrow_back
+                        </span>
+                    </div>
+                </a>
+                <div class="row justify-content-md-center gx-4 mb-2">
+                    <div class="col-auto text-auto">
+                        <div class="avatar avatar-xxl position-relative mt-3">
+                            <img src="/static/assets/img/folder.png" class="w-100 border-radius-lg shadow-sm">
+                        </div>
+                    </div>
+                    <div class="col-auto w-100 text-center my-4">
+                        <div class="h-100">
+                            <a href="#" @click="viewForms(true, 0, 'Nombre de usuario', {{people.dni}})">
+                                <h6 class="mx-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Expediente N°</h6>
+                                <h5 class="mb-1 display-6 fs-3">
+                                    {{procedure.proceedings}}
+                                </h5>
+                            </a>
+                            <p class="mb-0 font-weight-normal text-sm mt-3">
+                                <h6 class="mx-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Fecha de control</h6>
+                                {{procedure.check_date}}
+                            </p>
+                            <p class="mb-0 font-weight-normal text-sm mt-3">
+                                <h6 class="mx-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Unidad de negocio</h6>
+                                {{procedure.route.route}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-auto w-100 px-6 d-flex text-center mb-4">
+                        <div class="card card-frame w-50 m-2">
+                            <div class="card-body p-0">
+                                <a href="javascript:;" class="dropdown-item border-radius-md">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <i aria-hidden="true" class="fa fa-star me-1"></i>
+                                                <span class="font-weight-bold">4.5</span>
+                                            </h6> 
+                                            <p class="text-xs text-secondary mb-0">
+                                                promedio
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card card-frame w-50 m-2">
+                            <div class="card-body p-0">
+                                <a href="javascript:;" class="dropdown-item border-radius-md">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <span class="font-weight-bold">9</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                Calificacion
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card card-frame w-50 m-2">
+                            <div class="card-body p-0">
+                                <a href="javascript:;" class="dropdown-item border-radius-md">
+                                    <div class="d-flex py-1">
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h6 class="text-sm font-weight-normal mb-1">
+                                                <span class="font-weight-bold">9</span>
+                                            </h6>
+                                            <p class="text-xs text-secondary mb-0">
+                                                Calificacion
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 ps-2 px-0">
+        </div>
+    </div>
+</div>
+{% endblock %}

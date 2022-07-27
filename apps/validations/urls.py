@@ -4,13 +4,14 @@ Copyright (c) 2019 - present GlastHeim.pe
 """
 
 from django.urls import path, re_path
-from apps.validations.views import ListView, SearchView, ValidateVehicle, procedureAPIList, ValidationForm , ProcedureRegister, ProcedureCreate, ContractCreate, authorizaitonCreate, ValidateCreate, YearAntiquity, ProcedureSearchAPIView, ProcedureView,authorizationCreate, substitutionCreate
+from apps.validations.views import ListView, SearchView, ValidateVehicle, procedureAPIList, ValidationForm , ProcedureRegister, ProcedureCreate, ContractCreate, authorizaitonCreate, ValidateCreate, YearAntiquity, ProcedureSearchAPIView, ProcedureView,authorizationCreate, substitutionCreate, ProcedureViewList, ValidateUpdate
 
 urlpatterns = [
     path('', ListView.index, name='validate.index'),
     path('create/', ValidateCreate.as_view(), name='validate.create.proceeding'),
+    path('update/<int:pk>', ValidateUpdate.as_view(), name='validate.update.proceeding'),
     path('search/', SearchView.index, name='validate.search'),
-    path('view/<str:pk>', ProcedureView.index, name='procedure.view'),
+    path('view/<str:pk>', ProcedureViewList.as_view(), name='procedure.view'),
     path('select/<str:pk>', ValidateVehicle.index, name='validate.val'),
     path('procedure/<str:pk>', ValidationForm.as_view(), name='procedure.register'),
     path('authorization/create', authorizationCreate.as_view(), name='procedure.authorization.create'),

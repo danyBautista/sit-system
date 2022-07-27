@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
 from apps.includes.sidebar.models import Sidebar
 from django.contrib import messages
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, TemplateView, UpdateView
 from django.urls import reverse, reverse_lazy
 import datetime
 
@@ -56,6 +56,7 @@ class SearchView(HttpResponse):
 
 class ValidateVehicle(HttpResponse):
     @login_required(login_url='/login/')
+
     def index(request, pk):
         id_v = pk.split('-', 1)[0]
         id_c = pk.split('-', 1)[1]
@@ -72,6 +73,8 @@ class ValidateVehicle(HttpResponse):
         SRC = src.objects.filter(vehicles=id_v, status=True).first()
         SVCT = svct.objects.filter(vehicles=id_v, status=True).first()
         CONT = binding_contracts.objects.filter(id=id_c).first()
+        PROC = procedure.objects.all().get(license_plate = id_v)
+
 
         form_soat = SOATForm()
         form_citv = CITVForm()
@@ -119,6 +122,7 @@ class ValidateVehicle(HttpResponse):
                         'page':'Validaciones',
                         'unit': vehicle,
                         'soat' : msg_soat,
+                        'procedure': PROC,
                         'citv' : msg_citv,
                         'src' : msg_src,
                         'svct' : msg_svct,
@@ -354,6 +358,42 @@ class ValidateCreate(LoginRequiredMixin, CreateView):
             data['error'] = str(e)
         return JsonResponse(data)
 
+class ValidateUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    model = procedure
+    form_class = ProcedureForm
+    template_name = 'validations/update.html'
+    success_url = reverse_lazy('/validations/')
+    url_redirect = success_url
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request,  *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'no ha ingresado a ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'validate'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=7)
+        context['page'] = 'Actualizar validacion'
+        context['procedure'] = procedure.objects.get(id = self.kwargs['pk'])
+
 class YearAntiquity(ListAPIView):
     serializer_class = ValidationToolsSerializer
 
@@ -367,5 +407,31 @@ class ProcedureView(HttpResponse):
         title = Sidebar.objects.get(id=7)
         procedures = procedure.objects.get(id = pk)
         context = {'segment': 'validate', 'sidebars': sidebar, 'title': title, 'page':'Expediente ', 'procedure' : procedures}
-        html_template = loader.get_template('procedure/view.html')
+        html_template = loader.get_template('validations/view.html')
         return HttpResponse(html_template.render(context, request))
+
+class ProcedureViewList(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    template_name = 'validations/view.html'
+
+    def get_list_procedure(self):
+        try:
+            code = procedure.objects.get(id = self.kwargs['pk'])
+            ct = procedure.objects.all().filter(proceedings = code.proceedings)
+            if ct.count() > 1:
+                c = ct
+            else:
+                c = procedure.objects.all().get(proceedings = code.proceedings)
+        except procedure.DoesNotExist:
+            c = None
+        return c
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['segment'] = 'validate'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=7)
+        context['page'] = 'Crear una validacion'
+        context['procedure'] = procedure.objects.get(id = self.kwargs['pk'])
+        context['list'] = self.get_list_procedure()
+        return context

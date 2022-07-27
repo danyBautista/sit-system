@@ -26,8 +26,9 @@ new Vue({
                         axios.get('../api/list/vehicle/?kword=' + data[0]['plate'])
                         .then(function(response){
                             var result = Object.keys(response.data).length
+                            var dt;
                             if (result != 0){
-                                var data = result.data
+                                var data = response.data
                                 if(result > 1){
                                     self.footer = true;
                                     self.bg = 'bg-info';
@@ -36,7 +37,11 @@ new Vue({
                                     self.vehicles = result.data
                                 }
                                 else{
-                                    window.location.href = "../../validations/select/" + self.plate + '-' + data[0]['contract']
+                                    if(!data[0]['contract'])
+                                        dt = '0'
+                                    else
+                                        dt = data[0]['contract']
+                                    window.location.href = "../../validations/select/" + self.plate + '-' + dt
                                 }
                             }else{
                                 window.location.href = "../../validations/select/" + self.plate + '-0'
