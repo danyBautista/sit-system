@@ -6,13 +6,428 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="container-fluid py-4 ps-1">
-        <div class="bg-light max-height-vh-90">
-            <div class="content">
-                {{procedure.id}}
-            </div>
+<div class="container p-1 mt-5">
+    <div class="bg-light max-height-vh-90">
+        <div class="top-0 me-3 scrollspy-example" id="procedure" data-bs-spy="scroll" data-bs-offset="0">
+            <form action="#" method="POST" id="id_form" class="py-5">
+                <nav class="navbar shadow-lg rounded navbar-expand-lg d-block z-index-3 position-fixed w-form pt-2 blur-gradient-primary start-0 end-0 mx-0 bg-light">
+                    <div id="title_var" class="container-fluid mb-2 pe-2 pt-0 text-white bg-{{enable.background}} opacity-10 rounded">
+                        <a href="{% url 'validate.index' %}" class="btn btn-link px-1 m-2 ms-0 m-e3">
+                            <i class="material-icons opacity-10">close</i>
+                        </a>
+                        <div class="navbar-brand font-weight-bolder ms-lg-0 ms-3 brand-form">
+                            <div class="mt-3">
+                                <span class="me-1">Validacion inicial
+                                    <strong>
+                                        <a href="#" id="score_msg" data-bs-toggle="modal" data-bs-target="#validation_msg">{{enable.enable}}</a>
+                                    </strong>
+                                </span>
+                                - de fecha
+                                <span id="current_date" data-current-date="{% now 'Y-m-d' %}">{% now "jS F Y" %}</span>
+                            </div>
+                        </div>
+                        <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon mt-2">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navigation">
+                            <ul class="navbar-nav mx-auto">
+                                <li class="nav-item">
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav d-lg-block">
+                                <li class="nav-item">
+                                    <button class="btn me-1 bg-gradient-info my-0" type="submit" disabled id="id_submit">
+                                        <i class="material-icons opacity-10">check</i>
+                                        Guardar registro
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="container-fluid px-0">
+                        <div class="card me-2 w-100 bg-transparent shadow-none">
+                            <div class="card-body p-3 py-0">
+                                <div class="row">
+                                    <div class="col-md-10 col-lg-10">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <small>Placa del vehiculo </small>
+                                                <h3 class="mb-0">
+                                                    <i class="fa fa-bus text-success me-3"></i>
+                                                    {{vehicle.plate}}
+                                                </h3>
+                                                <h6 class="d-flex">
+                                                    <div>
+                                                        {{vehicle.year_of_production}}
+                                                    </div>
+                                                </h6>
+                                                <input type="hidden" name="score" id="id_score">
+                                                <input type="hidden" name="action" value="add">
+                                                <input type="hidden" name="license_plate" id="id_license_plate" value="{{vehicle.plate}}" readonly>
+                                                <input type="hidden" name="year_of_production" id="id_year_of_production" value="{{vehicle.year_of_production}}" readonly>
+                                                <input type="hidden" name="comment" id="id_comment" value="{{vehicle.comment}}" readonly>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <small class="d-block w-100">Propietarios</small>
+                                                {% if vehicle.owners.count > 0 %}
+                                                    {% for user in vehicle.owners.all %}
+                                                        <span class="chk-result badge bg-gradient-secondary py-1 mx-1">
+                                                            <input type="hidden" name="owner" id="id_owner" value="{{ user.dni }}">
+                                                            <span><i class="fa fa-user me-2"></i>{{user.name}} {{user.first_name}} {{user.last_name}}</span>
+                                                        </span>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="alert alert-warning alert-dismissible text-white fade show pb-2" role="alert">
+                                                        <span class="alert-icon align-middle">
+                                                            <span class="material-icons text-md">
+                                                                warning
+                                                            </span>
+                                                        </span>
+                                                        <span class="alert-text text-xxs">
+                                                            <strong>Cuidado!</strong>
+                                                            <p class="text-sm ms-3">No va a poder continuar si no tiene registrado el propietario del vehiculo!
+                                                                <br>click <a href="#" target="_blank">aqui</a> para vincular con un propietario
+                                                            </p>
+                                                        </span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button type="button" class="btn btn-outline-secondary py-1 btn-sm mb-1 d-block w-100">
+                                            <strong>Alto</strong> :{{vehicle.height}}
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary py-1 btn-sm mb-1 d-block w-100">
+                                            <strong>Ancho</strong> :{{vehicle.broad}}
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary py-1 btn-sm mb-1 d-block w-100">
+                                            <strong>Largo</strong> :{{vehicle.longitude}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                {% csrf_token %}
+                <div class="row mt-4">
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header pb-0">
+                                <div class="row">
+                                    <div class="col-lg-11 col-7">
+                                        <h6>Nuevo expediente </h6>
+                                        <p class="text-sm mb-0">
+                                            <i class="fa fa-check text-info" aria-hidden="true"></i>
+                                            <span class="font-weight-bold ms-1">{{total.count}}</span> validaciones
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-1 col-1">
+                                        <div class="w-auto float-right form-check form-switch d-flex align-items-center mt-3 text-right" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Expediente habilitado" data-container="body" data-animation="true">
+                                            {{form.status}}
+                                            <label class="form-check-label mb-0 ms-3" for="rememberMe"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="form-group row">
+                                    <div class="col-md-1">
+                                        <span class="material-icons h4 mt-4 ms-0">
+                                            folder_open
+                                        </span>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group input-group-lg input-group-static my-3">
+                                            <label>Expediente</label>
+                                            {{form.proceedings}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-lg input-group-static my-3">
+                                            <label>Año del expediente</label>
+                                            {{form.year_proceeding}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-1 mt-0">
+                                        <span class="material-icons h4">
+                                            directions
+                                        </span>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group input-group-sm input-group-static my-0">
+                                            {{form.route}}
+                                            <span class="input-group-text top-2 me-4" id="basic-addon2">Rutas</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group input-group-sm input-group-static my-0">
+                                            {{form.years}}
+                                            <span class="input-group-text top-2 me-4" id="basic-addon2">Años de vigencia</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-1 mt-3">
+                                        <span class="material-icons h4">
+                                            calendar_month
+                                        </span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group input-group-sm input-group-static my-0">
+                                            <label>Fecha de control</label>
+                                            {{form.check_date}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 mt-3">
+                                        <span class="material-icons h4">
+                                            calendar_month
+                                        </span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group input-group-sm input-group-static my-0">
+                                            <label>fecha de vencimiento</label>
+                                            {{form.due_date}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-1 mt-3">
+                                        <span id="icon_authorization" class="material-icons h4">
+                                            privacy_tip
+                                        </span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group input-group-sm input-group-static">
+                                            <label>Autorizacion</label>
+                                            {{form.authorization}}
+                                            <button class="btn bg-gradient-success mb-0 px-3" type="button" id="btn-authorization"  data-bs-toggle="modal" data-bs-target="#authorization_form">
+                                                <span class="material-icons">
+                                                    add
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 mt-3">
+                                        <span id="icon_substitution" class="material-icons h4">
+                                            privacy_tip
+                                        </span>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="input-group input-group-sm input-group-static d-flex">
+                                            <label>Substitucion</label>
+                                            {{form.substitution}}
+                                            <button class="btn bg-gradient-success mb-0 d-flex px-3" type="button" id="btn-routes" data-bs-toggle="modal" data-bs-target="#substitution_form">
+                                                <span class="material-icons">
+                                                    add
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6 class="ps-4 mt-4 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Validacion Documentaria</h6>
+                                <hr class="dark horizontal my-0">
+                                <div class="row mt-3">
+                                    <div class="col-md-3 d-flex ">
+                                        <div class="my-auto">
+                                            <div id="color_soat" class="text-center me-2 d-flex align-items-center justify-content-center {{soat.get_label_expired.color}}"
+                                                data-bs-toggle="tooltip" data-bs-placement="top" title="{{soat.get_label_expired.title}} vence el dia " data-container="body" data-animation="true" >
+                                                <span class="material-icons">
+                                                    {{soat.get_label_expired.icon}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <div class="input-group input-group-sm input-group-static ms-0">
+                                                <label>SOAT</label>
+                                                {{form.soat}}
+                                                <input type="hidden" name="soat" id="soat_id" value="{{soat.id}}">
+                                            </div>
+                                            <input type="hidden" name="soat_status" id="soat_status_id" value="{{soat.get_label_expired.title}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 d-flex">
+                                        <div class="my-auto">
+                                            <div class="text-center me-2 d-flex align-items-center justify-content-center {{citv.get_label_expired.color}}"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="{{citv.get_label_expired.title}}" data-container="body" data-animation="true">
+                                                <span class="material-icons">
+                                                    {{citv.get_label_expired.icon}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <div class="input-group input-group-sm input-group-static ms-0">
+                                                <label>CITV</label>
+                                                {{form.citv}}
+                                                <input type="hidden" name="citv" id="citv_id" value="{{citv.id}}">
+                                            </div>
+                                            <input type="hidden" name="citv_status" id="citv_status_id" value="{{citv.get_label_expired.title}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 d-flex">
+                                        <div class="my-auto">
+                                            <div class="text-center me-2 d-flex align-items-center justify-content-center {{src.get_label_expired.color}}"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="{{src.get_label_expired.title}}" data-container="body" data-animation="true">
+                                                <span class="material-icons">
+                                                    {{src.get_label_expired.icon}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <div class="input-group input-group-sm input-group-static ms-0">
+                                                <label>SRC</label>
+                                                {{form.src}}
+                                                <input type="hidden" name="src" id="src_id" value="{{src.id}}">
+                                            </div>
+                                            <input type="hidden" name="src_status" id="src_status_id" value="{{src.get_label_expired.title}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 d-flex">
+                                        <div class="my-auto">
+                                            <div class="text-center me-2 d-flex align-items-center justify-content-center {{svct.get_label_expired.color}}"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="{{svct.get_label_expired.title}}" data-container="body" data-animation="true">
+                                                <span class="material-icons">
+                                                    {{svct.get_label_expired.icon}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <div class="input-group input-group-sm input-group-static ms-0">
+                                                <label>SVCT</label>
+                                                {{form.svct}}
+                                                <input type="hidden" name="svct" id="svct_id" value="{{svct.id}}">
+                                            </div>
+                                            <input type="hidden" name="svct_status" id="svct_status_id" value="{{svct.get_label_expired.title}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6 class="ps-4 mt-4 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Validacion del contrato</h6>
+                                <hr class="dark horizontal my-0">
+                                <div class="row mt-3">
+                                    <div class="col-md-6 d-flex">
+                                        <div class="my-auto">
+                                            <div class="text-center me-2 d-flex align-items-center justify-content-center {{contract.get_label_expired.color}}"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="{{contract.get_label_expired.title}}" data-container="body" data-animation="true">
+                                                <span class="material-icons">
+                                                    {{contract.get_label_expired.icon}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <div class="input-group input-group-sm input-group-static ms-0">
+                                                <label>Contrato</label>
+                                                {{form.contract}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 border-left position-fixed end-0 w-20">
+                        <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Datos de validacion</h6>
+                        <hr class="dark horizontal my-0">
+                        <ul class="px-2 me-sm-n2 list-group list-unstyled">
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="form-check">
+                                        {{form.property_card}}
+                                        <label class="custom-control-label mb-0" for="customCheck1">tarjeta de propiedad</label>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="form-check">
+                                        {{form.RRPP_Newsletter}}
+                                        <label class="custom-control-label mb-0" for="customCheck1">Boletin informativo RRPP</label>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="form-check">
+                                        {{form.bonding_contract}}
+                                        <label class="custom-control-label mb-0" for="customCheck1">Contrato de Vinculacion</label>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="form-check">
+                                        {{form.vehicle_authorization}}
+                                        <label class="custom-control-label mb-0" for="customCheck1">Autorización Vehicular</label>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="form-check">
+                                        {{form.check_sistran}}
+                                        <label class="custom-control-label mb-0" for="customCheck1">Verificación en el SISTRAN</label>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <h6 class="ps-4 ms-2 text-uppercase text-xs text-dark font-weight-bolder opacity-8">Datos de validacion</h6>
+                        <hr class="dark horizontal my-0">
+                        <ul class="px-2 me-sm-n2 list-group list-unstyled">
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="d-flex py-1">
+                                        <div class="my-auto">
+                                            <div class="text-center me-2 d-flex align-items-center justify-content-center text-secondary" >
+                                                <span class="material-icons" id="seniority_period_icon">
+                                                    privacy_tip
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                <span class="font-weight-bold ">Antigüedad</span>
+                                            </h5>
+                                        </div>
+                                        <div class="input-group input-group-sm input-group-static my-1">
+                                            <input type="text" name="seniority_period" id="id_seniority_period">
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a class="dropdown-item border-radius-md" href="#">
+                                    <div class="d-flex py-1">
+                                        <div class="my-auto">
+                                            <div class="text-center me-2 d-flex align-items-center justify-content-center text-secondary" >
+                                                <span class="material-icons"  id="enabled_icon">
+                                                    privacy_tip
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column justify-content-center">
+                                            <h5 class="text-sm font-weight-normal mt-2">
+                                                <span class="font-weight-bold ">Habilitacion</span>
+                                            </h5>
+                                        </div>
+                                        <div class="input-group input-group-sm input-group-static my-3">
+                                            <input type="text" name="enabled" id="id_enabled">
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

@@ -391,13 +391,22 @@ class ValidateUpdate(LoginRequiredMixin, UpdateView):
             data['error'] = str(e)
         return JsonResponse(data)
 
+    def get_vehicle(self):
+        try:
+            proc = procedure.objects.get(id = self.kwargs['pk'])
+            bus = vehicles.objects.get(plate = proc.license_plate)
+        except:
+            bus = None
+        return bus
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['segment'] = 'validate'
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=7)
-        context['page'] = 'Actualizar validacion'
-        context['procedure'] = procedure.objects.get(id = self.kwargs['pk'])
+        context['page'] = 'Actualizar la validacion'
+        context['vehicle'] = self.get_vehicle()
+        return context
 
 class YearAntiquity(ListAPIView):
     serializer_class = ValidationToolsSerializer
