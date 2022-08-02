@@ -34,13 +34,14 @@ new Vue({
                                     self.bg = 'bg-info';
                                     self.message = 'Vehiculos con validacion encontrados seleccione uno para continuar'
                                     self.vehicle_content = true;
-                                    self.vehicles = result.data
+                                    self.vehicles = data
                                 }
                                 else{
-                                    if(!data[0]['contract'])
+                                    if(data[0]['contract'] == null)
                                         dt = '0'
                                     else
                                         dt = data[0]['contract']
+                                    //alert(dt)
                                     window.location.href = "../../validations/select/" + self.plate + '-' + dt
                                 }
                             }else{
