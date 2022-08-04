@@ -114,7 +114,7 @@ class ValidateVehicle(HttpResponse):
             msg_cont = {'class': 'bg-gradient-danger', 'icon': 'error', 'message': 'No existe seguros', 'data': SVCT}
             id_cont = '0'
 
-        if SOAT and CITV and SRC and SVCT:
+        if SOAT or CITV or SRC or SVCT:
             disable = ""
         else:
             disable = "disabled"
