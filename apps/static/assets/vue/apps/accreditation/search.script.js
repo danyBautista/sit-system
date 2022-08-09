@@ -26,20 +26,26 @@ new Vue({
                         axios.get('../../validations/api/list/vehicle/?kword=' + data[0]['plate'])
                         .then(function(response){
                             var result = Object.keys(response.data).length
-                            if (result != 0){
-                                var data = Object(response.data)
-                                if(result > 1){
-                                    self.footer = true;
-                                    self.bg = 'bg-info';
-                                    self.message = 'Vehiculos con validacion encontrados seleccione uno para continuar'
-                                    self.vehicle_content = true;
-                                    self.vehicles = data
+                            if (result > 1){
+                                self.sfooter = true;
+                                self.bg = 'bg-info';
+                                self.message = 'Vehiculos con validacion encontrados seleccione uno para continuar'
+                                self.vehicle_content = true;
+                                self.vehicles = data
+                            }else{
+                                if(result == 1)
+                                {
+                                    var dt = Object(response.data)
+                                    console.log(dt)
+                                    window.location.href = "../form/" + dt[0]['id']
                                 }
                                 else{
-                                    window.location.href = "../form/" + data[0]['id']
+                                    axios.get('../api/search/?kword=' + self.plate)
+                                    .then(function(response){
+                                        var data = Object(response.data)
+                                        window.location.href = "../update/" + data[0]['id']
+                                    })
                                 }
-                            }else{
-                                window.location.href = "../../validations/select/" + self.id
                             }
                         })
                     }else{

@@ -15,7 +15,7 @@ from apps.accreditation.models import accreditation, accreditation_type
 from apps.accreditation.mixins import ValidatePermissionRequiredMixin
 from apps.includes.sidebar.models import Sidebar
 from apps.vehicles.models import vehicles
-from .serializers import serialiazerType
+from .serializers import serialiazerType, serializerAcreditation
 # Create your views here.
 
 class accreditationIndex(LoginRequiredMixin, ValidatePermissionRequiredMixin, ListView):
@@ -43,6 +43,9 @@ class accreditationCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('accreditation.index')
     success_message = 'Doc successfully created!'
     error_message = "Error saving the Doc, check fields below."
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def post(self, request,  *args, **kwargs):
         data = {}
@@ -78,12 +81,35 @@ class accreditationUpdate(LoginRequiredMixin, UpdateView):
     form_class = accreditationsForm
     success_url = reverse_lazy('accreditation.index')
 
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'update':
+                form = self.get_form()
+                if form.is_valid():
+                    instance = form.save()
+                    data['success'] = serializers.serialize('json', [ instance, ])
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'no ha ingresado a ninguna opcion'
+            #data = accreditation_type.post(id=request.POST['id']).toJson().toJSON()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
     def get_context_data(self, **kwargs):
         context = super(accreditationUpdate, self).get_context_data(**kwargs)
         context['segment'] = 'accreditation'
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=10)
         context['page'] = 'Actualizar acreditacion'
+        context['accreditation'] = accreditation.objects.all().get(id = self.kwargs['pk'])
         context['pk'] = self.kwargs['pk']
         return context
 
@@ -190,3 +216,10 @@ class accreditationForm(LoginRequiredMixin, FormView):
         context['technical_requirements'] = self.get_technical_requirements()
         context['page'] = 'Actualizar acreditacion'
         return context
+
+class AcreditationAPIList(ListAPIView):
+    serializer_class = serializerAcreditation
+
+    def get_queryset(self):
+        kword = self.request.query_params.get('kword', '')
+        return accreditation.objects.filter(plate = kword)
