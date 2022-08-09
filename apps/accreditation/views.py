@@ -1,8 +1,9 @@
+from apps.validations.models import procedure
 from rest_framework.generics import CreateAPIView, ListAPIView
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.shortcuts import render
-from django.views.generic import UpdateView, ListView, CreateView
+from django.views.generic import UpdateView, ListView, CreateView, TemplateView, FormView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -43,23 +44,21 @@ class accreditationCreate(LoginRequiredMixin, CreateView):
     success_message = 'Doc successfully created!'
     error_message = "Error saving the Doc, check fields below."
 
-    def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, self.error_message)
-        return super().form_invalid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super(accreditationCreate, self).get_context_data(**kwargs)
-        context['segment'] = 'accreditation'
-        context['sidebars'] = Sidebar.objects.all()
-        context['title'] = Sidebar.objects.get(id=10)
-        context['page'] = 'Crear Acreditacion'
-        context['action'] = 'add'
-        context['type'] = typeForm
-        return context
+    def post(self, request,  *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'no ha ingresado a ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
 class accreditationView(HttpResponse):
     @login_required(login_url="/login/")
@@ -114,3 +113,80 @@ class TypeCreate(CreateView):
             data['error'] = str(e)
         return JsonResponse(data)
 
+class accreditationSearch(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    template_name = 'accreditation/search.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(accreditationSearch, self).get_context_data(**kwargs)
+        context['segment'] = 'accreditation'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=10)
+        context['page'] = 'Actualizar acreditacion'
+        return context
+
+class accreditationForm(LoginRequiredMixin, FormView):
+    login_url = '/login/'
+    template_name = 'accreditation/create.html'
+    form_class = accreditationsForm
+
+    def get_procedure(self):
+        try:
+            pros = procedure.objects.all().get(id = self.kwargs['pk'])
+        except accreditation.DoesNotExist:
+            pros = None
+        return pros
+
+    def get_mechanical_inspection(self):
+        try:
+            proc = procedure.objects.all().get(id = self.kwargs['pk'])
+            if proc:
+                if proc.soat_status == 'VIGENTE':
+                    status = 'CUMPLE'
+                else:
+                    if proc.soat_status == 'NO VIGENTE':
+                        status = 'NO CUMPLE'
+                    else:
+                        status = 'PENDIENTE'
+        except procedure.DoesNotExist:
+            proc = None
+        return status
+
+    def get_mechanical_inspection(self):
+        proc = procedure.objects.all().get(id = self.kwargs['pk'])
+        if proc:
+            if proc.citv_status == 'VIGENTE':
+                status = 'CUMPLE'
+            else:
+                if proc.citv_status == 'NO VIGENTE':
+                    status = 'NO CUMPLE'
+                else:
+                    status = 'PENDIENTE'
+        return status
+
+    def get_technical_requirements(self):
+        try:
+            proc = procedure.objects.all().get(id = self.kwargs['pk'])
+            if proc:
+                if proc.src_status == 'VIGENTE' and proc.citv_status == 'VIGENTE' and proc.bonding_contract and proc.check_sistran == True:
+                    status = 'CUMPLE'
+                else:
+                    if proc.src_status == 'NO VIGENTE' or proc.svct_status == 'NO VIGENTE' or proc.bonding_contract or proc.check_sistran == False:
+                        status = 'NO CUMPLE'
+                    else:
+                        status = 'OBSERVADO'
+        except procedure.DoesNotExist:
+            proc = None
+        return status
+
+    def get_context_data(self, **kwargs):
+        context = super(accreditationForm, self).get_context_data(**kwargs)
+        context['segment'] = 'accreditation'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=10)
+        context['procedure'] = self.get_procedure()
+        context['insurance'] = self.get_mechanical_inspection()
+        context['mechanical_inspection'] = self.get_mechanical_inspection()
+        context['technical_requirements'] = self.get_technical_requirements()
+        context['page'] = 'Actualizar acreditacion'
+        return context
