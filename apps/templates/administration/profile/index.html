@@ -1,0 +1,230 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {{title.name}} {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="container-fluid py-4 ps-1">
+        <div class="page-header min-height-300 border-radius-md mb-4" id="app">
+            <span class="mask bg-transparent opacity-9">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span class="alert-icon align-middle">
+                                <span class="material-icons text-md">
+                                    warning
+                                </span>
+                            </span>
+                            <span class="alert-text"><strong>Cuidado!</strong>{{message}}</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="row align-items-center mt-5">
+                    <div class="col-md-5 ps-5">
+                        <p class="text-xs mb-0">Modulo</p>
+                        <h4 class="text-xxl font-weight-normal mb-1 text-capitalize">
+                            <span class="display-4">Perfiles de sistema</span>
+                        </h4>
+                        <h6 class="text-md font-weight-normal mb-1">
+                            <span>{{title.description}}</span>
+                        </h6>
+                        <a href="{% url 'profile.create' %}" class="btn bg-gradient-info">
+                            <i class="material-icons opacity-10">add</i>
+                            Registrar nuevo
+                        </a>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="bg-transparent border-radius-lg py-3 pe-1">
+                            <div class="chart">
+                                <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+        </div>
+        <div class="card-body px-0 pb-2">
+            <div class="table-responsive">
+                <table class="table table-flush" id="datatable-basic">
+                    <thead class="thead-light bg-info">
+                        <tr>
+                            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">
+                                id
+                            </th>
+                            <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                Nombre
+                            </th>
+                            <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                ruta
+                            </th>
+                            <th class="text-uppercase  text-white text-xxs font-weight-bolder opacity-7">
+                                Estado
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in profiles %}
+                        <tr>
+                            <td class="text-sm font-weight-normal">{{forloop.counter}}</td>
+                            <td class="text-sm font-weight-normal">{{item.profile_name}}</td>
+                            <td class="text-sm font-weight-normal">{{item.route}}</td>
+                            <td class="text-sm font-weight-normal">{{item.status}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>                
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="delete/" id="deleteForm" method="post">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header py-1 pt-2">
+                        <h5 class="modal-title font-weight-normal text-sm" id="exampleModalLabel">Eliminar registro</h5>
+                        <button type="button" class="btn-close text-dark pt-0" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-times text-danger"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-sm d-flex">
+                            <span class="material-icons h2">
+                                business_center
+                            </span>
+                            <i class="fa fa-times text-danger position-absolute h5 m-3 ms-4"></i>
+                            <div class="mt-2 ms-2">
+                                ¿estas seguro que desea eliminar este registro?
+                            </div>
+                        </div>
+                        <div class="text-sm px-5">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="card card-header card-body p-0 my-2">
+                                        <a class="d-block blur-shadow-image">
+                                            <img id="id_image" src="https://demos.creative-tim.com/test/material-dashboard-pro/assets/img/products/product-1-min.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="d-block">
+                                        <strong id="ID_code"></strong>
+                                        <span id="id_name"></span>
+                                    </div>
+                                    <small>Fecha de modificación: <span id="id_update_at"></span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-sm btn-link m-0 w-lg-25 me-3" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-sm bg-gradient-danger  w-lg-25 m-0" id="delete_reg">Si</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="/static/assets/js/plugins/chartjs.min.js"></script>
+<script src="/static/assets/vue/includes/forms.script.js"></script>
+<script src="/static/assets/vue/includes/table.script.js"></script>
+<script src="/static/assets/vue/includes/delete.script.js"></script>
+<script src="/static/assets/js/plugins/datatables.js"></script>
+<script type="text/javascript">
+    const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic",
+        {
+            searchable: false,
+            fixedHeight: true
+        }
+    );
+</script>
+<script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+    new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["M", "T", "W", "T", "F", "S", "S"],
+            datasets: [{
+                label: "usuarios",
+                tension: 0.4,
+                borderWidth: 0,
+                borderRadius: 4,
+                borderSkipped: false,
+                backgroundColor: "rgba(0, 0, 0, .8)",
+                data: [50, 20, 10, 22, 50, 10, 40],
+                maxBarThickness: 6
+            }, ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+            legend: {
+                display: false,
+            }
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
+        scales: {
+            y: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(0, 0, 0, .2)'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 500,
+                    beginAtZero: true,
+                    padding: 10,
+                        font: {
+                            size: 14,
+                            weight: 300,
+                            family: "Roboto",
+                            style: 'normal',
+                            lineHeight: 2
+                        },
+                    color: "#000"
+                },
+            },
+            x: {
+                grid: {
+                    drawBorder: false,
+                    display: true,
+                    drawOnChartArea: true,
+                    drawTicks: false,
+                    borderDash: [5, 5],
+                    color: 'rgba(0, 0, 0, .2)'
+                },
+                ticks: {
+                    display: true,
+                    color: '#000',
+                    padding: 10,
+                    font: {
+                        size: 14,
+                        weight: 300,
+                        family: "Roboto",
+                        style: 'normal',
+                        lineHeight: 2
+                        },
+                    }
+                },
+            },
+        },
+    });
+</script>
+{% endblock javascripts %}

@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template import loader
@@ -106,6 +106,39 @@ class UpdateVehicle(LoginRequiredMixin, UpdateView):
     template_name = 'vehicles/update.html'
     form_class = VehicleForm
     success_url = reverse_lazy('vehicles.index')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_bussines_change(self, pl, bss):
+        try:
+            vehicle = vehicles.objects.get(plate = pl)
+            if vehicle.business_id == bss:
+                return True
+            else:
+                return False
+        except vehicles.DoesNotExist:
+            return None
+
+    def post(self, request,  *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if self.get_bussines_change(request.POST['plate'], request.POST['business']) == False:
+                data['error'] = 'cambio de empresa'
+
+            if action == 'edit':
+                form = self.get_form()
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'no ha ingresado a ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super(UpdateVehicle, self).get_context_data(**kwargs)

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'apps.procedure',
     'apps.reports',
     'apps.accreditation',
+    'apps.inspections',
     'widget_tweaks',
     'apps.web'
 ]

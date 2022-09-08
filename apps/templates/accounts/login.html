@@ -26,14 +26,14 @@
                                     {% if msg %}
                                         {{ msg | safe }}
                                     {% else %}
-                                        Agrega tus Credenciales
+                                        {{title}}
                                     {% endif %}
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <form role="form" method="post" action="." class="text-start">
+                            <form role="form" method="post" action="{% url 'login' %}" class="text-start">
 
                                 {% csrf_token %}
 

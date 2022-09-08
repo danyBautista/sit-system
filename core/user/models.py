@@ -5,7 +5,7 @@ from crum import get_current_request
 
 from django.contrib.auth.models import AbstractUser
 from django.forms import model_to_dict
-
+from apps.administration.models import profiles
 from core.settings import MEDIA_URL, STATIC_URL
 
 # Create your models here.
@@ -14,6 +14,7 @@ class User(AbstractUser):
     dni = models.CharField(max_length=8, unique=True, null=True)
     phone = models.CharField(max_length=100, null=True, blank=True)
     address = models.CharField(max_length=150, null=True, blank=True)
+    profile = models.ForeignKey(profiles, null=True, blank=True, on_delete=models.CASCADE)
 
     def get_photo_path(self):
         if self.user_photo_path:

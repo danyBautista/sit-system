@@ -13,5 +13,7 @@ urlpatterns = [
     path('user/update/<int:pk>', views.UserUpdate.as_view(), name='admin.user.update'),
     path('user/api/search', views.UserApiList.as_view(), name='admin.user.api.search'),
     path('user/change/group/<int:pk>', views.UserChangeGroup.as_view(), name='user.change.group'),
-    path('user/chage/password/', views.UserPasswordChangeView.as_view(), name='user.change.password')
+    path('user/chage/password/', views.UserPasswordChangeView.as_view(), name='user.change.password'),
+    path('profile/', views.ProfileIndex.as_view(), name='profile.index'),
+    path('profile/create', views.ProfileCreate.as_view(), name='profile.create')
 ]

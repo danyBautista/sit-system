@@ -9,7 +9,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render
-from django.views.generic import UpdateView, ListView, CreateView, DeleteView, View, FormView
+from django.views.generic import UpdateView, ListView, CreateView, DeleteView, View, FormView, TemplateView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,6 +20,8 @@ from django.urls import reverse_lazy
 from apps.includes.sidebar.models import Sidebar
 from core.user.models import User
 from .serializers import UserSerializer
+from apps.administration.models import profiles
+from apps.administration.forms import ProfilesForm
 
 # Create your views here.
 class AdminIndex(HttpResponse):
@@ -28,7 +30,7 @@ class AdminIndex(HttpResponse):
         sidebar = Sidebar.objects.all()
         title = Sidebar.objects.get(id=2)
         user = User.objects.all()
-        context = {'segment': 'administration', 'sidebars': sidebar, 'title': title, 'page':'Reportes', 'user' : user}
+        context = {'segment': 'administration', 'sidebars': sidebar, 'title': title, 'page':'Reportes', 'user' : user, 'profiles' : profiles}
         html_template = loader.get_template('administration/index.html')
         return HttpResponse(html_template.render(context, request))
 
@@ -157,6 +159,51 @@ class UserPasswordChangeView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super(UserPasswordChangeView, self).get_context_data(**kwargs)
+        context['segment'] = 'administration'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=2)
+        context['page'] = 'Edicion de la contraseña'
+        return context
+
+class ProfileIndex(ListView):
+    model = profiles
+    template_name = "administration/profile/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileIndex, self).get_context_data(**kwargs)
+        context['segment'] = 'administration'
+        context['sidebars'] = Sidebar.objects.all()
+        context['title'] = Sidebar.objects.get(id=2)
+        context['page'] = 'Edicion de la contraseña'
+        return context
+
+
+class ProfileCreate(CreateView):
+    model = profiles
+    template_name = "administration/profile/create.html"
+    form_class = ProfilesForm
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'add':
+                form = self.get_form()
+                if form.is_valid():
+                    form.save()
+                else:
+                    data['error'] = form.errors
+            else:
+                data['error'] = 'No ha ingresado a ninguna opcion'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+    
+    def get_context_data(self, **kwargs):
+        context = super(ProfileCreate, self).get_context_data(**kwargs)
         context['segment'] = 'administration'
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=2)

@@ -21,6 +21,7 @@ class UserForm(ModelForm):
             'user_photo_path' : FileInput(attrs={'class':'form-control  form-control-sm'}),
             'is_staff' : CheckboxInput(attrs={'class' : 'form-check-input'}),
             'is_active' : CheckboxInput(attrs={'class' : 'form-check-input'}),
+            'profile' : Select(attrs={'class': 'form-control select2', 'style': 'width: 90%'}),
             'groups' : SelectMultiple(attrs={'class': 'form-control select2', 'style': 'width: 90%'})
         }
         exclude = ['user_permissions', 'last_login', 'is_superuser']

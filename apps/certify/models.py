@@ -109,7 +109,7 @@ class soat(models.Model):
     category = models.ForeignKey(categories, null=True, blank=True, on_delete=models.CASCADE)
     vin_serie = models.CharField(max_length=17)
     insured = models.CharField(max_length=150, blank=True, null=True)
-    amount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     file = models.FileField(upload_to="soat", null=True, blank=True)
     vehicles = models.ForeignKey(vehicles, null=True, blank=True, on_delete=models.CASCADE)
     owners = models.ManyToManyField(people, blank=True)

@@ -1,0 +1,69 @@
+{% extends "layouts/base-inspection.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="page-header align-items-start min-vh-100" >
+        <span class="mask opacity-6"></span>
+        <div class="container my-auto pt-5">
+            <div class="row">
+                <div class="col-lg-5 col-md-8 col-12 mx-auto text-center">
+                    <h4 class="text-dark font-weight-bolder text-center mb-0">
+                        <img src="/static/assets/img/logo-sit.png" class="navbar-brand-img h-100" alt="main_logo" width="48px">
+                        SIT SYSTEM
+                    </h4>
+                    <form role="form" method="post" action="." class="text-start">
+                        {% csrf_token %}
+
+                        <div class="input-group input-group-dynamic mb-3 mt-5" id="search_control">
+                            <label class="form-label">Buscar placa</label>
+                            <input type="text" name="search" id="id_search" autocomplete="off" class="form-control ps-3 form-control-lg">
+                            <span class="input-group-text me-2" id="basic_addons">
+                                <i class="material-icons">search</i>
+                            </span>
+                        </div>
+                        <div class="card card-body position-absolute search-content px-0">
+                            <div class="list-group rounded-0">
+                                <a href="#" class="list-group-item border-0 list-group-item-action d-flex justify-content-between align-items-center">
+                                    <strong>ABC123</strong> <small class="text-xs">Nombre de la empresa Dapibus ac facilisis in Morbi leo risus</small>
+                                    <span class="badge badge-success badge-pill">14</span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 col-md-8 col-12 mx-auto">
+                    <ul class="nav nav-pills nav-pills-icons d-flex text-center nav-pills-primary bg-transparent" role="tablist">
+                        <li>
+                            <a href="#dashboard" role="tab" data-toggle="tab">
+                                <i class="material-icons">dashboard</i>
+                                Mi tablero
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a href="#schedule" role="tab" data-toggle="tab">
+                                <i class="material-icons">schedule</i>
+                                Historial
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tasks" role="tab" data-toggle="tab">
+                                <i class="material-icons">task</i>
+                                tareas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}

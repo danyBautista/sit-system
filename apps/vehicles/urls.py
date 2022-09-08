@@ -8,7 +8,7 @@ from apps.vehicles.views import VehiclesViews, VehiclesListAPIView, VehiclesCrea
 
 urlpatterns = [
     path('', VehiclesList.as_view(), name='vehicles.index'),
-    path('create', VehiclesCreate.index, name='vehicles.create'),
+    path('create/', VehiclesCreate.index, name='vehicles.create'),
     path('information/<str:pk>', Information.index, name='vehicles.information'),
     path('update/<str:pk>', UpdateVehicle.as_view(), name='vehicles.update'),
     path('api/search/', VehiclesListAPIView.as_view(), name='vehicle.search'),

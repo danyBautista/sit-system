@@ -20,6 +20,7 @@ urlpatterns = [
     path('vehicles/', include("apps.vehicles.urls")),
     path('business/', include("apps.business.urls")),
     path('modules/', include("apps.modules.urls")),
+    path('inspections/', include("apps.inspections.urls")),
     path('admin/', admin.site.urls),          # Django admin route
     path("login/", include("core.login.urls")), # Auth routes - login / register
     path("tablero/", include("apps.home.urls")),            # UI Kits Html files
