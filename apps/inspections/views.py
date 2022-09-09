@@ -11,3 +11,7 @@ class index(LoginRequiredMixin, TemplateView):
         context = super(index, self).get_context_data(**kwargs)
         context['title'] = 'Fiscalizacion'
         return context
+
+class search(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    template_name = 'inspections/search.html'

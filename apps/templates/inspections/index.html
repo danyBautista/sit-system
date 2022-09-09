@@ -15,12 +15,12 @@
                         <img src="/static/assets/img/logo-sit.png" class="navbar-brand-img h-100" alt="main_logo" width="48px">
                         SIT SYSTEM
                     </h4>
-                    <form role="form" method="post" action="." class="text-start">
+                    <form role="form" id="inspections" method="post" action="." class="text-start">
                         {% csrf_token %}
 
                         <div class="input-group input-group-dynamic mb-3 mt-5" id="search_control">
                             <label class="form-label">Buscar placa</label>
-                            <input type="text" name="search" id="id_search" autocomplete="off" class="form-control ps-3 form-control-lg">
+                            <input type="text" v-model="key_register" name="search" id="id_code" type="text" v-on:keyup.enter="search($event.target.value)" autocomplete="off" class="form-control ps-3 form-control-lg">
                             <span class="input-group-text me-2" id="basic_addons">
                                 <i class="material-icons">search</i>
                             </span>
@@ -66,4 +66,5 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+
 {% endblock javascripts %}

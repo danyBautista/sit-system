@@ -2,6 +2,7 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+from ast import Try
 from wsgiref import validate
 from rest_framework.generics import ListAPIView, UpdateAPIView, CreateAPIView, GenericAPIView
 from crum import get_current_request
@@ -9,6 +10,7 @@ from dataclasses import dataclass
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.views.generic import TemplateView, CreateView
@@ -30,12 +32,27 @@ from apps.vehicles.serializers import VehiclesSerializer
 from .serializers import ConsultingSerializer
 from core.user.models import User
 
+def redirecView(request):
+    profile = User.objects.all().get(id = request.user.id)
+    route = profile.profile.route
+    if route is not None:
+        print(route)
+        return redirect(route)
+
 class DashboardView(LoginRequiredMixin, TemplateView):
     permission_required = 'home.view_category'
     login_url = '/login/'
     template_name = 'home/index.html'
 
     def dispatch(self, request, *args, **kwargs):
+        try:
+            profile = User.objects.all().get(id = request.user.id)
+            route = profile.profile.route
+            if route is not None:
+                return redirect(route)
+        except:
+            pass
+
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **Kwargs):
