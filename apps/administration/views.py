@@ -175,6 +175,7 @@ class ProfileIndex(ListView):
         context['sidebars'] = Sidebar.objects.all()
         context['title'] = Sidebar.objects.get(id=2)
         context['page'] = 'Edicion de la contraseña'
+        context['profiles'] = profiles.objects.all()
         return context
 
 

@@ -3,5 +3,5 @@ from .views import *
 
 urlpatterns = [
     path('', index.as_view(), name='inspections'),
-    path('search', search.as_view(), name='inspections.search')
+    path('search/<str:key>', SearchView.as_view(), name='inspections.search')
 ]
