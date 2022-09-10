@@ -19,6 +19,14 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navigation">
                         <ul class="navbar-nav mx-auto">
+                            {% if button == 'true' %}
+                                <a href="{% url 'inspections' %}" class="btn btn-info">
+                                    <span class="material-icons">
+                                        add
+                                    </span>
+                                    Buscar Nuevo vehiculo
+                                </a>
+                            {% endif %}
                         </ul>
                         <ul class="navbar-nav d-lg-block">
                             <li class="nav-item px-3 d-flex align-items-center">

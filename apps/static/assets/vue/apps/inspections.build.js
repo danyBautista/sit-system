@@ -7,7 +7,6 @@ function inspections(options){
     options = {...DefaultOptions, ...options};
 
     this.init = function(){
-        alert(options.route)
         this.viewCardsearch();
     }
     this.viewCardsearch = function(){
@@ -24,21 +23,21 @@ function inspections(options){
             .then(function(response){
                 var CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
-            let headers = {
-                "X-CSRFToken": CSRF_TOKEN,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            };
-            data_create= {
-                'key_register': response.data[0].plate,
-                'user' : options.id_user,
-                'status_query' : true,
-            }
-            axios({
-                method: 'POST',
-                url: '../tablero/query/api/create/',
-                headers: headers,
-                data: data_create
+                let headers = {
+                    "X-CSRFToken": CSRF_TOKEN,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                };
+                data_create= {
+                    'key_register': response.data[0].plate,
+                    'user' : options.id_user,
+                    'status_query' : true,
+                }
+                axios({
+                    method: 'POST',
+                    url: '../tablero/query/api/create/',
+                    headers: headers,
+                    data: data_create
                 })
                 .then( function(response){
                     console.log(response.data['key_register'])
@@ -47,6 +46,9 @@ function inspections(options){
                 .catch(function(error){
                     console.log(error)
                 })
+            })
+            .catch(function(error){
+                alert(error)
             })
     }
     this.init();

@@ -14,6 +14,7 @@ class index(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(index, self).get_context_data(**kwargs)
         context['title'] = 'Fiscalizacion'
+        context['button'] = 'false'
         return context
 
 class SearchView(LoginRequiredMixin, TemplateView):
@@ -81,4 +82,5 @@ class SearchView(LoginRequiredMixin, TemplateView):
         context['validation'] = self.get_validation()
         context['percent_validaiton'] = self.get_percent_validation()
         context['page'] = 'Crear Acreditacion'
+        context['button'] = 'true'
         return context
