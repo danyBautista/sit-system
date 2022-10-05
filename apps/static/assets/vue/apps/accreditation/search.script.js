@@ -29,7 +29,7 @@ new Vue({
                             if (result > 1){
                                 self.sfooter = true;
                                 self.bg = 'bg-info';
-                                self.message = 'Vehiculos con validacion encontrados seleccione uno para continuar'
+                                self.message = 'Vehiculo con mas de una validacion encontradas, seleccione uno para continuar'
                                 self.vehicle_content = true;
                                 self.vehicles = data
                             }else{

@@ -78,7 +78,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
                     c9 = accreditation.objects.all().filter(route__concession = 'C9', type = n.id).count()
                     c10 = accreditation.objects.all().filter(route__concession = 'C10', type = n.id).count()
                     c11 = accreditation.objects.all().filter(route__concession = 'C11', type = n.id).count()
-
                     content = {'name' : series, 'data': [c2, c3, c4, c5, c6, c7, c8, c9, c10, c11]}
                     data.append(content)
             except:
@@ -121,6 +120,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['business'] = business.objects.all()
         context['validation'] = procedure.objects.all()
         context['accreditation'] = self.get_accredite_percent()
+        context['accreditation_total'] = accreditation.objects.all()
         context['graph_accreditation_with_consesion'] = self.get_graph_accreditation_concesion()
         return context
 

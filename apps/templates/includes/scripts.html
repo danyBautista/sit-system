@@ -24,6 +24,7 @@ new Vue({
         var self = this;
           axios.get("/tablero/query/api/select/" + key)
           .then(function(response){
+            alert(response.lenght)
             var CSRF_TOKEN = document.getElementsByName("csrfmiddlewaretoken")[0].value;
 
             let headers = {
